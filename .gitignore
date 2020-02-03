@@ -1,0 +1,10 @@
+*.xml
+TodoList
+other.text
+Makefile
+GWUI.cbp
+GWUI
+cmake_install.cmake
+CMakeCache.txt
+cmake-build-debug
+CMakeFiles
