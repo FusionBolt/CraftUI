@@ -15,7 +15,7 @@ namespace GWUI
     class Label : public Widget
     {
     public:
-        Label(Widget* parent, const std::string& text = "");
+        explicit Label(const std::string& text = "");
 
         void Draw(Renderer renderer) override;
 

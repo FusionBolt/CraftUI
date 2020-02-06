@@ -8,8 +8,8 @@
 #include "SDL_ttf.h"
 #include "../core/Control.h"
 
-GWUI::Window::Window(Widget::Ptr parent, const std::string &title, int width, int height):
-    _window(nullptr, SDL_DestroyWindow), Widget(parent)
+GWUI::Window::Window(const std::string &title, int width, int height):
+    _window(nullptr, SDL_DestroyWindow), Widget()
 {
     _window.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN)); // | SDL_WINDOW_ALLOW_HIGHDPI
@@ -23,7 +23,8 @@ GWUI::Window::Window(Widget::Ptr parent, const std::string &title, int width, in
 void GWUI::Window::Show() noexcept
 {
     CrudeEvent e;
-    auto* c = new Control();
+    auto c = std::make_shared<Control>();
+    std::cout << "Show" << std::endl;
     while (true)
     {
         if (SDL_PollEvent(&e))
@@ -33,7 +34,7 @@ void GWUI::Window::Show() noexcept
                 std::cout << "SDL quit" << std::endl;
                 break;
             }
-            c->EventDispatch(e, this);
+            c->EventDispatch(e, shared_from_this());
             //HandleEvent(e);
         }
 //        if(SDL_GetModState() == KMOD_LSHIFT)

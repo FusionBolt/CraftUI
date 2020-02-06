@@ -17,7 +17,7 @@ namespace GWUI
     class Window : public Widget
     {
     public:
-        explicit Window(Widget::Ptr parent = nullptr, const std::string& title= "GWUI", int width = 1024, int height = 768);
+        explicit Window(const std::string& title= "GWUI", int width = 1024, int height = 768);
 
         void Show() noexcept;
 

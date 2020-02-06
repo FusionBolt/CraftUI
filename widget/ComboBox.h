@@ -17,7 +17,7 @@ namespace GWUI
     class ComboBox : public Widget
     {
     public:
-        ComboBox(Widget* parent);
+        ComboBox();
 
         void AddItems(const std::vector<std::string>& items);
         // need &&

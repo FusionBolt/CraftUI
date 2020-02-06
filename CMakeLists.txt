@@ -22,7 +22,7 @@ link_directories(${SDL_MIXER_DIR}/lib/)
 set(PUGIXML_DIR pugixml)
 include_directories(${PUGIXML_DIR})
 link_directories(${PUGIXML_DIR})
-set(SOURCE_FILES ${PUGIXML_DIR}/pugixml.hpp ${PUGIXML_DIR}/pugixml.cpp main.cpp widget/Window.cpp widget/Window.h units/Text.cpp units/Text.h units/Font.cpp units/Font.h utils/Util.hpp utils/Timer.cpp utils/Timer.h widget/Button.cpp widget/Button.h units/Rectangle.hpp widget/TextArea.cpp widget/TextArea.h widget/ComboBox.cpp widget/ComboBox.h core/System.hpp units/Renderer.hpp widget/Widget.cpp widget/Widget.h core/Object.hpp widget/Label.cpp widget/Label.h units/Image.cpp units/Image.h widget/HorizontalSlider.cpp widget/HorizontalSlider.h widget/LineEdit.cpp widget/LineEdit.h core/Control.cpp core/Control.h core/Event.cpp core/Event.h widget/AbstractButton.cpp widget/AbstractButton.h widget/CheckBox.cpp widget/CheckBox.h)
+set(SOURCE_FILES ${PUGIXML_DIR}/pugixml.hpp ${PUGIXML_DIR}/pugixml.cpp main.cpp widget/Window.cpp widget/Window.h units/Text.cpp units/Text.h units/Font.cpp units/Font.h utils/Util.hpp utils/Timer.cpp utils/Timer.h widget/Button.cpp widget/Button.h units/Rectangle.hpp widget/TextArea.cpp widget/TextArea.h widget/ComboBox.cpp widget/ComboBox.h core/System.hpp units/Renderer.hpp widget/Widget.cpp widget/Widget.h core/Object.hpp widget/Label.cpp widget/Label.h units/Image.cpp units/Image.h widget/HorizontalSlider.cpp widget/HorizontalSlider.h widget/LineEdit.cpp widget/LineEdit.h core/Control.cpp core/Control.h core/Event.cpp core/Event.h widget/AbstractButton.cpp widget/AbstractButton.h widget/CheckBox.cpp widget/CheckBox.h widget/ButtonGroup.cpp widget/ButtonGroup.h)
 add_executable(GWUI ${SOURCE_FILES})
 
 target_link_libraries(GWUI SDL2 SDL2_image SDL2_ttf SDL2_mixer)

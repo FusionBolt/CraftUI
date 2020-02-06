@@ -14,12 +14,12 @@
 
 namespace GWUI
 {
-    class Widget : public Object
+    class Widget : public Object, public std::enable_shared_from_this<Widget>
     {
     public:
-        using Ptr = Widget*;
+        using Ptr = std::shared_ptr<Widget>;
 
-        explicit Widget(Ptr parent);
+        Widget() = default;
 
         virtual void Draw(Renderer renderer);
 
@@ -27,26 +27,30 @@ namespace GWUI
 
         virtual Rect GetGeometry() const noexcept;
 
+        void SetParent(Widget::Ptr parent);
+
         template<typename T = Widget>
-        T* FindChild(Point position)
+        std::shared_ptr<T> FindChild(Point position)
         {
-            return dynamic_cast<T*>(_findChild([=](Widget::Ptr widget){
+            return std::dynamic_pointer_cast<T>(_findChild([=](const Widget::Ptr& widget){
                 return JudgeCoincide(position, widget->GetGeometry());
             }));
         }
 
         template<typename T = Widget>
-        T* FindChild(const std::string& name)
+        std::shared_ptr<T> FindChild(const std::string& name)
         {
-            return dynamic_cast<T*>(_findChild([&](Widget::Ptr widget){
+            return std::dynamic_pointer_cast<T>(_findChild([&](const Widget::Ptr& widget){
                 return (name == widget->GetObjectName());
             }));
         }
 
+        void ShowAllChild() const;
+
     protected:
         friend class Control;
 
-        Widget* _findChild(std::function<bool(Widget::Ptr)> checkFun);
+        Ptr _findChild(std::function<bool(Widget::Ptr)> checkFun);
 
         virtual void KeyPressEvent(const KeyBoardEvent &keyBoardEvent){}
 
@@ -58,18 +62,12 @@ namespace GWUI
 
         virtual void MouseMotionEvent(const MouseEvent &mouseEvent);
 
-        virtual ~Widget()
-        {
-            for(auto& child : _childs)
-            {
-                delete child;
-            }
-        }
+        virtual ~Widget() = default;
 
-        Rect _geometry;
+        Rect _geometry = {0,0,0,0};
 
-        Ptr _parent;
-        // TODO: 指针引用问题
+        std::weak_ptr<Widget> _parent;
+
         std::vector<Ptr> _childs;
 
         bool _focus = false;

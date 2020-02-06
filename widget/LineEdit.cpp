@@ -4,7 +4,7 @@
 
 #include "LineEdit.h"
 
-GWUI::LineEdit::LineEdit(GWUI::Widget *parent) : Widget(parent)
+GWUI::LineEdit::LineEdit() : Widget()
 {
 
 }

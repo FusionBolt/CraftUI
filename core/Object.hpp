@@ -22,6 +22,8 @@ namespace GWUI
 
     protected:
         std::string _objName = "defaultName";
+
+        virtual ~Object(){}
     };
 }
 

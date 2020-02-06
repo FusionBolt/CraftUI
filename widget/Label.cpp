@@ -4,7 +4,7 @@
 
 #include "Label.h"
 
-GWUI::Label::Label(GWUI::Widget *parent, const std::string &text) : Widget(parent), _text(text)
+GWUI::Label::Label(const std::string &text) : Widget(), _text(text)
 {
 
 }

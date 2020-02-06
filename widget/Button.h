@@ -17,9 +17,9 @@ namespace GWUI
     class Button : public Widget
     {
     public:
-        explicit Button(Rect rect, Widget::Ptr parent = nullptr, const std::string& text = "Untitled");
+        explicit Button(Rect rect, const std::string& text = "Untitled");
 
-        explicit Button(Widget::Ptr parent = nullptr, const std::string& text = "Untitled");
+        explicit Button(const std::string& text = "Untitled");
 
         void Draw(Renderer renderer) override;
 

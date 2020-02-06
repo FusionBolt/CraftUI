@@ -4,12 +4,12 @@
 
 #include "Control.h"
 
-void GWUI::Control::SetFocusWidget(Widget* widget)
+void GWUI::Control::SetFocusWidget(Widget::Ptr widget)
 {
     _currentFocusWidget = widget;
 }
 
-int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget* widget)
+int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
 {
     if(event.type == SDL_QUIT)
     {

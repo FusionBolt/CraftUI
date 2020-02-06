@@ -6,18 +6,18 @@
 
 #include <utility>
 
-GWUI::AbstractButton::AbstractButton(const std::string& text, GWUI::Widget *widget) :
-    Widget(widget),_text(text)
+GWUI::AbstractButton::AbstractButton(const std::string& text) :
+    Widget(),_text(text)
 {
 
 }
 
-bool GWUI::AbstractButton::IsChecked()
+bool GWUI::AbstractButton::IsChecked() const noexcept
 {
     return _checked;
 }
 
-std::string GWUI::AbstractButton::GetText()
+std::string GWUI::AbstractButton::GetText() const
 {
     return _text.GetText();
 }
@@ -27,7 +27,7 @@ void GWUI::AbstractButton::SetText(const std::string &text)
     _text.SetText(text);
 }
 
-bool GWUI::AbstractButton::IsCheckable()
+bool GWUI::AbstractButton::IsCheckable() const noexcept
 {
     return _checkable;
 }
@@ -35,4 +35,9 @@ bool GWUI::AbstractButton::IsCheckable()
 void GWUI::AbstractButton::OnClick(std::function<void(bool)> f)
 {
     _onClicked = std::move(f);
+}
+
+void GWUI::AbstractButton::_SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
+{
+    _buttonGroup = buttonGroup;
 }

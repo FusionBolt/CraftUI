@@ -4,7 +4,7 @@
 
 #include "HorizontalSlider.h"
 
-GWUI::HorizontalSlider::HorizontalSlider(GWUI::Widget *parent) : Widget(parent)
+GWUI::HorizontalSlider::HorizontalSlider() : Widget()
 {
 
 }

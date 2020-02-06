@@ -16,7 +16,7 @@ namespace GWUI
         {
         };
 
-        explicit Rectangle(Rect rect):_rect(rect){}
+        Rectangle(Rect rect):_rect(rect){}
 
         Rectangle() = default;
 

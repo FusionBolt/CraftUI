@@ -11,23 +11,29 @@
 
 namespace GWUI
 {
+    class ButtonGroup;
+
     class AbstractButton : public Widget
     {
     public:
-        explicit AbstractButton(const std::string& text = "button", Widget* widget = nullptr);
+        explicit AbstractButton(const std::string& text = "button");
 
-        bool IsChecked();
+        bool IsChecked() const noexcept;
 
         // TODO:check or down??
-        bool IsCheckable();
+        bool IsCheckable() const noexcept;
 
-        std::string GetText();
+        std::string GetText() const;
 
         void SetText(const std::string& text);
 
         void OnClick(std::function<void(bool)> f);
         // TODO:need virtual event?
     protected:
+        friend class ButtonGroup;
+
+        void _SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
+        // TODO:直接调用这个来管理group会有问题
         bool _checked = false;
 
         bool _checkable = true;
@@ -35,6 +41,8 @@ namespace GWUI
         Text _text;
 
         std::function<void(bool)> _onClicked;
+
+        std::weak_ptr<ButtonGroup> _buttonGroup;
     };
 }
 

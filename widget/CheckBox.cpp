@@ -3,9 +3,10 @@
 //
 
 #include "CheckBox.h"
+#include "ButtonGroup.h"
 
-GWUI::CheckBox::CheckBox(const std::string& text, GWUI::Widget *widget) :
-    AbstractButton(text, widget)
+GWUI::CheckBox::CheckBox(const std::string& text) :
+    AbstractButton(text)
 {
     _text.SetColor({255, 255, 255});
 }
@@ -30,7 +31,27 @@ void GWUI::CheckBox::MousePressEvent(const MouseEvent &mouseEvent)
 {
     if(JudgeCoincide(mouseEvent.GetPosition(), _checkRectangle.GetRect()))
     {
-        _checked = !_checked;
+        auto buttonGroup = _buttonGroup.lock();
+        if(buttonGroup == nullptr)
+        {
+            _checked = !_checked;
+        }
+        else if(_checked)
+        {
+            buttonGroup->SetCheckedButton(nullptr);
+            _checked = false;
+        }
+        else
+        {
+            auto thisPtr = std::dynamic_pointer_cast<AbstractButton>(shared_from_this());
+            if(!buttonGroup->IsExclusive() ||
+                (buttonGroup->IsExclusive() &&
+                buttonGroup->GetCheckedButton() == nullptr))
+            {
+                _checked = true;
+                buttonGroup->SetCheckedButton(thisPtr);
+            }
+        }
         if(_onClicked != nullptr)
         {
             std::invoke(_onClicked, _checked);

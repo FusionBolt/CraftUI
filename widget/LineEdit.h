@@ -14,7 +14,7 @@ namespace GWUI
     class LineEdit : public Widget
     {
     public:
-        explicit LineEdit(Widget* parent);
+        explicit LineEdit();
 
         void Draw(Renderer renderer) override;
 

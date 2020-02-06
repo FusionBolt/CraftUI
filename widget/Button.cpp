@@ -6,8 +6,8 @@
 
 #include <utility>
 
-GWUI::Button::Button(GWUI::Rect rect, Widget::Ptr parent, const std::string &text):
-_rect(rect), _text(text, 30), Widget(parent)
+GWUI::Button::Button(GWUI::Rect rect, const std::string &text):
+_rect(rect), _text(text, 30), Widget()
 {
     _text.SetPosition({rect.x + 10, rect.y + 10});
 }
@@ -29,7 +29,7 @@ void GWUI::Button::SetText(const std::string &text)
     _text.SetText(text);
 }
 
-GWUI::Button::Button(GWUI::Widget::Ptr parent, const std::string& text):Widget(parent),
+GWUI::Button::Button(const std::string& text):Widget(),
     _rect(Rect{100,100,200,100}), _text(text, 30)
 {
     auto rect = _rect.GetRect();

@@ -5,14 +5,6 @@
 #include "Widget.h"
 #include "Button.h"
 
-GWUI::Widget::Widget(GWUI::Widget::Ptr parent):_parent(parent), _geometry({0,0,0,0})
-{
-    if(parent)
-    {
-        parent->_childs.push_back(this);
-    }
-}
-
 void GWUI::Widget::Draw(GWUI::Renderer renderer)
 {
     for(const auto& child : _childs)
@@ -50,7 +42,7 @@ GWUI::Rect GWUI::Widget::GetGeometry() const noexcept
     return _geometry;
 }
 
-GWUI::Widget *GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> checkFun)
+GWUI::Widget::Ptr GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> checkFun)
 {
     for(auto& child : _childs)
     {
@@ -82,4 +74,23 @@ void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
         auto position = mouseEvent.GetPosition();
         SetGeometry({position.x, position.y, _geometry.w, _geometry.h});
     }
+}
+
+void GWUI::Widget::SetParent(Widget::Ptr parent)
+{
+    if(parent!= nullptr)
+    {
+        _parent = parent;
+        parent->_childs.push_back(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+    }
+}
+
+void GWUI::Widget::ShowAllChild() const
+{
+    std::cout << "childs start" << std::endl;
+    for(const auto& child : _childs)
+    {
+        std::cout << child->GetObjectName() << std::endl;
+    }
+    std::cout << "childs end" << std::endl;
 }

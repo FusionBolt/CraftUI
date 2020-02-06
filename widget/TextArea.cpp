@@ -4,8 +4,8 @@
 
 #include "TextArea.h"
 
-GWUI::TextArea::TextArea(GWUI::Widget* parent, GWUI::Rect rect):
-        Widget(parent), _rectangle(rect),
+GWUI::TextArea::TextArea(GWUI::Rect rect):
+        Widget(), _rectangle(rect),
         _text("this is a TextArea\nauto break line by word", 30, {255, 255, 255}, rect.w)
 {
     _text.SetPosition(Point{rect.x, rect.y});

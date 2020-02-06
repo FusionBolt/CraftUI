@@ -14,7 +14,7 @@ namespace GWUI
     class TextArea : public Widget
     {
     public:
-        explicit TextArea(Widget* parent, Rect rect = {});
+        explicit TextArea(Rect rect = {});
 
         void Draw(Renderer renderer) override;
 

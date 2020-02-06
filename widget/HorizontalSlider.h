@@ -13,7 +13,7 @@ namespace GWUI
     class HorizontalSlider : public Widget
     {
     public:
-        explicit HorizontalSlider(Widget* parent);
+        HorizontalSlider();
 
         void Draw(Renderer renderer) override;
 

@@ -6,8 +6,8 @@
 
 #include <utility>
 
-GWUI::ComboBox::ComboBox(Widget* parent):
-    Widget(parent),
+GWUI::ComboBox::ComboBox():
+    Widget(),
     _height(20),
     _mainRectangle(Rect{100, 250, 60, _height}),
     _buttonRectangle(Rect{140, 250, 20, _height}),
@@ -96,7 +96,14 @@ void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
             auto index = (mousePosition.y - _listRectangle.GetRect().y) / _height;
             auto currentText = _items.at(index).GetText();
             _currentText.SetText(currentText);
-            std::invoke(_onChanged, currentText);
+            try
+            {
+                std::invoke(_onChanged, currentText);
+            }
+            catch (std::exception& e)
+            {
+                std::cout << e.what() << std::endl;
+            }
             _showList = false;
         }
     }
