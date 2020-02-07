@@ -11,25 +11,18 @@
 #include "../units/Rectangle.hpp"
 #include "../units/Renderer.hpp"
 #include "Widget.h"
+#include "AbstractButton.h"
 
 namespace GWUI
 {
-    class Button : public Widget
+    class Button : public AbstractButton
     {
     public:
-        explicit Button(Rect rect, const std::string& text = "Untitled");
-
         explicit Button(const std::string& text = "Untitled");
 
         void Draw(Renderer renderer) override;
 
-        std::string GetText();
-
-        void SetText(const std::string& text);
-
         void SetGeometry(Rect rect) noexcept override;
-
-        void OnClicked(std::function<void()> f);
 
     protected:
         void MouseReleaseEvent(const MouseEvent &mouseEvent) override;
@@ -37,13 +30,7 @@ namespace GWUI
         void MousePressEvent(const MouseEvent &mouseEvent) override;
 
     private:
-        std::function<void()> _onClicked;
-
-        Text _text;
-
         Rectangle _rect;
-
-        bool _click = false;
     };
 }
 

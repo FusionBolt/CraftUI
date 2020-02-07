@@ -32,12 +32,12 @@ bool GWUI::AbstractButton::IsCheckable() const noexcept
     return _checkable;
 }
 
-void GWUI::AbstractButton::OnClick(std::function<void(bool)> f)
-{
-    _onClicked = std::move(f);
-}
-
 void GWUI::AbstractButton::_SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 {
     _buttonGroup = buttonGroup;
+}
+
+void GWUI::AbstractButton::OnClicked(std::function<void(bool)> f)
+{
+    _onClicked = std::move(f);
 }

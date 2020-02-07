@@ -8,7 +8,7 @@ void GWUI::ButtonGroup::AddButton(std::shared_ptr<AbstractButton> button)
 {
     _buttons.push_back(button);
     button->_SetButtonGroup(shared_from_this());
-    std::cout << "add" << std::endl;
+    std::cout << "add button" << std::endl;
 }
 
 bool GWUI::ButtonGroup::IsExclusive() const noexcept
@@ -20,9 +20,10 @@ void GWUI::ButtonGroup::RemoveButton(std::shared_ptr<AbstractButton> button)
 {
     for(auto iter = _buttons.begin(); iter != _buttons.end(); ++iter)
     {
-        if(*iter == button)
+        if(iter->lock() == button)
         {
-            std::cout << "remove" << std::endl;
+            std::cout << "remove button" << std::endl;
+            button->_SetButtonGroup(nullptr);
             _buttons.erase(iter);
             break;
         }
@@ -31,7 +32,7 @@ void GWUI::ButtonGroup::RemoveButton(std::shared_ptr<AbstractButton> button)
 
 std::shared_ptr<GWUI::AbstractButton> GWUI::ButtonGroup::GetCheckedButton() noexcept
 {
-    return _checkedButton;
+    return _checkedButton.lock();
 }
 
 void GWUI::ButtonGroup::SetCheckedButton(std::shared_ptr<AbstractButton> button) noexcept

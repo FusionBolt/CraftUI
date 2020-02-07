@@ -55,6 +55,8 @@ namespace GWUI
         uint32_t _wrapLength;
 
         std::shared_ptr<SDL_Texture> _texture;
+
+        bool _dirty = false;
     };
 }
 

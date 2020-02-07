@@ -27,13 +27,13 @@ namespace GWUI
 
         void SetText(const std::string& text);
 
-        void OnClick(std::function<void(bool)> f);
+        void OnClicked(std::function<void(bool)> f);
         // TODO:need virtual event?
     protected:
         friend class ButtonGroup;
 
         void _SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
-        // TODO:直接调用这个来管理group会有问题
+
         bool _checked = false;
 
         bool _checkable = true;
@@ -42,7 +42,7 @@ namespace GWUI
 
         std::function<void(bool)> _onClicked;
 
-        std::weak_ptr<ButtonGroup> _buttonGroup;
+        std::shared_ptr<ButtonGroup> _buttonGroup;
     };
 }
 

@@ -27,9 +27,9 @@ namespace GWUI
     private:
         bool _exclusive = true;
 
-        std::shared_ptr<AbstractButton> _checkedButton;
+        std::weak_ptr<AbstractButton> _checkedButton;
 
-        std::vector<std::shared_ptr<AbstractButton>> _buttons;
+        std::vector<std::weak_ptr<AbstractButton>> _buttons;
     };
 }
 

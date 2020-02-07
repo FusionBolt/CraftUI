@@ -44,17 +44,39 @@ GWUI::Rect GWUI::Widget::GetGeometry() const noexcept
 
 GWUI::Widget::Ptr GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> checkFun)
 {
-    for(auto& child : _childs)
+    //TODO:嵌套组件查询,一层一层的查
+//    for(auto& child : _childs)
+//    {
+//        //auto rect = child->GetGeometry();
+//        //std::cout << "objName " << child->GetObjectName() << std::endl;
+//        //std::cout << rect.x << " " << rect.y << " " << rect.w << " " << rect.h << std::endl;
+//        if(std::invoke(checkFun, child))
+//        {
+//            return child;
+//        }
+//    }
+    std::queue<std::shared_ptr<Widget>> q;
+    std::vector<std::shared_ptr<Widget>> v;
+    for(auto child : _childs)
     {
-        //auto rect = child->GetGeometry();
-        //std::cout << "objName " << child->GetObjectName() << std::endl;
-        //std::cout << rect.x << " " << rect.y << " " << rect.w << " " << rect.h << std::endl;
+        q.push(child);
+    }
+    while(!q.empty())
+    {
+        auto child = q.front();
+        q.pop();
         if(std::invoke(checkFun, child))
         {
-            return child;
+            //return child;
+            v.push_back(child);
+        }
+        for(auto c : child->_childs)
+        {
+            q.push(c);
         }
     }
-    return nullptr;
+    //return nullptr;
+    return v.empty() ? nullptr : v[v.size()-1];
 }
 
 void GWUI::Widget::MousePressEvent(const MouseEvent &mouseEvent)

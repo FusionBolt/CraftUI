@@ -31,7 +31,7 @@ void GWUI::CheckBox::MousePressEvent(const MouseEvent &mouseEvent)
 {
     if(JudgeCoincide(mouseEvent.GetPosition(), _checkRectangle.GetRect()))
     {
-        auto buttonGroup = _buttonGroup.lock();
+        auto buttonGroup = _buttonGroup;
         if(buttonGroup == nullptr)
         {
             _checked = !_checked;

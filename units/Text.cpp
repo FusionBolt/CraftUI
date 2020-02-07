@@ -13,29 +13,12 @@ GWUI::Text::Text(std::string text, uint16_t size, const GWUI::Color &color, uint
 
 void GWUI::Text::Draw(Renderer renderer)
 {
-    _ResetTexture(renderer);
-    RenderTexture(_texture, renderer.GetRenderer(), _position);
-}
-
-void GWUI::Text::SetPosition(Point position) noexcept
-{
-    _position = position;
-}
-
-void GWUI::Text::PopBackChar()
-{
-    if(!_text.empty())
+    if (_dirty)
     {
-        _text.pop_back();
+        _ResetTexture(renderer);
+        _dirty = false;
     }
-   // _ResetTexture();
-}
-
-void GWUI::Text::AppendChar(char c)
-{
-    _text.append({c});
-    //_ResetTexture();
-    std::cout << _text << std::endl;
+    RenderTexture(_texture, renderer.GetRenderer(), _position);
 }
 
 void GWUI::Text::_ResetTexture(Renderer renderer)
@@ -49,22 +32,50 @@ void GWUI::Text::_ResetTexture(Renderer renderer)
     SDL_FreeSurface(ttf);
 }
 
+void GWUI::Text::SetPosition(Point position) noexcept
+{
+    _position = position;
+    _dirty = true;
+}
+
+void GWUI::Text::PopBackChar()
+{
+    if(!_text.empty())
+    {
+        _text.pop_back();
+    }
+     _dirty = true;
+}
+
+void GWUI::Text::AppendChar(char c)
+{
+    _text.append({c});
+    _dirty = true;
+    std::cout << _text << std::endl;
+}
+
 void GWUI::Text::SetColor(GWUI::Color color) noexcept
 {
     _color = color;
-    //_ResetTexture();
+    _dirty = true;
 }
 
 void GWUI::Text::SetWrapLength(uint32_t wrapLength) noexcept
 {
     _wrapLength = wrapLength;
-    //_ResetTexture();
+    _dirty = true;
 }
 
 void GWUI::Text::SetText(std::string text)
 {
     _text = std::move(text);
-    //_ResetTexture();
+    _dirty = true;
+}
+
+void GWUI::Text::SetFontSize(uint16_t size) noexcept
+{
+    _font.SetSize(size);
+    _dirty = true;
 }
 
 std::string GWUI::Text::GetText() const noexcept
@@ -75,9 +86,4 @@ std::string GWUI::Text::GetText() const noexcept
 GWUI::Color GWUI::Text::GetColor() const noexcept
 {
     return _color;
-}
-
-void GWUI::Text::SetFontSize(uint16_t size) noexcept
-{
-    _font.SetSize(size);
 }
