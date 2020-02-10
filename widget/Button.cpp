@@ -12,17 +12,17 @@ GWUI::Button::Button(const std::string &text):
 
 void GWUI::Button::Draw(Renderer renderer)
 {
+    Widget::Draw(renderer);
     RendererRectangle(renderer.GetRenderer(), GetGeometry(), {255, 255, 255});
     _text.Draw(renderer);
-    Widget::Draw(renderer);
 }
 
 void GWUI::Button::SetGeometry(GWUI::Rect rect) noexcept
 {
+    Widget::SetGeometry(rect);
     _text.SetPosition({rect.x + 10, rect.y + 10});
     _text.SetWrapLength(rect.w - 10);
     _checkedRectangle = rect;
-    Widget::SetGeometry(rect);
 }
 
 void GWUI::Button::MouseReleaseEvent(const MouseEvent &mouseEvent)

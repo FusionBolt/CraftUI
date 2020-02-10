@@ -11,16 +11,16 @@ GWUI::LineEdit::LineEdit() : Widget()
 
 void GWUI::LineEdit::Draw(GWUI::Renderer renderer)
 {
+    Widget::Draw(renderer);
     _rect.Draw(renderer);
     _text.Draw(renderer);
-    Widget::Draw(renderer);
 }
 
 void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
 {
+    Widget::SetGeometry(rect);
     _rect.SetRect(rect);
     _text.SetPosition(_rect.GetPosition());
-    Widget::SetGeometry(rect);
 }
 
 void GWUI::LineEdit::KeyReleaseEvent(const KeyBoardEvent &keyBoardEvent)
@@ -35,6 +35,7 @@ void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
 
 void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
+    Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
     auto input = event.key.keysym.sym;
     if(input == SDLK_BACKSPACE)
@@ -55,5 +56,4 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         }
         _text.AppendChar(keyName[0]);
     }
-    Widget::KeyPressEvent(keyBoardEvent);
 }

@@ -13,6 +13,7 @@ GWUI::CheckBox::CheckBox(const std::string& text) :
 
 void GWUI::CheckBox::Draw(GWUI::Renderer renderer)
 {
+    Widget::Draw(renderer);
     RendererRectangle(renderer.GetRenderer(), _checkedRectangle, GWUI::White);
     _text.Draw(renderer);
     if(_checked)
@@ -24,17 +25,16 @@ void GWUI::CheckBox::Draw(GWUI::Renderer renderer)
                  rect.w - smallRectWidth, rect.h - smallRectWidth},
                 {0,0,0});
     }
-    Widget::Draw(renderer);
 }
 
 void GWUI::CheckBox::SetGeometry(GWUI::Rect rect) noexcept
 {
+    Widget::SetGeometry(rect);
     int rectWidth = 20;
     auto widgetY = rect.y + rect.h / 2 - rectWidth / 2;
     _checkedRectangle = {rect.x, widgetY, rectWidth, rectWidth};
     _text.SetPosition({rect.x + rectWidth + 2, widgetY});
     // 2 used space
-    Widget::SetGeometry(rect);
 }
 
 

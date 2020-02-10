@@ -14,22 +14,23 @@ GWUI::TextArea::TextArea(GWUI::Rect rect):
 
 void GWUI::TextArea::Draw(Renderer renderer)
 {
+    Widget::Draw(renderer);
     _rectangle.Draw(renderer);
     _text.Draw(renderer);
-    Widget::Draw(renderer);
 }
 
 void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
 {
+    Widget::SetGeometry(rect);
     _rectangle = rect;
     _text.SetPosition(Point{rect.x, rect.y});
     _rectangle.SetColor({128, 128, 128});
     _text.SetWrapLength(rect.w);
-    Widget::SetGeometry(rect);
 }
 
 void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
+    Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
     if(event.type == SDL_TEXTINPUT)
@@ -82,7 +83,6 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             _text.AppendChar('\n');
         }
     }
-    Widget::KeyPressEvent(keyBoardEvent);
 }
 
 void GWUI::TextArea::SetText(std::string text)
@@ -92,10 +92,10 @@ void GWUI::TextArea::SetText(std::string text)
 
 void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
 {
+    Widget::MousePressEvent(mouseEvent);
     auto event = mouseEvent.GetEvent();
     if(event.button.clicks == 2)
     {
         SetClipboardText(_text.GetText());
     }
-    Widget::MousePressEvent(mouseEvent);
 }

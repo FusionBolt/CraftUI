@@ -11,12 +11,12 @@ GWUI::Label::Label(const std::string &text) : Widget(), _text(text)
 
 void GWUI::Label::Draw(GWUI::Renderer renderer)
 {
+    Widget::Draw(renderer);
     _text.Draw(renderer);
     if(_isImg)
     {
         _img.Draw(renderer);
     }
-    Widget::Draw(renderer);
 }
 
 void GWUI::Label::SetFontSize(uint16_t size)

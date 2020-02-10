@@ -11,6 +11,7 @@ GWUI::HorizontalSlider::HorizontalSlider() : Widget()
 
 void GWUI::HorizontalSlider::Draw(GWUI::Renderer renderer)
 {
+    Widget::Draw(renderer);
     auto x = _geometry.x;
     _chooseRect.Draw(renderer);
     // all
@@ -23,7 +24,6 @@ void GWUI::HorizontalSlider::Draw(GWUI::Renderer renderer)
         Point{_chooseRect.GetRect().x, _geometry.y + 10}, {50, 205, 50});
     }
 
-    Widget::Draw(renderer);
 }
 
 void GWUI::HorizontalSlider::SetGeometry(GWUI::Rect rect) noexcept
@@ -48,19 +48,20 @@ void GWUI::HorizontalSlider::SetValueRange(int minSize, int maxSize) noexcept
 
 void GWUI::HorizontalSlider::MousePressEvent(const MouseEvent &mouseEvent)
 {
+    Widget::MousePressEvent(mouseEvent);
     _isChoose = true;
     std::cout << "On Click Slider" << std::endl;
-    Widget::MousePressEvent(mouseEvent);
 }
 
 void GWUI::HorizontalSlider::MouseReleaseEvent(const MouseEvent &mouseEvent)
 {
-    _isChoose = false;
     Widget::MouseReleaseEvent(mouseEvent);
+    _isChoose = false;
 }
 
 void GWUI::HorizontalSlider::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
+    Widget::MouseMotionEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();
     if(_isChoose)
     {
@@ -84,5 +85,4 @@ void GWUI::HorizontalSlider::MouseMotionEvent(const MouseEvent &mouseEvent)
         std::cout << _value << std::endl;
         SetValue(_value);
     }
-    Widget::MouseMotionEvent(mouseEvent);
 }

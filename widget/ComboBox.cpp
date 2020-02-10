@@ -30,6 +30,7 @@ void GWUI::ComboBox::AddItem(const std::string &item)
 
 void GWUI::ComboBox::Draw(Renderer renderer)
 {
+    Widget::Draw(renderer);
     RendererRectangle(renderer.GetRenderer(), _geometry, GWUI::White);
     RendererRectangle(renderer.GetRenderer(),
             {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height}, GWUI::White);
@@ -44,7 +45,6 @@ void GWUI::ComboBox::Draw(Renderer renderer)
             item.Draw(renderer);
         }
     }
-    Widget::Draw(renderer);
 }
 
 void GWUI::ComboBox::OnChanged(std::function<void(const std::string &)> f)
@@ -54,12 +54,17 @@ void GWUI::ComboBox::OnChanged(std::function<void(const std::string &)> f)
 
 void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
 {
+    Widget::MousePressEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();
     if(_clickOnButtonArea(mousePosition))
     {
         if(_showList = !_showList; _showList)
         {
             _geometry.h *= static_cast<int>(_items.size() + 1);
+        }
+        else
+        {
+            _geometry.h /= static_cast<int>(_items.size() + 1);
         }
     }
     else if(_clickOnItems(mousePosition))
@@ -71,13 +76,9 @@ void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
             _currentText.SetText(currentText);
             std::invoke(_onChanged, currentText);
             _showList = false;
+            _geometry.h /= static_cast<int>(_items.size() + 1);
         }
     }
-    if(!_showList)
-    {
-        _geometry.h /= static_cast<int>(_items.size() + 1);
-    }
-    Widget::MousePressEvent(mouseEvent);
 }
 
 GWUI::Rect GWUI::ComboBox::_GetListRectangle()
