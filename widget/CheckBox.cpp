@@ -8,17 +8,17 @@
 GWUI::CheckBox::CheckBox(const std::string& text) :
     AbstractButton(text)
 {
-    _text.SetColor({255, 255, 255});
+
 }
 
 void GWUI::CheckBox::Draw(GWUI::Renderer renderer)
 {
-    _checkRectangle.Draw(renderer);
+    RendererRectangle(renderer.GetRenderer(), _checkedRectangle, GWUI::White);
     _text.Draw(renderer);
     if(_checked)
     {
         auto smallRectWidth = 10;
-        auto rect = _checkRectangle.GetRect();
+        auto& rect = _checkedRectangle;
         RendererRectangle(renderer.GetRenderer(),
                 {rect.x + smallRectWidth / 2, rect.y + smallRectWidth / 2,
                  rect.w - smallRectWidth, rect.h - smallRectWidth},
@@ -27,44 +27,11 @@ void GWUI::CheckBox::Draw(GWUI::Renderer renderer)
     Widget::Draw(renderer);
 }
 
-void GWUI::CheckBox::MousePressEvent(const MouseEvent &mouseEvent)
-{
-    if(JudgeCoincide(mouseEvent.GetPosition(), _checkRectangle.GetRect()))
-    {
-        auto buttonGroup = _buttonGroup;
-        if(buttonGroup == nullptr)
-        {
-            _checked = !_checked;
-        }
-        else if(_checked)
-        {
-            buttonGroup->SetCheckedButton(nullptr);
-            _checked = false;
-        }
-        else
-        {
-            auto thisPtr = std::dynamic_pointer_cast<AbstractButton>(shared_from_this());
-            if(!buttonGroup->IsExclusive() ||
-                (buttonGroup->IsExclusive() &&
-                buttonGroup->GetCheckedButton() == nullptr))
-            {
-                _checked = true;
-                buttonGroup->SetCheckedButton(thisPtr);
-            }
-        }
-        if(_onClicked != nullptr)
-        {
-            std::invoke(_onClicked, _checked);
-        }
-    }
-    Widget::MousePressEvent(mouseEvent);
-}
-
 void GWUI::CheckBox::SetGeometry(GWUI::Rect rect) noexcept
 {
     int rectWidth = 20;
     auto widgetY = rect.y + rect.h / 2 - rectWidth / 2;
-    _checkRectangle.SetRect({rect.x, widgetY, rectWidth, rectWidth});
+    _checkedRectangle = {rect.x, widgetY, rectWidth, rectWidth};
     _text.SetPosition({rect.x + rectWidth + 2, widgetY});
     // 2 used space
     Widget::SetGeometry(rect);

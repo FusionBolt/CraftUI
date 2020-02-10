@@ -12,6 +12,10 @@
 #include "../widget/ComboBox.h"
 #include "../widget/Label.h"
 #include "../widget/VerticalLayout.h"
+#include "../widget/CheckBox.h"
+#include "../widget/LineEdit.h"
+#include "../widget/HorizontalSlider.h"
+#include "../widget/Window.h"
 
 namespace GWUI
 {
@@ -23,6 +27,7 @@ namespace GWUI
         auto property = node.child("property");
         auto buttonText = property.child("string").child_value();
         button->SetText(buttonText);
+        button->OnClicked([=](bool){std::cout << "OnClick:" << button->GetObjectName() << std::endl;});
         return button;
     }
 
@@ -48,11 +53,10 @@ namespace GWUI
     {
         auto label = std::make_shared<GWUI::Label>();
         auto property = node.child("property");
-        label->SetText(property.child("string").child_value());
-        label->SetFontSize(std::stoi(property.child("fontSize").child_value()));
-        label->SetPosition({std::stoi(property.child("geometry").child("x").child_value()),
-                            std::stoi(property.child("geometry").child("y").child_value())});
-        label->SetFontColor({255, 255, 255});
+        label->SetText(property.child_value("string"));
+        label->SetFontSize(std::stoi(property.child_value("fontSize")));
+        label->SetPosition({std::stoi(property.child("geometry").child_value("x")),
+                            std::stoi(property.child("geometry").child_value("y"))});
         return label;
     }
 
@@ -60,6 +64,45 @@ namespace GWUI
     {
         auto verticalLayout = std::make_shared<GWUI::VerticalLayout>();
         return verticalLayout;
+    }
+
+    inline WidgetPtr LoadCheckBox(const pugi::xml_node& node)
+    {
+        auto checkBox = std::make_shared<GWUI::CheckBox>();
+        auto property = node.child("property");
+        checkBox->SetText(property.child("string").child_value());
+        return checkBox;
+    }
+
+    inline WidgetPtr LoadLineEdit(const pugi::xml_node& node)
+    {
+        auto lineEdit = std::make_shared<GWUI::LineEdit>();
+        return lineEdit;
+    }
+
+    inline WidgetPtr LoadHorizontalSlider(const pugi::xml_node& node)
+    {
+        auto horizontalSlider = std::make_shared<GWUI::HorizontalSlider>();
+        horizontalSlider->SetTestMove(false);
+        if(auto min = node.child("property").child("range").child_value("min"),
+                max = node.child("property").child("range").child_value("max");
+            min && max)
+        {
+            std::cout << "slider:" << std::stoi(min) << " " << std::stoi(max) << std::endl;
+            horizontalSlider->SetValueRange(std::stoi(min), std::stoi(max));
+        }
+        return horizontalSlider;
+    }
+
+    inline WidgetPtr LoadWindow(const pugi::xml_node& node)
+    {
+        auto window = std::make_shared<GWUI::Window>();
+        auto property = node.child("property");
+        window->SetWindowTitle(property.child_value("title"));
+        auto width = std::stoi(property.child("geometry").child_value("width"));
+        auto height = std::stoi(property.child("geometry").child_value("height"));
+        window->SetWindowSize(width, height);
+        return window;
     }
 }
 

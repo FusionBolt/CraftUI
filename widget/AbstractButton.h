@@ -20,7 +20,6 @@ namespace GWUI
 
         bool IsChecked() const noexcept;
 
-        // TODO:check or down??
         bool IsCheckable() const noexcept;
 
         std::string GetText() const;
@@ -28,9 +27,15 @@ namespace GWUI
         void SetText(const std::string& text);
 
         void OnClicked(std::function<void(bool)> f);
-        // TODO:need virtual event?
+
+        bool IsExclusive() const noexcept;
+
+        void SetExclusive(bool isExclusive) noexcept;
+
     protected:
         friend class ButtonGroup;
+
+        void MousePressEvent(const MouseEvent &mouseEvent) override;
 
         void _SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
 
@@ -38,11 +43,18 @@ namespace GWUI
 
         bool _checkable = true;
 
+        bool _exclusive = false;
+
         Text _text;
 
         std::function<void(bool)> _onClicked;
 
         std::shared_ptr<ButtonGroup> _buttonGroup;
+
+        Rect _checkedRectangle;
+
+    private:
+        std::function<bool()> _judgeClick;
     };
 }
 

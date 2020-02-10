@@ -45,19 +45,9 @@ GWUI::Rect GWUI::Widget::GetGeometry() const noexcept
 GWUI::Widget::Ptr GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> checkFun)
 {
     //TODO:嵌套组件查询,一层一层的查
-//    for(auto& child : _childs)
-//    {
-//        //auto rect = child->GetGeometry();
-//        //std::cout << "objName " << child->GetObjectName() << std::endl;
-//        //std::cout << rect.x << " " << rect.y << " " << rect.w << " " << rect.h << std::endl;
-//        if(std::invoke(checkFun, child))
-//        {
-//            return child;
-//        }
-//    }
     std::queue<std::shared_ptr<Widget>> q;
     std::vector<std::shared_ptr<Widget>> v;
-    for(auto child : _childs)
+    for(auto& child : _childs)
     {
         q.push(child);
     }
@@ -70,7 +60,7 @@ GWUI::Widget::Ptr GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> chec
             //return child;
             v.push_back(child);
         }
-        for(auto c : child->_childs)
+        for(auto& c : child->_childs)
         {
             q.push(c);
         }
@@ -91,7 +81,7 @@ void GWUI::Widget::MouseReleaseEvent(const MouseEvent &mouseEvent)
 
 void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
-    if(_canMove)
+    if(_canMove && _beTestMove)
     {
         auto position = mouseEvent.GetPosition();
         SetGeometry({position.x, position.y, _geometry.w, _geometry.h});
@@ -109,10 +99,13 @@ void GWUI::Widget::SetParent(Widget::Ptr parent)
 
 void GWUI::Widget::ShowAllChild() const
 {
-    std::cout << "childs start" << std::endl;
     for(const auto& child : _childs)
     {
         std::cout << child->GetObjectName() << std::endl;
     }
-    std::cout << "childs end" << std::endl;
+}
+
+void GWUI::Widget::SetTestMove(bool beMove) noexcept
+{
+    _beTestMove = beMove;
 }

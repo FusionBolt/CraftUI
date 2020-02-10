@@ -1,6 +1,6 @@
 *.xml
+*.bmp
 TodoList
-other.text
 Makefile
 GWUI.cbp
 GWUI

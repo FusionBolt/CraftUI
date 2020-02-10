@@ -31,7 +31,7 @@ namespace GWUI
             SDL_RenderPresent(_renderer.get());
         }
 
-        std::shared_ptr<SDL_Renderer> GetRenderer()
+        std::shared_ptr<SDL_Renderer> GetRenderer() const
         {
             return _renderer;
         }

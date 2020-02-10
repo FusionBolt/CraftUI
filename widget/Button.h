@@ -26,11 +26,6 @@ namespace GWUI
 
     protected:
         void MouseReleaseEvent(const MouseEvent &mouseEvent) override;
-
-        void MousePressEvent(const MouseEvent &mouseEvent) override;
-
-    private:
-        Rectangle _rect;
     };
 }
 

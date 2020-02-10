@@ -20,11 +20,12 @@ namespace GWUI
     class Font
     {
     public:
-        explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/Calisto MT.ttf");
+        explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/PingFang.ttf");
 
         TTF_Font* GetFontPtr() noexcept;
 
         void SetSize(uint16_t size) noexcept;
+
     private:
         std::shared_ptr<TTF_Font> _font;
 

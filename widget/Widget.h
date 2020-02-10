@@ -47,6 +47,8 @@ namespace GWUI
 
         void ShowAllChild() const;
 
+        void SetTestMove(bool beMove) noexcept;
+
     protected:
         friend class Control;
 
@@ -73,6 +75,8 @@ namespace GWUI
         bool _focus = false;
 
         bool _canMove = false;
+
+        bool _beTestMove = true;
     };
 }
 

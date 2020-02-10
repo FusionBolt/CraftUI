@@ -20,15 +20,19 @@ namespace GWUI
 
         void SetGeometry(Rect rect) noexcept override;
 
+        void SetText(std::string text);
+
     protected:
         void KeyPressEvent(const KeyBoardEvent &keyBoardEvent) override;
+
+        void MousePressEvent(const MouseEvent &mouseEvent) override;
 
     private:
         Rectangle _rectangle;
 
         Text _text;
 
-        bool _capsOpen = false;
+        bool _editing = false;
     };
 }
 

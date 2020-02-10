@@ -6,6 +6,8 @@
 #define GWUI_UTIL_HPP
 
 #include <iostream>
+#include <clocale>
+#include <vector>
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -31,6 +33,9 @@ namespace GWUI
     {
         int x, y;
     };
+
+    constexpr auto Black = Color{0,0,0};
+    constexpr auto White = Color{255,255,255};
 
     inline SDL_Texture *LoadIMG(const std::string &filePath, std::shared_ptr<SDL_Renderer> render)
     {
@@ -65,7 +70,7 @@ namespace GWUI
         SDL_RenderCopy(render.get(), texture.get(), &src, &dst);
     }
 
-    inline void RendererLine(std::shared_ptr<SDL_Renderer> renderer, Point p1, Point p2, Color color={255, 255, 255, 255})
+    inline void RendererLine(std::shared_ptr<SDL_Renderer> renderer, Point p1, Point p2, Color color=GWUI::Black)
     {
         SDL_SetRenderDrawColor(renderer.get(), color.r, color.g, color.b, 255);
         SDL_RenderDrawLine(renderer.get(), p1.x, p1.y, p2.x, p2.y);
@@ -99,6 +104,15 @@ namespace GWUI
         return false;
     }
 
+    inline void SetClipboardText(const std::string &str)
+    {
+        SDL_SetClipboardText(str.c_str());
+    }
+
+    inline std::string GetClipboardText()
+    {
+        return SDL_GetClipboardText();
+    }
 }
 
 

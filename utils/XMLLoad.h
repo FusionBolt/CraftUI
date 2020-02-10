@@ -9,6 +9,7 @@
 
 #include "pugixml.hpp"
 #include "../widget/Widget.h"
+#include "../widget/Window.h"
 
 namespace GWUI
 {
@@ -21,7 +22,9 @@ namespace GWUI
 
         void RegisterLoadFun(const std::string& className, FunctionType function);
 
-        void Analysis(std::shared_ptr<GWUI::Widget> parent);
+        void Analysis();
+
+        std::shared_ptr<GWUI::Window> GetWindow();
 
     private:
         void _InitLoadFun();
@@ -31,6 +34,9 @@ namespace GWUI
         std::map<std::string, FunctionType> _loadFun;
 
         pugi::xml_document doc;
+        // TODO:document与node类型不同
+
+        std::shared_ptr<GWUI::Window> _window;
     };
 }
 

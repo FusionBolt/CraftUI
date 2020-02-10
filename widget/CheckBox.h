@@ -13,17 +13,11 @@ namespace GWUI
     class CheckBox : public AbstractButton
     {
     public:
-        explicit CheckBox(const std::string& text = "button");
+        explicit CheckBox(const std::string& text = "CheckBox");
 
         void Draw(Renderer renderer) override;
 
         void SetGeometry(Rect rect) noexcept override;
-
-    protected:
-        void MousePressEvent(const MouseEvent &mouseEvent) override;
-
-    private:
-        Rectangle _checkRectangle;
     };
 }
 

@@ -20,32 +20,38 @@ namespace GWUI
         ComboBox();
 
         void AddItems(const std::vector<std::string>& items);
-        // need &&
-        // void AddItems(std::vector<std::string>&& items);
 
         void AddItem(const std::string& item);
-
-        void AddItem(std::string&& item);
 
         void Draw(Renderer renderer) override;
 
         void OnChanged(std::function<void(const std::string&)> f);
 
+        void SetGeometry(Rect rect) noexcept override;
+
     protected:
         void MousePressEvent(const MouseEvent &mouseEvent) override;
 
     private:
-        int _height; // declare early, other member initialization need this
+        Rect _GetListRectangle();
+
+        bool _clickOnButtonArea(Point position);
+
+        bool _clickOnItems(Point position);
+
+        size_t _GetItemIndexFromPosition(Point position);
+
+        int _height, _width; // declare early, other member initialization need this
 
         std::vector<Text> _items;
 
         Text _currentText;
 
-        Rectangle _mainRectangle, _buttonRectangle, _listRectangle;
+        Rectangle _mainRectangle, _buttonRectangle;
 
-        std::size_t _currentStringIndex;
+        std::size_t _currentStringIndex = 0;
 
-        bool _showList;
+        bool _showList = false;
 
         std::function<void(const std::string&)> _onChanged;
     };

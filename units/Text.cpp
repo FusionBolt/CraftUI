@@ -24,6 +24,8 @@ void GWUI::Text::Draw(Renderer renderer)
 void GWUI::Text::_ResetTexture(Renderer renderer)
 {
     auto ttf = TTF_RenderText_Blended_Wrapped(_font.GetFontPtr(), _text.c_str(), _color, _wrapLength);
+    Uint16 text[] = {0x4F60, 0x597D, 0};
+    // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _color, _wrapLength);
     _texture.reset(
             SDL_CreateTextureFromSurface(renderer.GetRenderer().get(),
                                          ttf),
@@ -40,18 +42,14 @@ void GWUI::Text::SetPosition(Point position) noexcept
 
 void GWUI::Text::PopBackChar()
 {
-    if(!_text.empty())
-    {
-        _text.pop_back();
-    }
-     _dirty = true;
+    _text.pop_back();
+    _dirty = true;
 }
 
 void GWUI::Text::AppendChar(char c)
 {
     _text.append({c});
     _dirty = true;
-    std::cout << _text << std::endl;
 }
 
 void GWUI::Text::SetColor(GWUI::Color color) noexcept
@@ -86,4 +84,21 @@ std::string GWUI::Text::GetText() const noexcept
 GWUI::Color GWUI::Text::GetColor() const noexcept
 {
     return _color;
+}
+
+void GWUI::Text::AppendStr(const std::string& s1)
+{
+    _text.append(s1);
+    _dirty = true;
+}
+
+bool GWUI::Text::IsEmpty() const noexcept
+{
+    return _text.empty();
+}
+
+void GWUI::Text::ClearText()
+{
+    _text.clear();
+    _dirty = true;
 }

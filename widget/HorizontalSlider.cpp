@@ -15,12 +15,12 @@ void GWUI::HorizontalSlider::Draw(GWUI::Renderer renderer)
     _chooseRect.Draw(renderer);
     // all
     RendererLine(renderer.GetRenderer(), Point{x, _geometry.y + 10},
-            Point{x + _lineWidth, _geometry.y + 10}, {0, 252, 0});
+            Point{x + _lineWidth, _geometry.y + 10}, {0, 0, 0});
     // choose
     if(_chooseRect.GetRect().x > x)
     {
         RendererLine(renderer.GetRenderer(), Point{x, _geometry.y + 10},
-        Point{_chooseRect.GetRect().x, _geometry.y + 10}, {0, 0, 255});
+        Point{_chooseRect.GetRect().x, _geometry.y + 10}, {50, 205, 50});
     }
 
     Widget::Draw(renderer);
@@ -41,6 +41,7 @@ void GWUI::HorizontalSlider::SetValue(int value)
 
 void GWUI::HorizontalSlider::SetValueRange(int minSize, int maxSize) noexcept
 {
+    assert(minSize != maxSize);
     _maxSize = maxSize;
     _minSize = minSize;
 }

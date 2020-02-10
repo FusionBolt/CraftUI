@@ -17,9 +17,15 @@ namespace GWUI
     class Window : public Widget
     {
     public:
-        explicit Window(const std::string& title= "GWUI", int width = 1024, int height = 768);
+        explicit Window(const std::string& title = "GWUI", int width = 1024, int height = 768);
 
         void Show() noexcept;
+
+        Renderer GetRenderer() const;
+
+        void SetWindowSize(int width, int height);
+
+        void SetWindowTitle(const std::string& title);
 
     private:
         std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> _window;

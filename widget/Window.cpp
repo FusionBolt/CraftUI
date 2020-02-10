@@ -20,11 +20,17 @@ GWUI::Window::Window(const std::string &title, int width, int height):
     _renderer.SetWindow(_window.get());
 }
 
+GWUI::Renderer GWUI::Window::GetRenderer() const
+{
+    return _renderer;
+}
+
 void GWUI::Window::Show() noexcept
 {
     CrudeEvent e;
     auto c = std::make_shared<Control>();
-    std::cout << "Show" << std::endl;
+    // TODO: 当焦点在可编辑组件当时候开启 性能差距
+    SDL_StartTextInput();
     while (true)
     {
         if (SDL_PollEvent(&e))
@@ -35,19 +41,21 @@ void GWUI::Window::Show() noexcept
                 break;
             }
             c->EventDispatch(e, shared_from_this());
-            //HandleEvent(e);
         }
-//        if(SDL_GetModState() == KMOD_LSHIFT)
-//        {
-//            std::cout << "LSHIFT" << std::endl;
-//        }
-//        else if(SDL_GetModState() == KMOD_CAPS)
-//        {
-//            std::cout << "CAPS" << std::endl;
-//        }
         _renderer.RenderClear();
         Draw(_renderer);
+        SDL_SetRenderDrawColor(_renderer.GetRenderer().get(), 121, 212, 251, 255);
         _renderer.RenderPresent();
         SDL_Delay(10);
     }
+}
+
+void GWUI::Window::SetWindowSize(int width, int height)
+{
+    SDL_SetWindowSize(_window.get(), width, height);
+}
+
+void GWUI::Window::SetWindowTitle(const std::string& title)
+{
+    SDL_SetWindowTitle(_window.get(), title.c_str());
 }

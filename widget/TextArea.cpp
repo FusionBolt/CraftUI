@@ -31,37 +31,71 @@ void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
 void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
     auto event = keyBoardEvent.event;
-    auto input = event.key.keysym.sym;
-    if(input == SDLK_BACKSPACE)
+    auto pressKey = event.key.keysym.sym;
+    if(event.type == SDL_TEXTINPUT)
     {
-        _text.PopBackChar();
+        auto inputText = event.text.text;
+        std::cout << "text input:" << inputText << std::endl;
+        _text.AppendStr(inputText);
+        _editing = false;
     }
-    else if(input == SDLK_CAPSLOCK)
+    else if(event.type == SDL_TEXTEDITING)
     {
-        _capsOpen = !_capsOpen;
+        _editing = true;
+        std::cout << "text editing" << std::endl;
+        auto composition = event.edit.text;
+        auto cursor = event.edit.start;
+        auto selection_len = event.edit.length;
+        std::cout << "composition:" << composition << std::endl;
+        std::cout << "cursor:" << cursor << std::endl;
+        std::cout << "selection_len:" << selection_len << std::endl;
     }
-    else if(input == SDLK_SPACE)
+    else if(event.type == SDL_KEYDOWN)
     {
-        _text.AppendChar(' ');
-    }
-    else if(input == SDLK_KP_ENTER || input == SDLK_RETURN)
-    {
-        _text.AppendChar('\n');
-    }
-    else
-    {
-        auto keyName = std::string(SDL_GetKeyName(event.key.keysym.sym));
-        if(!_capsOpen)
+        std::cout << "key down" << std::endl;
+        if (pressKey == SDLK_BACKSPACE && !_text.IsEmpty())
         {
-            std::transform(keyName.begin(), keyName.end(), keyName.begin(), ::towlower);
+            // TODO: different OS  shortcut key
+            if (SDL_GetModState() & KMOD_GUI)
+            {
+                _text.ClearText();
+                // TODO: clear line or all text
+                // TODO: clear word
+            }
+            else
+            {
+                _text.PopBackChar();
+            }
         }
-        std::cout << "input:" << keyName << std::endl;
-        if(keyName.size() > 1)
+        else if (pressKey == SDLK_c && SDL_GetModState() & KMOD_GUI)
         {
-            std::cout << "size > 1" << std::endl;
+            std::cout << "set clip board" << std::endl;
+            SetClipboardText("clip");
         }
-        _text.AppendChar(keyName[0]);
+        else if (pressKey == SDLK_v && SDL_GetModState() & KMOD_GUI)
+        {
+            std::cout << "get clip board" << std::endl;
+            _text.AppendStr(GetClipboardText());
+        }
+        else if (pressKey == SDLK_RETURN && !_editing)
+        {
+            _text.AppendChar('\n');
+        }
     }
     Widget::KeyPressEvent(keyBoardEvent);
 }
 
+void GWUI::TextArea::SetText(std::string text)
+{
+    _text.SetText(std::move(text));
+}
+
+void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
+{
+    auto event = mouseEvent.GetEvent();
+    if(event.button.clicks == 2)
+    {
+        SetClipboardText(_text.GetText());
+    }
+    Widget::MousePressEvent(mouseEvent);
+}
