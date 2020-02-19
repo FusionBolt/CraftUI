@@ -18,12 +18,16 @@ int main()
     GWUI::System system;
     GWUI::XMLLoad l("/Users/fusionbolt/CLionProjects/GWUI/test.xml");
     l.Analysis();
-    auto w = l.GetWindow();
+    auto w = l.GetRoot<GWUI::Window>();
 
     auto label = w->FindChild<GWUI::Label>("textLabel");
     auto comboBox = w->FindChild<GWUI::ComboBox>("comboBox1");
-    comboBox->OnChanged([=](const std::string &nowText)
-                        { label->SetText(nowText); });
+
+    if(label != nullptr && comboBox != nullptr)
+    {
+        comboBox->OnChanged([=](const std::string &nowText)
+                            { label->SetText(nowText); });
+    }
     w->FindChild<GWUI::Button>("buttonMsgBox")->OnClicked([](bool){
         GWUI::MessageBox("There is some msg", "MsgBox").Show();
     });

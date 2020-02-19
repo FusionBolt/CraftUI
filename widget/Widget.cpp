@@ -25,11 +25,11 @@ void GWUI::Widget::Draw(GWUI::Renderer renderer)
     r4.x = r1.x + GetGeometry().w;
     r4.y = r1.y + GetGeometry().h;
 
-    RendererRectangle(renderer.GetRenderer(), r1,c);
-    RendererRectangle(renderer.GetRenderer(), r2,c);
-    RendererRectangle(renderer.GetRenderer(), r3,c);
-    RendererRectangle(renderer.GetRenderer(), r4,c);
-    RendererRectangle(renderer.GetRenderer(), GetGeometry(), c, false);
+    renderer.RendererRectangle(r1,c);
+    renderer.RendererRectangle(r2,c);
+    renderer.RendererRectangle(r3,c);
+    renderer.RendererRectangle(r4,c);
+    renderer.RendererRectangle(GetGeometry(), c, false);
 }
 
 void GWUI::Widget::SetGeometry(GWUI::Rect rect) noexcept

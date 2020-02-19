@@ -24,7 +24,12 @@ namespace GWUI
 
         void Analysis();
 
-        std::shared_ptr<GWUI::Window> GetWindow();
+        template<typename T>
+        std::shared_ptr<T> GetRoot()
+        {
+            static_assert(std::is_base_of_v<GWUI::Widget, T>, "T should is base of GWUI::Widget");
+            return std::dynamic_pointer_cast<T>(_window);
+        }
 
     private:
         void _InitLoadFun();
@@ -34,9 +39,8 @@ namespace GWUI
         std::map<std::string, FunctionType> _loadFun;
 
         pugi::xml_document doc;
-        // TODO:document与node类型不同
 
-        std::shared_ptr<GWUI::Window> _window;
+        std::shared_ptr<GWUI::Widget> _window;
     };
 }
 

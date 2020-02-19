@@ -13,7 +13,7 @@ GWUI::Button::Button(const std::string &text):
 void GWUI::Button::Draw(Renderer renderer)
 {
     Widget::Draw(renderer);
-    RendererRectangle(renderer.GetRenderer(), GetGeometry(), {255, 255, 255});
+    renderer.RendererRectangle(GetGeometry(), {255, 255, 255});
     _text.Draw(renderer);
 }
 

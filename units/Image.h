@@ -8,6 +8,7 @@
 #include <string>
 
 #include "../utils/Util.hpp"
+#include "../units/Renderer.h"
 
 namespace GWUI
 {

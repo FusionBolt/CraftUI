@@ -85,8 +85,3 @@ void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWU
         }
     }
 }
-
-std::shared_ptr<GWUI::Window> GWUI::XMLLoad::GetWindow()
-{
-    return _window;
-}

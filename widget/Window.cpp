@@ -3,13 +3,15 @@
 //
 
 #include <iostream>
+#include <SDL_image.h>
 
 #include "Window.h"
 #include "SDL_ttf.h"
 #include "../core/Control.h"
+#include "../Player.h"
 
 GWUI::Window::Window(const std::string &title, int width, int height):
-    _window(nullptr, SDL_DestroyWindow), Widget()
+    _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface), Widget()
 {
     _window.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN)); // | SDL_WINDOW_ALLOW_HIGHDPI
@@ -18,6 +20,8 @@ GWUI::Window::Window(const std::string &title, int width, int height):
         throw std::runtime_error("Create Window Failed");
     }
     _renderer.SetWindow(_window.get());
+
+    SetWindowIcon("/Users/fusionbolt/Pictures/AlfredIcon/pmwk.png");
 }
 
 GWUI::Renderer GWUI::Window::GetRenderer() const
@@ -25,10 +29,14 @@ GWUI::Renderer GWUI::Window::GetRenderer() const
     return _renderer;
 }
 
-void GWUI::Window::Show() noexcept
+void GWUI::Window::Show()
 {
     CrudeEvent e;
     auto c = std::make_shared<Control>();
+
+    // Player player("/Users/fusionbolt/Movies/[BD适用]【银庭字幕组】[魔法少女小圆新篇 叛逆的物语][简繁外挂字幕][附考据]ver1.02/叛逆的物语.mkv", _renderer);
+    // Player player("/Users/fusionbolt/Movies/27.mp4", _renderer);
+    // Player player("/Users/fusionbolt/Music/suisei.mp4", _renderer);
     // TODO: 当焦点在可编辑组件当时候开启 性能差距
     SDL_StartTextInput();
     while (true)
@@ -44,9 +52,9 @@ void GWUI::Window::Show() noexcept
         }
         _renderer.RenderClear();
         Draw(_renderer);
-        SDL_SetRenderDrawColor(_renderer.GetRenderer().get(), 121, 212, 251, 255);
+        _renderer.SetRenderDrawColor({121, 212, 251, 255});
         _renderer.RenderPresent();
-        SDL_Delay(10);
+        SDL_Delay(7);
     }
 }
 
@@ -58,4 +66,14 @@ void GWUI::Window::SetWindowSize(int width, int height)
 void GWUI::Window::SetWindowTitle(const std::string& title)
 {
     SDL_SetWindowTitle(_window.get(), title.c_str());
+}
+
+void GWUI::Window::SetWindowIcon(const std::string& path)
+{
+    SDL_SetWindowIcon(_window.get(), IMG_Load(path.c_str()));
+}
+
+void GWUI::Window::SetBackgroundColor(Color color)
+{
+    _backgroundColor = color;
 }

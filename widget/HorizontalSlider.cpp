@@ -15,12 +15,12 @@ void GWUI::HorizontalSlider::Draw(GWUI::Renderer renderer)
     auto x = _geometry.x;
     _chooseRect.Draw(renderer);
     // all
-    RendererLine(renderer.GetRenderer(), Point{x, _geometry.y + 10},
+    renderer.RendererLine(Point{x, _geometry.y + 10},
             Point{x + _lineWidth, _geometry.y + 10}, {0, 0, 0});
     // choose
     if(_chooseRect.GetRect().x > x)
     {
-        RendererLine(renderer.GetRenderer(), Point{x, _geometry.y + 10},
+        renderer.RendererLine(Point{x, _geometry.y + 10},
         Point{_chooseRect.GetRect().x, _geometry.y + 10}, {50, 205, 50});
     }
 

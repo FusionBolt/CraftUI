@@ -13,9 +13,9 @@ void GWUI::Image::Draw(GWUI::Renderer renderer)
 {
     if(_imgTexture == nullptr)
     {
-        _imgTexture.reset(LoadIMG(_imgPath, renderer.GetRenderer()), SDL_DestroyTexture);
+        _imgTexture = renderer.LoadIMG(_imgPath);
     }
-    RenderTexture(_imgTexture, renderer.GetRenderer(), _rect);
+    renderer.RenderTexture(_imgTexture, _rect);
 }
 
 void GWUI::Image::SetRect(GWUI::Rect rect)

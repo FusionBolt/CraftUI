@@ -7,10 +7,11 @@
 
 #include <vector>
 #include <queue>
-#include "../units/Renderer.hpp"
+#include "../units/Renderer.h"
 #include "../utils/Util.hpp"
 #include "../core/Object.hpp"
 #include "../core/Event.h"
+#include "../units/Renderer.h"
 
 namespace GWUI
 {
@@ -64,7 +65,7 @@ namespace GWUI
 
         virtual void MouseMotionEvent(const MouseEvent &mouseEvent);
 
-        virtual ~Widget() = default;
+        ~Widget() override = default;
 
         Rect _geometry = {0,0,0,0};
 

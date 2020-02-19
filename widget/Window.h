@@ -9,7 +9,7 @@
 
 #include "../utils/Util.hpp"
 #include "SDL.h"
-#include "../units/Renderer.hpp"
+#include "../units/Renderer.h"
 #include "Widget.h"
 
 namespace GWUI
@@ -19,7 +19,7 @@ namespace GWUI
     public:
         explicit Window(const std::string& title = "GWUI", int width = 1024, int height = 768);
 
-        void Show() noexcept;
+        void Show();
 
         Renderer GetRenderer() const;
 
@@ -27,10 +27,18 @@ namespace GWUI
 
         void SetWindowTitle(const std::string& title);
 
+        void SetWindowIcon(const std::string& path);
+
+        void SetBackgroundColor(Color color);
+
     private:
         std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> _window;
 
+        std::unique_ptr<SDL_Surface, void(*)(SDL_Surface*)> _icon;
+
         Renderer _renderer;
+
+        Color _backgroundColor;
     };
 }
 

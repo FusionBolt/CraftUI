@@ -5,7 +5,7 @@
 #ifndef GWUI_RECTANGLE_HPP
 #define GWUI_RECTANGLE_HPP
 
-#include "../utils/Util.hpp"
+#include "Renderer.h"
 
 namespace GWUI
 {
@@ -22,7 +22,7 @@ namespace GWUI
 
         void Draw(Renderer renderer)
         {
-            RendererRectangle(renderer.GetRenderer(), _rect, _color);
+            renderer.RendererRectangle(_rect, _color);
         }
 
         void SetColor(Color color) noexcept { _color = color; }

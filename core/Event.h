@@ -6,11 +6,14 @@
 #define GWUI_EVENT_H
 
 #include <array>
+#include <SDL.h>
 
 #include "../utils/Util.hpp"
 
 namespace GWUI
 {
+    using CrudeEvent = SDL_Event;
+
     class Event
     {
     public:
@@ -62,6 +65,30 @@ namespace GWUI
         Point _position;
         CrudeEvent _event;
     };
+
+    inline void SetClipboardText(const std::string &str)
+    {
+        SDL_SetClipboardText(str.c_str());
+    }
+
+    inline std::string GetClipboardText()
+    {
+        return SDL_GetClipboardText();
+    }
+
+    inline bool JudgeCoincide(Point mousePosition, SDL_Rect rect)
+    {
+        auto mouseX = mousePosition.x;
+        auto mouseY = mousePosition.y;
+        if (mouseX > rect.x && mouseX < rect.x + rect.w)
+        {
+            if (mouseY > rect.y && mouseY < rect.y + rect.h)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 #endif //GWUI_EVENT_H

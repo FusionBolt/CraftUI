@@ -9,7 +9,7 @@
 
 #include "../units/Text.h"
 #include "../units/Rectangle.hpp"
-#include "../units/Renderer.hpp"
+#include "../units/Renderer.h"
 #include "Widget.h"
 #include "AbstractButton.h"
 

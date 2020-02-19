@@ -18,7 +18,7 @@ void GWUI::Text::Draw(Renderer renderer)
         _ResetTexture(renderer);
         _dirty = false;
     }
-    RenderTexture(_texture, renderer.GetRenderer(), _position);
+    renderer.RenderTexture(_texture, _position);
 }
 
 void GWUI::Text::_ResetTexture(Renderer renderer)
@@ -27,7 +27,7 @@ void GWUI::Text::_ResetTexture(Renderer renderer)
     Uint16 text[] = {0x4F60, 0x597D, 0};
     // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _color, _wrapLength);
     _texture.reset(
-            SDL_CreateTextureFromSurface(renderer.GetRenderer().get(),
+            SDL_CreateTextureFromSurface(renderer.GetRenderer(),
                                          ttf),
             SDL_DestroyTexture
     );

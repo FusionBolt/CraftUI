@@ -35,6 +35,8 @@ namespace GWUI
     protected:
         friend class ButtonGroup;
 
+        ~AbstractButton() override = default;
+
         void MousePressEvent(const MouseEvent &mouseEvent) override;
 
         void _SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);

@@ -9,7 +9,7 @@
 
 #include "SDL.h"
 #include "Font.h"
-#include "../utils/Util.hpp"
+#include "Renderer.h"
 
 namespace GWUI
 {
