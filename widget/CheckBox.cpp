@@ -11,7 +11,7 @@ GWUI::CheckBox::CheckBox(const std::string& text) :
 
 }
 
-void GWUI::CheckBox::Draw(GWUI::Renderer renderer)
+void GWUI::CheckBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     renderer.RendererRectangle(_checkedRectangle, GWUI::White);

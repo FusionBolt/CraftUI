@@ -31,6 +31,11 @@ namespace GWUI
 
         void SetBackgroundColor(Color color);
 
+        std::tuple<int, int> GetWindowSize();
+
+    protected:
+        friend class Renderer;
+
     private:
         std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> _window;
 

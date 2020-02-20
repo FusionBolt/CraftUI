@@ -7,7 +7,7 @@
 
 void GWUI::Control::SetFocusWidget(Widget::Ptr widget)
 {
-    _currentFocusWidget = widget;
+    _currentFocusWidget = std::move(widget);
 }
 
 int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
@@ -67,13 +67,7 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
     }
     if(event.key.keysym.sym == SDLK_PRINTSCREEN)
     {
-        auto renderer = std::dynamic_pointer_cast<GWUI::Window>(widget)->GetRenderer().GetRenderer();
-        std::cout << "print screen" << std::endl;
-        SDL_Surface *sshot = SDL_CreateRGBSurface(0, 1024, 768, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-        SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
-        SDL_SaveBMP(sshot, "screenshot.bmp");
-        SDL_FreeSurface(sshot);
-        //  about screenshot
-        //  https://stackoverflow.com/questions/22315980/sdl2-c-taking-a-screenshot
+        // TODO: 不是window?
+        std::dynamic_pointer_cast<GWUI::Window>(widget)->GetRenderer().ScreenShot();
     }
 }

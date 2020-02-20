@@ -23,15 +23,12 @@ void GWUI::Text::Draw(Renderer renderer)
 
 void GWUI::Text::_ResetTexture(Renderer renderer)
 {
-    auto ttf = TTF_RenderText_Blended_Wrapped(_font.GetFontPtr(), _text.c_str(), _color, _wrapLength);
+    std::shared_ptr<SDL_Surface> ttf(
+            TTF_RenderText_Blended_Wrapped(_font.GetFontPtr(), _text.c_str(), _color, _wrapLength),
+            SDL_FreeSurface);
     Uint16 text[] = {0x4F60, 0x597D, 0};
     // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _color, _wrapLength);
-    _texture.reset(
-            SDL_CreateTextureFromSurface(renderer.GetRenderer(),
-                                         ttf),
-            SDL_DestroyTexture
-    );
-    SDL_FreeSurface(ttf);
+    _texture = renderer.CreateTextureFromSurface(ttf);
 }
 
 void GWUI::Text::SetPosition(Point position) noexcept

@@ -9,7 +9,7 @@ GWUI::LineEdit::LineEdit() : Widget()
 
 }
 
-void GWUI::LineEdit::Draw(GWUI::Renderer renderer)
+void GWUI::LineEdit::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _rect.Draw(renderer);

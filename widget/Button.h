@@ -20,7 +20,7 @@ namespace GWUI
     public:
         explicit Button(const std::string& text = "Untitled");
 
-        void Draw(Renderer renderer) override;
+        void Draw(Renderer &renderer) override;
 
         void SetGeometry(Rect rect) noexcept override;
 

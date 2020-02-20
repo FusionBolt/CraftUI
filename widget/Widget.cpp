@@ -5,7 +5,7 @@
 #include "Widget.h"
 #include "Button.h"
 
-void GWUI::Widget::Draw(GWUI::Renderer renderer)
+void GWUI::Widget::Draw(Renderer &renderer)
 {
     for(const auto& child : _childs)
     {
@@ -42,9 +42,8 @@ GWUI::Rect GWUI::Widget::GetGeometry() const noexcept
     return _geometry;
 }
 
-GWUI::Widget::Ptr GWUI::Widget::_findChild(std::function<bool(Widget::Ptr)> checkFun)
+GWUI::Widget::Ptr GWUI::Widget::_findChild(const std::function<bool(Widget::Ptr)>& checkFun)
 {
-    //TODO:嵌套组件查询,一层一层的查
     std::queue<std::shared_ptr<Widget>> q;
     std::vector<std::shared_ptr<Widget>> v;
     for(auto& child : _childs)

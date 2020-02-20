@@ -15,7 +15,7 @@ namespace GWUI
     public:
         explicit CheckBox(const std::string& text = "CheckBox");
 
-        void Draw(Renderer renderer) override;
+        void Draw(Renderer &renderer) override;
 
         void SetGeometry(Rect rect) noexcept override;
     };

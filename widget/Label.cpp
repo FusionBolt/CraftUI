@@ -9,7 +9,7 @@ GWUI::Label::Label(const std::string &text) : Widget(), _text(text)
 
 }
 
-void GWUI::Label::Draw(GWUI::Renderer renderer)
+void GWUI::Label::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _text.Draw(renderer);

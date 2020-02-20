@@ -28,7 +28,7 @@ void GWUI::ComboBox::AddItem(const std::string &item)
     _items.push_back(text);
 }
 
-void GWUI::ComboBox::Draw(Renderer renderer)
+void GWUI::ComboBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     renderer.RendererRectangle( _geometry, GWUI::White);

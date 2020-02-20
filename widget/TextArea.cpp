@@ -12,7 +12,7 @@ GWUI::TextArea::TextArea(GWUI::Rect rect):
     _rectangle.SetColor({128, 128, 128});
 }
 
-void GWUI::TextArea::Draw(Renderer renderer)
+void GWUI::TextArea::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _rectangle.Draw(renderer);

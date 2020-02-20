@@ -17,7 +17,7 @@ namespace GWUI
     class Event
     {
     public:
-        Event() = default;
+        Event() noexcept = default;
 
     private:
         int _eventType;
@@ -55,11 +55,11 @@ namespace GWUI
     class MouseEvent : public Event
     {
     public:
-        explicit MouseEvent(CrudeEvent event) : _event(event){}
+        explicit MouseEvent(CrudeEvent event) noexcept: _event(event){}
 
-        Point GetPosition() const {return {_event.motion.x, _event.motion.y};}
+        Point GetPosition() const noexcept {return {_event.motion.x, _event.motion.y};}
 
-        CrudeEvent GetEvent() const {return _event;}
+        CrudeEvent GetEvent() const noexcept {return _event;}
 
     private:
         Point _position;
@@ -76,7 +76,7 @@ namespace GWUI
         return SDL_GetClipboardText();
     }
 
-    inline bool JudgeCoincide(Point mousePosition, SDL_Rect rect)
+    inline bool JudgeCoincide(Point mousePosition, SDL_Rect rect) noexcept
     {
         auto mouseX = mousePosition.x;
         auto mouseY = mousePosition.y;

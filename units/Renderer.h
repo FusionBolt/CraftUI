@@ -18,18 +18,18 @@ namespace GWUI
     constexpr auto Black = Color{0,0,0};
     constexpr auto White = Color{255,255,255};
 
+    class Window;
+
     class Renderer
     {
     public:
         Renderer():_renderer(nullptr, SDL_DestroyRenderer){}
 
-        void SetWindow(SDL_Window* window);
+        void SetWindow(Window* window);
 
         void RenderClear();
 
         void RenderPresent();
-
-        SDL_Renderer* GetRenderer() const;
 
         void RenderTexture(std::shared_ptr<SDL_Texture> texture, Point point);
 
@@ -39,12 +39,27 @@ namespace GWUI
 
         void RendererRectangle(Rect rect, Color color, bool needFill = true);
 
-        std::shared_ptr<SDL_Texture> LoadIMG(const std::string &filePath);
+        void RendererCopy(const std::shared_ptr<SDL_Texture>& texture);
 
         void SetRenderDrawColor(Color color);
 
+        void ScreenShot(Rect rect) const;
+
+        void ScreenShot() const;
+
+        std::shared_ptr<SDL_Texture> LoadIMG(const std::string &filePath) const;
+
+        std::shared_ptr<SDL_Texture> CreateTexture(uint32_t format, int access, int w, int h) const;
+
+        std::shared_ptr<SDL_Texture> CreateTextureFromSurface(const std::shared_ptr<SDL_Surface>& surface) const;
+
     private:
+        void _ScreenShot(Rect rect) const;
+
         std::shared_ptr<SDL_Renderer>  _renderer;
+
+        // can't create smart ptr when constructor
+        Window* _window;
     };
 }
 

@@ -9,7 +9,7 @@ GWUI::HorizontalSlider::HorizontalSlider() : Widget()
 
 }
 
-void GWUI::HorizontalSlider::Draw(GWUI::Renderer renderer)
+void GWUI::HorizontalSlider::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     auto x = _geometry.x;

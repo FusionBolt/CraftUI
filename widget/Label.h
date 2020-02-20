@@ -17,7 +17,7 @@ namespace GWUI
     public:
         explicit Label(const std::string& text = "");
 
-        void Draw(Renderer renderer) override;
+        void Draw(Renderer &renderer) override;
 
         void SetFontSize(uint16_t size);
 

@@ -26,12 +26,10 @@ GWUI::Player::Player(const std::string& path, GWUI::Renderer renderer):
 
     if(_texture == nullptr)
     {
-        _texture.reset(SDL_CreateTexture(
-                renderer.GetRenderer(),
-                SDL_PIXELFORMAT_IYUV,
+        _texture = renderer.CreateTexture(SDL_PIXELFORMAT_IYUV,
                 SDL_TEXTUREACCESS_STREAMING,
                 _videoCodecContext->width,
-                _videoCodecContext->height), SDL_DestroyTexture);
+                _videoCodecContext->height);
     }
 
     _ThreadStart();
@@ -64,7 +62,7 @@ void GWUI::Player::Draw(GWUI::Renderer renderer)
             _frame = nullptr;
         }
     }
-    SDL_RenderCopy(renderer.GetRenderer(), _texture.get(), nullptr, nullptr);
+    renderer.RendererCopy(_texture);
     pthread_mutex_unlock(&_frameMutex);
 }
 

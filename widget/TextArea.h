@@ -16,7 +16,7 @@ namespace GWUI
     public:
         explicit TextArea(Rect rect = {});
 
-        void Draw(Renderer renderer) override;
+        void Draw(Renderer &renderer) override;
 
         void SetGeometry(Rect rect) noexcept override;
 

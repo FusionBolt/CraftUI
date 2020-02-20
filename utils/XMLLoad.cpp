@@ -16,11 +16,11 @@ GWUI::XMLLoad::XMLLoad(const std::string &path)
     pugi::xml_parse_result result = doc.load_file(path.c_str());
     if(result)
     {
-    std::cout << "XML Load result:" << result.description() << std::endl;
+        std::cout << "XML Load result:" << result.description() << std::endl;
     }
     else
     {
-        std::cout << "XML Load failed" << std::endl;
+        throw "XML LoadFailed";
     }
     _InitLoadFun();
     std::cout << doc.child("widget").attribute("name").value() << "!!!!!!!!!!!!!!!!!!!" << std::endl;

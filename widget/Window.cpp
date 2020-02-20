@@ -10,8 +10,9 @@
 #include "../core/Control.h"
 #include "../Player.h"
 
-GWUI::Window::Window(const std::string &title, int width, int height):
-    _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface), Widget()
+GWUI::Window::Window(const std::string &title, int width, int height):Widget(),
+    _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface),
+    _backgroundColor({121, 212, 251, 255})
 {
     _window.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN)); // | SDL_WINDOW_ALLOW_HIGHDPI
@@ -19,7 +20,7 @@ GWUI::Window::Window(const std::string &title, int width, int height):
     {
         throw std::runtime_error("Create Window Failed");
     }
-    _renderer.SetWindow(_window.get());
+    _renderer.SetWindow(this);
 
     SetWindowIcon("/Users/fusionbolt/Pictures/AlfredIcon/pmwk.png");
 }
@@ -52,7 +53,7 @@ void GWUI::Window::Show()
         }
         _renderer.RenderClear();
         Draw(_renderer);
-        _renderer.SetRenderDrawColor({121, 212, 251, 255});
+        _renderer.SetRenderDrawColor(_backgroundColor);
         _renderer.RenderPresent();
         SDL_Delay(7);
     }
@@ -76,4 +77,11 @@ void GWUI::Window::SetWindowIcon(const std::string& path)
 void GWUI::Window::SetBackgroundColor(Color color)
 {
     _backgroundColor = color;
+}
+
+std::tuple<int, int> GWUI::Window::GetWindowSize()
+{
+    int w, h;
+    SDL_GetWindowSize(_window.get(), &w, &h);
+    return {w, h};
 }

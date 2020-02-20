@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget class="Window" name="mainWindow">
+    <property>
+        <geometry>
+            <x>0</x>
+            <y>0</y>
+            <width>1024</width>
+            <height>768</height>
+        </geometry>
+        <title>GWUI</title>
+    </property>
+    <widget class="Button" name="button1">
+        <property>
+            <string>first</string>
+            <geometry>
+                <x>10</x>
+                <y>10</y>
+                <width>100</width>
+                <height>50</height>
+            </geometry>
+        </property>
+    </widget>
+    <widget class="Button" name="buttonDialog">
+        <property>
+            <string>buttonDialog</string>
+            <geometry>
+                <x>10</x>
+                <y>80</y>
+                <width>100</width>
+                <height>50</height>
+            </geometry>
+        </property>
+    </widget>
+    <widget class="Button" name="buttonMsgBox">
+        <property>
+            <string>MessageBox</string>
+            <geometry>
+                <x>10</x>
+                <y>150</y>
+                <width>100</width>
+                <height>50</height>
+            </geometry>
+        </property>
+    </widget>
+    <widget class="TextArea" name="textArea1">
+        <property>
+            <string></string>
+            <geometry>
+                <x>150</x>
+                <y>10</y>
+                <width>200</width>
+                <height>200</height>
+            </geometry>
+        </property>
+    </widget>
+    <widget class="ComboBox" name="comboBox1">
+        <property>
+            <geometry>
+                <x>100</x>
+                <y>250</y>
+                <width>60</width>
+                <height>20</height>
+            </geometry>
+            <itemList>
+                <item>A</item>
+                <item>B</item>
+                <item>C</item>
+            </itemList>
+        </property>
+    </widget>
+    <widget class="Label" name="textLabel">
+        <property>
+            <string>fps</string>
+            <geometry>
+                <x>250</x>
+                <y>450</y>
+                <width>50</width>
+                <height>25</height>
+            </geometry>
+            <fontSize>
+                20
+            </fontSize>
+        </property>
+    </widget>
+    <widget class="VerticalLayout" name="verticalLayout">
+        <property>
+            <geometry>
+                <x>420</x>
+                <y>40</y>
+                <width>120</width>
+                <height>150</height>
+            </geometry>
+        </property>
+        <widget class="CheckBox" name="checkBox1">
+            <property>
+                <string>checkBox1</string>
+            </property>
+        </widget>
+        <widget class="CheckBox" name="checkBox2">
+            <property>
+                <string>checkBox2</string>
+            </property>
+        </widget>
+        <widget class="CheckBox" name="checkBox3">
+            <property>
+                <string>checkBox3</string>
+            </property>
+        </widget>
+    </widget>
+    <widget class="HorizontalSlider" name="horizontalSlider">
+        <property>
+            <geometry>
+                <x>300</x>
+                <y>300</y>
+                <width>150</width>
+                <height>20</height>
+            </geometry>
+            <range>
+                <min>-100</min>
+                <max>100</max>
+            </range>
+        </property>
+    </widget>
+    <widget class="HorizontalSlider" name="horizontalSlider">
+        <property>
+            <geometry>
+                <x>300</x>
+                <y>500</y>
+                <width>150</width>
+                <height>20</height>
+            </geometry>
+            <range>
+                <min>50</min>
+                <max>150</max>
+            </range>
+        </property>
+    </widget>
+    <widget class="LineEdit" name="lineEdit">
+        <property>
+            <geometry>
+                <x>300</x>
+                <y>700</y>
+                <width>100</width>
+                <height>25</height>
+            </geometry>
+        </property>
+    </widget>
+</widget>

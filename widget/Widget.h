@@ -18,11 +18,13 @@ namespace GWUI
     class Widget : public Object, public std::enable_shared_from_this<Widget>
     {
     public:
+        // TODO:widget parent shared_ptr or weak_ptr
+        // if weak_ptr , use weak_from_this instead of shared_from_this() in SetParent
         using Ptr = std::shared_ptr<Widget>;
 
         Widget() = default;
 
-        virtual void Draw(Renderer renderer);
+        virtual void Draw(Renderer &renderer);
 
         virtual void SetGeometry(Rect rect) noexcept;
 
@@ -53,7 +55,7 @@ namespace GWUI
     protected:
         friend class Control;
 
-        Ptr _findChild(std::function<bool(Widget::Ptr)> checkFun);
+        Ptr _findChild(const std::function<bool(Widget::Ptr)>& checkFun);
 
         virtual void KeyPressEvent(const KeyBoardEvent &keyBoardEvent){}
 
