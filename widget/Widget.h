@@ -48,9 +48,17 @@ namespace GWUI
             }));
         }
 
+        template<typename T = Widget>
+        std::shared_ptr<T> FindChild(const std::function<bool(Widget::Ptr)>& condition)
+        {
+            return std::dynamic_pointer_cast<T>(_findChild(condition));
+        }
+
         void ShowAllChild() const;
 
         void SetTestMove(bool beMove) noexcept;
+
+        void SetFocus(bool focus) noexcept;
 
     protected:
         friend class Control;

@@ -8,6 +8,7 @@
 #include <string>
 
 #include "SDL_ttf.h"
+#include "Renderer.h"
 
 namespace GWUI
 {
@@ -22,7 +23,7 @@ namespace GWUI
     public:
         explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/PingFang.ttf");
 
-        TTF_Font* GetFontPtr() noexcept;
+        std::shared_ptr<SDL_Surface> RenderTextBlendedWrapped(const std::string& text, Color color,int wrapLength);
 
         void SetSize(uint16_t size) noexcept;
 

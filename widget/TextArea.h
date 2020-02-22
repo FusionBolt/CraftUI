@@ -22,6 +22,10 @@ namespace GWUI
 
         void SetText(std::string text);
 
+        void SetReadOnly(bool isReadOnly);
+
+        bool IsReadOnly();
+
     protected:
         void KeyPressEvent(const KeyBoardEvent &keyBoardEvent) override;
 
@@ -33,6 +37,8 @@ namespace GWUI
         Text _text;
 
         bool _editing = false;
+
+        bool _readOnly = false;
     };
 }
 

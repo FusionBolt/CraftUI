@@ -21,11 +21,12 @@ namespace GWUI
 {
     using WidgetPtr = std::shared_ptr<GWUI::Widget>;
 
+    // TODO:不存在则设定默认值
     inline WidgetPtr LoadButton(const pugi::xml_node& node)
     {
         auto button = std::make_shared<GWUI::Button>();
         auto property = node.child("property");
-        auto buttonText = property.child("string").child_value();
+        auto buttonText = property.child_value("string");
         button->SetText(buttonText);
         button->OnClicked([=](bool){std::cout << "OnClick:" << button->GetObjectName() << std::endl;});
         return button;
@@ -53,10 +54,17 @@ namespace GWUI
     {
         auto label = std::make_shared<GWUI::Label>();
         auto property = node.child("property");
-        label->SetText(property.child_value("string"));
-        label->SetFontSize(std::stoi(property.child_value("fontSize")));
-        label->SetPosition({std::stoi(property.child("geometry").child_value("x")),
-                            std::stoi(property.child("geometry").child_value("y"))});
+        if(auto img = property.child("image"))
+        {
+            label->SetPicture(Image(img.child_value("path")));
+        }
+        else
+        {
+            label->SetText(property.child_value("string"));
+            label->SetFontSize(std::stoi(property.child_value("fontSize")));
+            label->SetPosition({std::stoi(property.child("geometry").child_value("x")),
+                                std::stoi(property.child("geometry").child_value("y"))});
+        }
         return label;
     }
 

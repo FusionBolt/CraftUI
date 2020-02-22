@@ -21,8 +21,6 @@ namespace GWUI
 
         void Show();
 
-        Renderer GetRenderer() const;
-
         void SetWindowSize(int width, int height);
 
         void SetWindowTitle(const std::string& title);
@@ -32,6 +30,8 @@ namespace GWUI
         void SetBackgroundColor(Color color);
 
         std::tuple<int, int> GetWindowSize();
+
+        void ScreenShot() const;
 
     protected:
         friend class Renderer;

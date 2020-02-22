@@ -108,3 +108,8 @@ void GWUI::Widget::SetTestMove(bool beMove) noexcept
 {
     _beTestMove = beMove;
 }
+
+void GWUI::Widget::SetFocus(bool focus) noexcept
+{
+    _focus = focus;
+}

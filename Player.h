@@ -24,7 +24,6 @@ extern "C"
 
 namespace GWUI
 {
-    //TODO:replace
 constexpr auto VideoQueueMaxSize = 300;
 constexpr auto AudioQueueMaxSize = 700;
 // constexpr auto AudioSampleBufferSize = 2048;
@@ -35,9 +34,9 @@ constexpr auto SampleByte = 2;
     class Player
     {
     public:
-        Player(const std::string& path, GWUI::Renderer renderer);
+        Player(const std::string& path, const GWUI::Renderer& renderer);
 
-        void Draw(Renderer renderer);
+        void Draw(Renderer &renderer);
 
         ~Player();
 

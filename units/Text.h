@@ -19,7 +19,7 @@ namespace GWUI
     public:
         explicit Text(std::string text = "", uint16_t size = 15, const Color &color = GWUI::Black, uint32_t wrapLength = 200);
 
-        void Draw(Renderer renderer);
+        void Draw(Renderer& renderer);
 
         void SetPosition(Point position) noexcept;
 
@@ -37,16 +37,22 @@ namespace GWUI
 
         void AppendStr(const std::string& s1);
 
+        void PopBackWord();
+
+        void PopBackLine();
+
         std::string GetText() const noexcept;
 
-        Color GetColor() const noexcept;
+        Color GetFontColor() const noexcept;
 
         void SetFontSize(uint16_t size) noexcept;
 
         bool IsEmpty() const noexcept;
 
     private:
-        void _ResetTexture(Renderer renderer);
+        void _ResetTexture(Renderer& renderer);
+
+        bool _IsSpacer(char c);
 
         Point _position;
 

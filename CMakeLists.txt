@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 project(GWUI)
 
+set(VERSION 1.0)
+set(DESCRIPTION "GWUI 1.0 version")
+
 set(CMAKE_CXX_STANDARD 20)
 
 set(SDL_DIR /usr/local/Cellar/sdl2/2.0.10)

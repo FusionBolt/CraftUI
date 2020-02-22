@@ -20,7 +20,7 @@ namespace GWUI
 
         Rectangle() = default;
 
-        void Draw(Renderer renderer)
+        void Draw(Renderer& renderer)
         {
             renderer.RendererRectangle(_rect, _color);
         }

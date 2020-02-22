@@ -15,7 +15,9 @@ namespace GWUI
     class Label : public Widget
     {
     public:
-        explicit Label(const std::string& text = "");
+        explicit Label(std::string text = "");
+
+        explicit Label(Image img);
 
         void Draw(Renderer &renderer) override;
 
@@ -27,7 +29,9 @@ namespace GWUI
 
         void SetText(const std::string& text);
 
-        void SetPicture(const std::string& path, Rect rect);
+        void SetPicture(Image img);
+
+        void SetGeometry(Rect rect) noexcept override;
 
     private:
         Text _text;

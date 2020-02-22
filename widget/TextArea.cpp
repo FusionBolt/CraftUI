@@ -30,6 +30,12 @@ void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
 
 void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
+#ifdef __APPLE__
+    constexpr auto MainControlKey = KMOD_GUI;
+#else
+    constexpr auto MainControlKey = KMOD_CTRL;
+#endif
+
     Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
@@ -54,33 +60,35 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     else if(event.type == SDL_KEYDOWN)
     {
         std::cout << "key down" << std::endl;
-        if (pressKey == SDLK_BACKSPACE && !_text.IsEmpty())
+        if (pressKey == SDLK_RETURN && !_editing)
         {
-            // TODO: different OS  shortcut key
-            if (SDL_GetModState() & KMOD_GUI)
+            _text.AppendChar('\n');
+        }
+        // short cut
+        else if ((pressKey == SDLK_BACKSPACE || pressKey == SDLK_DELETE) && !_text.IsEmpty())
+        {
+            if (SDL_GetModState() & MainControlKey)
             {
-                _text.ClearText();
-                // TODO: clear line or all text
-                // TODO: clear word
+                _text.PopBackLine();
+            }
+            else if(SDL_GetModState() & KMOD_ALT)
+            {
+                _text.PopBackWord();
             }
             else
             {
                 _text.PopBackChar();
             }
         }
-        else if (pressKey == SDLK_c && SDL_GetModState() & KMOD_GUI)
+        else if (pressKey == SDLK_c && SDL_GetModState() & MainControlKey)
         {
             std::cout << "set clip board" << std::endl;
             SetClipboardText("clip");
         }
-        else if (pressKey == SDLK_v && SDL_GetModState() & KMOD_GUI)
+        else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
             std::cout << "get clip board" << std::endl;
             _text.AppendStr(GetClipboardText());
-        }
-        else if (pressKey == SDLK_RETURN && !_editing)
-        {
-            _text.AppendChar('\n');
         }
     }
 }
@@ -98,4 +106,14 @@ void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
     {
         SetClipboardText(_text.GetText());
     }
+}
+
+void GWUI::TextArea::SetReadOnly(bool isReadOnly)
+{
+    _readOnly = isReadOnly;
+}
+
+bool GWUI::TextArea::IsReadOnly()
+{
+    return _readOnly;
 }

@@ -13,7 +13,7 @@
 //TODO:锁的问题
 //TODO:后台不同步 两个版本的对比
 //TODO:错误处理
-GWUI::Player::Player(const std::string& path, GWUI::Renderer renderer):
+GWUI::Player::Player(const std::string& path, const GWUI::Renderer& renderer):
         _formatContext(nullptr, avformat_close_input),
         _swsContext(nullptr, sws_freeContext),
         _videoCodecContext(nullptr, avcodec_close),
@@ -35,7 +35,7 @@ GWUI::Player::Player(const std::string& path, GWUI::Renderer renderer):
     _ThreadStart();
 }
 
-void GWUI::Player::Draw(GWUI::Renderer renderer)
+void GWUI::Player::Draw(Renderer &renderer)
 {
     pthread_mutex_lock(&_frameMutex);
     auto flush = [&](){
@@ -134,7 +134,6 @@ void GWUI::Player::_ReadPacketThread()
             break;
         }
         // TODO:智能指针 生命周期，释放的问题
-        // 直接存clone之前的？？
 
         AVPacket *pkt = av_packet_clone(packet);
         av_packet_unref(packet);
@@ -156,7 +155,6 @@ void GWUI::Player::_ReadPacketThread()
 void GWUI::Player::_AudioThread()
 {
     // TODO:发送数据，生命周期的问题
-    // std::shared_ptr<AVFrame> frame(av_frame_alloc(), [](AVFrame* p){av_frame_free(&p);});
     std::shared_ptr<AVFrame> frame(av_frame_alloc(), [](AVFrame* p){av_frame_free(&p);});
 
     int maxBufferSize = av_samples_get_buffer_size(NULL, _audioCodecContext->channels, AudioSampleBufferSize, AV_SAMPLE_FMT_S16, 1);

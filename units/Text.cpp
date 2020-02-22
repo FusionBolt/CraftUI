@@ -5,13 +5,14 @@
 #include "Text.h"
 
 GWUI::Text::Text(std::string text, uint16_t size, const GWUI::Color &color, uint32_t wrapLength):
-    _text(std::move(text)), _color(color), _size(size), _font(size), _wrapLength(wrapLength)
+    _text(std::move(text)), _color(color), _size(size), _font(size),
+    _wrapLength(wrapLength)
 {
     //_ResetTexture();
     _position = Point{20, 20};
 }
 
-void GWUI::Text::Draw(Renderer renderer)
+void GWUI::Text::Draw(Renderer& renderer)
 {
     if (_dirty)
     {
@@ -21,11 +22,9 @@ void GWUI::Text::Draw(Renderer renderer)
     renderer.RenderTexture(_texture, _position);
 }
 
-void GWUI::Text::_ResetTexture(Renderer renderer)
+void GWUI::Text::_ResetTexture(Renderer& renderer)
 {
-    std::shared_ptr<SDL_Surface> ttf(
-            TTF_RenderText_Blended_Wrapped(_font.GetFontPtr(), _text.c_str(), _color, _wrapLength),
-            SDL_FreeSurface);
+    auto ttf = _font.RenderTextBlendedWrapped(_text, _color, _wrapLength);
     Uint16 text[] = {0x4F60, 0x597D, 0};
     // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _color, _wrapLength);
     _texture = renderer.CreateTextureFromSurface(ttf);
@@ -78,7 +77,7 @@ std::string GWUI::Text::GetText() const noexcept
     return _text;
 }
 
-GWUI::Color GWUI::Text::GetColor() const noexcept
+GWUI::Color GWUI::Text::GetFontColor() const noexcept
 {
     return _color;
 }
@@ -98,4 +97,49 @@ void GWUI::Text::ClearText()
 {
     _text.clear();
     _dirty = true;
+}
+
+void GWUI::Text::PopBackWord()
+{
+    for(auto lastCharIndex = static_cast<int>(_text.size()) - 1; lastCharIndex >= 0; --lastCharIndex)
+    {
+        if(_text[lastCharIndex] != ' ')
+        {
+            auto spaceIndex = lastCharIndex - 1;
+            while(spaceIndex >= 0)
+            {
+                if(_IsSpacer(_text[spaceIndex]))
+                {
+                    _text.erase(spaceIndex, _text.size() - spaceIndex);
+                    break;
+                }
+                spaceIndex--;
+            }
+            if(spaceIndex == -1)
+            {
+                _text.clear();
+            }
+            break;
+        }
+    }
+    _dirty = true;
+}
+
+void GWUI::Text::PopBackLine()
+{
+    auto index = _text.find_last_of('\n');
+    if(index != std::string::npos)
+    {
+        _text.erase(index, _text.size() - index);
+    }
+    else
+    {
+        _text.clear();
+    }
+    _dirty = true;
+}
+
+bool GWUI::Text::_IsSpacer(char c)
+{
+    return c == ' ' || c == '\n' || c == '\t';
 }

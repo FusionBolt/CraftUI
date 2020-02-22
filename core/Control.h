@@ -12,11 +12,11 @@ namespace GWUI
     class Control
     {
     public:
-        void SetFocusWidget(Widget::Ptr widge);
-
         int EventDispatch(CrudeEvent event, Widget::Ptr widget);
 
     private:
+        void SetWidgetFocus(Widget::Ptr nextFocusWidget);
+
         Widget::Ptr _currentFocusWidget;
     };
 }

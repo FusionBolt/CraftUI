@@ -56,7 +56,7 @@ namespace GWUI
     private:
         void _ScreenShot(Rect rect) const;
 
-        std::shared_ptr<SDL_Renderer>  _renderer;
+        std::unique_ptr<SDL_Renderer, void(*)(SDL_Renderer*)>  _renderer;
 
         // can't create smart ptr when constructor
         Window* _window;

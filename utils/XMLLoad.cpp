@@ -12,19 +12,13 @@ void GWUI::XMLLoad::RegisterLoadFun(const std::string& className, GWUI::XMLLoad:
 
 GWUI::XMLLoad::XMLLoad(const std::string &path)
 {
-    // TODO:加载失败，路径不存在的处理
     pugi::xml_parse_result result = doc.load_file(path.c_str());
-    if(result)
-    {
-        std::cout << "XML Load result:" << result.description() << std::endl;
-    }
-    else
+    if(!result)
     {
         throw "XML LoadFailed";
     }
     _InitLoadFun();
-    std::cout << doc.child("widget").attribute("name").value() << "!!!!!!!!!!!!!!!!!!!" << std::endl;
-    std::cout << doc.child("widget").attribute("class").value() << "!!!!!!!!!!!!!!!!!!!" << std::endl;
+    std::cout << "Fun Load Successful" << std::endl;
 }
 
 void GWUI::XMLLoad::_InitLoadFun()
@@ -42,10 +36,8 @@ void GWUI::XMLLoad::_InitLoadFun()
 
 void GWUI::XMLLoad::Analysis()
 {
-    // _LoadXMLNode(doc, nullptr);
-    std::cout << "load start" << std::endl;
     _LoadXMLNode(doc, nullptr);
-    std::cout << "load end" << std::endl;
+    std::cout << "XML Load end" << std::endl;
 }
 
 void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWUI::Widget> parent)
@@ -53,11 +45,6 @@ void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWU
     for(const auto &widgetNode : node.children("widget"))
     {
         auto className = std::string(widgetNode.attribute("class").value());
-
-        std::cout << "class:" << widgetNode.attribute("class").value() << std::endl;
-        std::cout << "obj name:" << widgetNode.attribute("name").value() << std::endl;
-        std::cout << "node Name:" << widgetNode.name() << " node value:" << widgetNode.value() << std::endl;
-
         auto s = std::invoke(_loadFun[className], widgetNode);
         if(std::string(widgetNode.parent().attribute("class").value()) == "VerticalLayout")
         {

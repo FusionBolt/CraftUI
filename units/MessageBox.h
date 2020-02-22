@@ -7,18 +7,22 @@
 
 #include <string>
 
+#include "Dialog.h"
+
 namespace GWUI
 {
     class MessageBox
     {
     public:
         MessageBox(std::string msg, std::string title):
-            _msg(std::move(msg)),_title(std::move(title)){}
+            _msgData(std::move(msg), std::move(title)){}
+
+        MessageBox(MessageData data):_msgData(std::move(data)){}
 
         int Show();
 
     private:
-        std::string _msg, _title;
+        MessageData _msgData;
     };
 }
 

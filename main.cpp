@@ -32,10 +32,13 @@ int main()
         GWUI::MessageBox("There is some msg", "MsgBox").Show();
     });
     w->FindChild<GWUI::Button>("buttonDialog")->OnClicked([](bool){
-        GWUI::Dialog().Show();
+        std::vector<GWUI::DialogButtonData> v;
+        v.emplace_back(0, 0, "rua");
+        v.emplace_back(SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Return");
+        v.emplace_back(SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "Escape");
+        GWUI::Dialog(v, GWUI::MessageData("title", "message")).Show();
     });
 
-    //TODO: 多级控件事件分发
     // w->ShowAllChild();
     w->Show();
 }

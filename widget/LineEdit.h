@@ -31,6 +31,8 @@ namespace GWUI
         Rectangle _rect;
 
         Text _text;
+
+        bool _editing;
     };
 }
 

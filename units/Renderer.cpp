@@ -8,8 +8,7 @@
 
 void GWUI::Renderer::SetWindow(Window* window)
 {
-    _renderer.reset(SDL_CreateRenderer(window->_window.get(), -1, SDL_RENDERER_ACCELERATED),
-                    SDL_DestroyRenderer);
+    _renderer.reset(SDL_CreateRenderer(window->_window.get(), -1, SDL_RENDERER_ACCELERATED));
     _window = window;
 }
 
@@ -120,4 +119,3 @@ void GWUI::Renderer::_ScreenShot(Rect rect) const
     // about screenshot
     // https://stackoverflow.com/questions/22315980/sdl2-c-taking-a-screenshot
 }
-

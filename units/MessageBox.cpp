@@ -9,8 +9,8 @@
 
 int GWUI::MessageBox::Show()
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                             _title.c_str(),
-                             _msg.c_str(),
-                             NULL);
+    SDL_ShowSimpleMessageBox(_msgData._flags,
+                             _msgData._title.c_str(),
+                             _msgData._message.c_str(),
+                             nullptr);
 }

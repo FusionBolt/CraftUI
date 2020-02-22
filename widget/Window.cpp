@@ -25,11 +25,6 @@ GWUI::Window::Window(const std::string &title, int width, int height):Widget(),
     SetWindowIcon("/Users/fusionbolt/Pictures/AlfredIcon/pmwk.png");
 }
 
-GWUI::Renderer GWUI::Window::GetRenderer() const
-{
-    return _renderer;
-}
-
 void GWUI::Window::Show()
 {
     CrudeEvent e;
@@ -84,4 +79,9 @@ std::tuple<int, int> GWUI::Window::GetWindowSize()
     int w, h;
     SDL_GetWindowSize(_window.get(), &w, &h);
     return {w, h};
+}
+
+void GWUI::Window::ScreenShot() const
+{
+    _renderer.ScreenShot();
 }

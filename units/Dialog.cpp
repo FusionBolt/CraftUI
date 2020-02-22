@@ -10,45 +10,43 @@
 
 int GWUI::Dialog::Show()
 {
-    const SDL_MessageBoxButtonData buttons[] = {
-            { /* .flags, .buttonid, .text */        0, 0, "rua" },
-            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "yes" },
-            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "cancel" },
-            { 0, 3, "ywwi" },
+    std::vector<SDL_MessageBoxButtonData> buttons;
+    for(auto& v : _buttonData)
+    {
+        buttons.push_back({v._flags, v._buttonId, v._text.c_str()});
+    }
+
+    SDL_MessageBoxData messageboxdata = {
+            _messageData._flags, /* .flags */
+            nullptr, /* .window */
+            _messageData._title.c_str(), /* .title */
+            _messageData._message.c_str(), /* .message */
+            static_cast<int>(_buttonData.size()), /* .numbuttons */
+            buttons.data(), /* .buttons */
+            nullptr /* .colorScheme */
     };
-    const SDL_MessageBoxColorScheme colorScheme = {
-            { /* .colors (.r, .g, .b) */
-                    /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
-                    { 255,   0,   0 },
-                    /* [SDL_MESSAGEBOX_COLOR_TEXT] */
-                    {   0, 255,   0 },
-                    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
-                    { 255, 255,   0 },
-                    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
-                    {   0,   0, 255 },
-                    /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
-                    { 255,   0, 255 }
-            }
-    };
-    const SDL_MessageBoxData messageboxdata = {
-            SDL_MESSAGEBOX_INFORMATION, /* .flags */
-            NULL, /* .window */
-            "example message box", /* .title */
-            "select a button", /* .message */
-            SDL_arraysize(buttons), /* .numbuttons */
-            buttons, /* .buttons */
-            &colorScheme /* .colorScheme */
-    };
-    int buttonid;
-    if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+
+    int buttonId;
+    if (SDL_ShowMessageBox(&messageboxdata, &buttonId) < 0)
+    {
         SDL_Log("error displaying message box");
         return 1;
     }
-    if (buttonid == -1) {
+    if (buttonId == -1)
+    {
+        std::cout << "no selection" << buttonId << std::endl;
         SDL_Log("no selection");
-    } else {
-        SDL_Log("selection was %s", buttons[buttonid].text);
     }
-    std::cout << "push button id:" << buttonid << std::endl;
+    else
+    {
+        SDL_Log("selection was %s", buttons[buttonId].text);
+    }
+    std::cout << "push button id:" << buttonId << std::endl;
     return 0;
+}
+
+GWUI::Dialog::Dialog(std::vector<DialogButtonData> buttonData, GWUI::MessageData messageData):
+    _buttonData(std::move(buttonData)), _messageData(std::move(messageData))
+{
+
 }

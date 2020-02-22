@@ -21,6 +21,7 @@ void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
     Widget::SetGeometry(rect);
     _rect.SetRect(rect);
     _text.SetPosition(_rect.GetPosition());
+    _text.SetWrapLength(_geometry.w);
 }
 
 void GWUI::LineEdit::KeyReleaseEvent(const KeyBoardEvent &keyBoardEvent)
@@ -35,25 +36,67 @@ void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
 
 void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
+#ifdef __APPLE__
+    constexpr auto MainControlKey = KMOD_GUI;
+#else
+    constexpr auto MainControlKey = KMOD_CTRL;
+#endif
+
     Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
-    auto input = event.key.keysym.sym;
-    if(input == SDLK_BACKSPACE)
+    auto pressKey = event.key.keysym.sym;
+    if(event.type == SDL_TEXTINPUT)
     {
-        _text.PopBackChar();
+        auto inputText = event.text.text;
+        std::cout << "text input:" << inputText << std::endl;
+        _text.AppendStr(inputText);
+        _editing = false;
     }
-    else if(input == SDLK_SPACE)
+    else if(event.type == SDL_TEXTEDITING)
     {
-        _text.AppendChar(' ');
+        _editing = true;
+        std::cout << "text editing" << std::endl;
+        auto composition = event.edit.text;
+        auto cursor = event.edit.start;
+        auto selection_len = event.edit.length;
+        std::cout << "composition:" << composition << std::endl;
+        std::cout << "cursor:" << cursor << std::endl;
+        std::cout << "selection_len:" << selection_len << std::endl;
     }
-    else
+    else if(event.type == SDL_KEYDOWN)
     {
-        auto keyName = std::string(SDL_GetKeyName(event.key.keysym.sym));
-        std::cout << "input:" << keyName << std::endl;
-        if(keyName.size() > 1)
+        std::cout << "key down" << std::endl;
+        if (pressKey == SDLK_RETURN && !_editing)
         {
-            std::cout << "size > 1" << std::endl;
+            // important
+            SetFocus(false);
+            return;
         }
-        _text.AppendChar(keyName[0]);
+            // short cut
+        else if ((pressKey == SDLK_BACKSPACE || pressKey == SDLK_DELETE) && !_text.IsEmpty())
+        {
+            if (SDL_GetModState() & MainControlKey)
+            {
+                _text.PopBackLine();
+            }
+            else if(SDL_GetModState() & KMOD_ALT)
+            {
+                _text.PopBackWord();
+            }
+            else
+            {
+                _text.PopBackChar();
+            }
+        }
+        else if (pressKey == SDLK_c && SDL_GetModState() & MainControlKey)
+        {
+            std::cout << "set clip board" << std::endl;
+            SetClipboardText("clip");
+        }
+        else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
+        {
+            std::cout << "get clip board" << std::endl;
+            _text.AppendStr(GetClipboardText());
+        }
     }
 }

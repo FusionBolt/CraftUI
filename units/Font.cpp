@@ -13,13 +13,20 @@ GWUI::Font::Font(u_int16_t size, const std::string &path):
     }
 }
 
-TTF_Font *GWUI::Font::GetFontPtr() noexcept
-{
-    return _font.get();
-}
-
 void GWUI::Font::SetSize(uint16_t size) noexcept
 {
     _font.reset(TTF_OpenFont(_path.c_str(), size), TTF_CloseFont);
     _size = size;
+}
+
+std::shared_ptr<SDL_Surface>
+GWUI::Font::RenderTextBlendedWrapped(const std::string &text, GWUI::Color color, int wrapLength)
+{
+    return std::shared_ptr<SDL_Surface>(
+            TTF_RenderText_Blended_Wrapped(
+                    _font.get(),
+                    text.c_str(),
+                    color,
+                    wrapLength
+            ), SDL_FreeSurface);
 }

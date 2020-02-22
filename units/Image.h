@@ -15,19 +15,19 @@ namespace GWUI
     class Image
     {
     public:
-        explicit Image(const std::string& path = "");
+        Image() = default;
 
-        void Draw(Renderer renderer);
+        explicit Image(std::string path);
 
-        void SetRect(Rect rect);
+        void Draw(Renderer &renderer, Rect rect);
 
         void SetPath(const std::string& path);
+
     private:
         std::string _imgPath;
 
         std::shared_ptr<SDL_Texture> _imgTexture;
 
-        Rect _rect;
     };
 }
 

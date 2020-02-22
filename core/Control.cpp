@@ -5,11 +5,6 @@
 #include "Control.h"
 #include "../widget/Window.h"
 
-void GWUI::Control::SetFocusWidget(Widget::Ptr widget)
-{
-    _currentFocusWidget = std::move(widget);
-}
-
 int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
 {
     if(event.type == SDL_QUIT)
@@ -23,11 +18,10 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
         auto targetWidget = widget->FindChild(mousePosition);
         if(targetWidget != nullptr)
         {
-            targetWidget->_focus = true;
-            _currentFocusWidget = targetWidget;
+            SetWidgetFocus(targetWidget);
             std::cout << "focus on:" << _currentFocusWidget->GetObjectName() << std::endl;
             auto e = MouseEvent(event);
-            targetWidget->MousePressEvent(e);
+            _currentFocusWidget->MousePressEvent(e);
         }
         else
         {
@@ -68,6 +62,16 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
     if(event.key.keysym.sym == SDLK_PRINTSCREEN)
     {
         // TODO: 不是window?
-        std::dynamic_pointer_cast<GWUI::Window>(widget)->GetRenderer().ScreenShot();
+        std::dynamic_pointer_cast<GWUI::Window>(widget)->ScreenShot();
     }
+}
+
+void GWUI::Control::SetWidgetFocus(Widget::Ptr nextFocusWidget)
+{
+    nextFocusWidget->SetFocus(true);
+    if(_currentFocusWidget != nullptr)
+    {
+        _currentFocusWidget->SetFocus(false);
+    }
+    _currentFocusWidget = std::move(nextFocusWidget);
 }

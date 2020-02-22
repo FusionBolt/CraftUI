@@ -4,7 +4,12 @@
 
 #include "Label.h"
 
-GWUI::Label::Label(const std::string &text) : Widget(), _text(text)
+GWUI::Label::Label(std::string text) : Widget(), _text(std::move(text))
+{
+
+}
+
+GWUI::Label::Label(GWUI::Image img):_img(std::move(img)), _isImg(true)
 {
 
 }
@@ -15,7 +20,7 @@ void GWUI::Label::Draw(Renderer &renderer)
     _text.Draw(renderer);
     if(_isImg)
     {
-        _img.Draw(renderer);
+        _img.Draw(renderer, _geometry);
     }
 }
 
@@ -40,9 +45,13 @@ void GWUI::Label::SetText(const std::string &text)
     _text.SetText(text);
 }
 
-void GWUI::Label::SetPicture(const std::string &path, Rect rect)
+void GWUI::Label::SetPicture(Image img)
 {
-    _img.SetPath(path);
-    _img.SetRect(rect);
+    _img = std::move(img);
     _isImg = true;
+}
+
+void GWUI::Label::SetGeometry(GWUI::Rect rect) noexcept
+{
+    Widget::SetGeometry(rect);
 }

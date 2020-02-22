@@ -68,6 +68,19 @@
             </itemList>
         </property>
     </widget>
+    <widget class="Label" name="picLabel">
+        <property>
+            <image>
+                <path>/Users/fusionbolt/CLionProjects/GWUI/source/wz.png</path>
+            </image>
+            <geometry>
+                <x>600</x>
+                <y>50</y>
+                <width>100</width>
+                <height>100</height>
+            </geometry>
+        </property>
+    </widget>
     <widget class="Label" name="textLabel">
         <property>
             <string>fps</string>
