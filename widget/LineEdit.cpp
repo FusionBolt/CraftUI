@@ -13,7 +13,23 @@ void GWUI::LineEdit::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _rect.Draw(renderer);
-    _text.Draw(renderer);
+
+    auto [w, h] = _text.GetTextSpace(_cursor);
+
+    auto lineWidth = 5;
+    if(w > _geometry.w - lineWidth)
+    {
+        w = _text.Draw(renderer, _cursor);
+    }
+    else
+    {
+        _text.Draw(renderer);
+    }
+    renderer.RendererLine({static_cast<int>(_geometry.x + w),
+                           static_cast<int>(_geometry.y + h)},
+                                   {static_cast<int>(_geometry.x + w + lineWidth),
+                                    static_cast<int>(_geometry.y + h)}
+                                    );
 }
 
 void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
@@ -49,7 +65,7 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     {
         auto inputText = event.text.text;
         std::cout << "text input:" << inputText << std::endl;
-        _text.AppendStr(inputText);
+        _cursor.Increase(_text.InsertText(inputText, _cursor));
         _editing = false;
     }
     else if(event.type == SDL_TEXTEDITING)
@@ -72,20 +88,33 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             SetFocus(false);
             return;
         }
+        else if(pressKey == SDLK_LEFT)
+        {
+            _cursor.Decrease();
+        }
+        else if(pressKey == SDLK_RIGHT)
+        {
+            _cursor.Increase(1, _text.GetTextSize());
+        }
             // short cut
         else if ((pressKey == SDLK_BACKSPACE || pressKey == SDLK_DELETE) && !_text.IsEmpty())
         {
             if (SDL_GetModState() & MainControlKey)
             {
-                _text.PopBackLine();
+                _text.ClearText();
+                _cursor.Reset();
             }
             else if(SDL_GetModState() & KMOD_ALT)
             {
-                _text.PopBackWord();
+                _cursor.Decrease(_text.EraseFrontWord(_cursor));
             }
             else
             {
-                _text.PopBackChar();
+                if(_cursor != 0)
+                {
+                    _cursor.Decrease();
+                    _text.EraseStr(_cursor, 1);
+                }
             }
         }
         else if (pressKey == SDLK_c && SDL_GetModState() & MainControlKey)
@@ -96,7 +125,8 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
             std::cout << "get clip board" << std::endl;
-            _text.AppendStr(GetClipboardText());
+            auto clipboardText = GetClipboardText();
+            _cursor.Increase(_text.InsertText(clipboardText, _cursor));
         }
     }
 }

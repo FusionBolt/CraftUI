@@ -36,6 +36,11 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     constexpr auto MainControlKey = KMOD_CTRL;
 #endif
 
+    auto [w1, h1] = _text.GetTextSpace(_text.GetTextSize());
+    std::cout << "size text w:" << w1 << " h:" << h1 << std::endl;
+    auto [w2, h2] = _text.GetUTF8TextSpace(_text.GetTextSize());
+    std::cout << "size text w:" << w2 << " h:" << h2 << std::endl;
+
     Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
@@ -43,7 +48,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     {
         auto inputText = event.text.text;
         std::cout << "text input:" << inputText << std::endl;
-        _text.AppendStr(inputText);
+        _text.InsertTextBack(inputText);
         _editing = false;
     }
     else if(event.type == SDL_TEXTEDITING)
@@ -62,7 +67,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         std::cout << "key down" << std::endl;
         if (pressKey == SDLK_RETURN && !_editing)
         {
-            _text.AppendChar('\n');
+            _text.InsertChar('\n');
         }
         // short cut
         else if ((pressKey == SDLK_BACKSPACE || pressKey == SDLK_DELETE) && !_text.IsEmpty())
@@ -73,7 +78,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             }
             else if(SDL_GetModState() & KMOD_ALT)
             {
-                _text.PopBackWord();
+                _text.EraseFrontWord(_text.GetTextSize());
             }
             else
             {
@@ -88,7 +93,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
             std::cout << "get clip board" << std::endl;
-            _text.AppendStr(GetClipboardText());
+            _text.InsertTextBack(GetClipboardText());
         }
     }
 }

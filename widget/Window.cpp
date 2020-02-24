@@ -9,6 +9,7 @@
 #include "SDL_ttf.h"
 #include "../core/Control.h"
 #include "../Player.h"
+#include "../units/Image.h"
 
 GWUI::Window::Window(const std::string &title, int width, int height):Widget(),
     _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface),
@@ -35,6 +36,7 @@ void GWUI::Window::Show()
     // Player player("/Users/fusionbolt/Music/suisei.mp4", _renderer);
     // TODO: 当焦点在可编辑组件当时候开启 性能差距
     SDL_StartTextInput();
+
     while (true)
     {
         if (SDL_PollEvent(&e))

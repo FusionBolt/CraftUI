@@ -44,6 +44,20 @@ void GWUI::Renderer::RenderTexture(std::shared_ptr<SDL_Texture> texture, Rect ds
     SDL_RenderCopy(_renderer.get(), texture.get(), &src, &dst);
 }
 
+void GWUI::Renderer::RenderClipTexture(std::shared_ptr<SDL_Texture> texture, int x, int y, GWUI::Rect* clip)
+{
+    SDL_Rect renderQuad = { x, y, clip->w, clip->h };
+
+    //Set clip rendering dimensions
+    if( clip != NULL )
+    {
+        renderQuad.w = clip->w;
+        renderQuad.h = clip->h;
+    }
+
+    SDL_RenderCopy(_renderer.get(), texture.get(), nullptr, &renderQuad );
+}
+
 void GWUI::Renderer::RendererLine(Point p1, Point p2, Color color)
 {
     SDL_SetRenderDrawColor(_renderer.get(), color.r, color.g, color.b, 255);

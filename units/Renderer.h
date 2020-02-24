@@ -35,6 +35,8 @@ namespace GWUI
 
         void RenderTexture(std::shared_ptr<SDL_Texture> texture, Rect dst, Rect src={0,0,0,0});
 
+        void RenderClipTexture(std::shared_ptr<SDL_Texture> texture, int x, int y, Rect* clip);
+
         void RendererLine(Point p1, Point p2, Color color=GWUI::Black);
 
         void RendererRectangle(Rect rect, Color color, bool needFill = true);

@@ -13,13 +13,12 @@
 
 namespace GWUI
 {
-
     class Text
     {
     public:
         explicit Text(std::string text = "", uint16_t size = 15, const Color &color = GWUI::Black, uint32_t wrapLength = 200);
 
-        void Draw(Renderer& renderer);
+        int Draw(Renderer& renderer, int textEndPosition = -1);
 
         void SetPosition(Point position) noexcept;
 
@@ -33,15 +32,19 @@ namespace GWUI
 
         void PopBackChar();
 
-        void AppendChar(char c);
+        void InsertChar(char c);
 
-        void AppendStr(const std::string& s1);
+        size_t InsertText(const std::string &s, size_t pos);
 
-        void PopBackWord();
+        size_t InsertTextBack(const std::string &s);
 
-        void PopBackLine();
+        size_t EraseFrontWord(size_t wordEndPosition);
+
+        size_t PopBackLine();
 
         std::string GetText() const noexcept;
+
+        size_t GetTextSize() const noexcept;
 
         Color GetFontColor() const noexcept;
 
@@ -49,16 +52,26 @@ namespace GWUI
 
         bool IsEmpty() const noexcept;
 
+        std::tuple<size_t, size_t> GetTextSpace(size_t length) const;
+
+        std::tuple<size_t, size_t> GetUTF8TextSpace(size_t length) const;
+
+        void EraseStr(size_t pos, size_t length);
+
     private:
         void _ResetTexture(Renderer& renderer);
 
-        bool _IsSpacer(char c);
+        size_t _AdjustTextureArea(const Renderer& renderer, int textEndPosition);
+
+        bool _IsSpacer(char c) const noexcept;
+
+        std::tuple<size_t, size_t> _FindFrontWordStartIndex(size_t baseIndex, const std::string& text);
 
         Point _position;
 
         Color _color;
 
-        uint16_t _size;
+        uint16_t _fontSize;
 
         std::string _text;
 

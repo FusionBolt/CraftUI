@@ -23,11 +23,21 @@ namespace GWUI
     public:
         explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/PingFang.ttf");
 
-        std::shared_ptr<SDL_Surface> RenderTextBlendedWrapped(const std::string& text, Color color,int wrapLength);
+        std::shared_ptr<SDL_Surface> RenderTextBlendedWrapped(const std::string& text, Color color, int wrapLength, int textOffset = 0);
+
+        std::shared_ptr<SDL_Surface> RenderTextBlended(const std::string& text, Color color);
 
         void SetSize(uint16_t size) noexcept;
 
+        std::tuple<size_t, size_t> GetTextSpace(const std::string& text) const;
+
+        std::tuple<size_t, size_t> GetUTF8TextSpace(const std::string& text) const;
+
+        void SetFont(const std::string& path);
+
     private:
+        void _ResetFont();
+
         std::shared_ptr<TTF_Font> _font;
 
         std::string _path;

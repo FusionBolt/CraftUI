@@ -54,4 +54,5 @@ void GWUI::Label::SetPicture(Image img)
 void GWUI::Label::SetGeometry(GWUI::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
+    _text.SetPosition({rect.x, rect.y});
 }
