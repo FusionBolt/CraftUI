@@ -220,12 +220,12 @@ size_t GWUI::Text::_AdjustTextureArea(const Renderer& renderer, int textEndPosit
     return space;
 }
 
-int GWUI::Text::GetCharIndex(int x) const
+int GWUI::Text::GetTargetCharIndex(int offsetX) const
 {
     for(auto subStrSize = 1; subStrSize <= _text.size(); ++subStrSize)
     {
         auto [w, h] = GetTextSpace(subStrSize);
-        if(x < w)
+        if(offsetX < w)
         {
             return subStrSize - 1;
         }

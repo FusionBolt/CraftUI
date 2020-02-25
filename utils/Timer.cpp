@@ -2,8 +2,9 @@
 // Created by fusionbolt on 2020-01-24.
 //
 
+#include <SDL.h>
+
 #include "Timer.h"
-#include "SDL.h"
 
 GWUI::Timer::Timer() noexcept:
         _startTicks(0), _pausedTicks(0), _paused(false), _started(false)

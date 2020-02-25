@@ -6,8 +6,8 @@
 #define GWUI_XMLLOAD_H
 
 #include <map>
+#include <pugixml.hpp>
 
-#include "pugixml.hpp"
 #include "../widget/Widget.h"
 #include "../widget/Window.h"
 

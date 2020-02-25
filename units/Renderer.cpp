@@ -2,8 +2,9 @@
 // Created by fusionbolt on 2020/2/19.
 //
 
+#include <SDL_image.h>
+
 #include "Renderer.h"
-#include "SDL_image.h"
 #include "../widget/Window.h"
 
 void GWUI::Renderer::SetWindow(Window* window)
@@ -129,15 +130,14 @@ void GWUI::Renderer::ScreenShot() const
 
 void GWUI::Renderer::_ScreenShot(Rect rect) const
 {
+    // about screenshot
+    // https://stackoverflow.com/questions/22315980/sdl2-c-taking-a-screenshot
     std::shared_ptr<SDL_Surface> screenShot(
             SDL_CreateRGBSurface(0, rect.w, rect.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000),
             SDL_FreeSurface);
     SDL_RenderReadPixels(_renderer.get(), &rect, SDL_PIXELFORMAT_ARGB8888, screenShot->pixels, screenShot->pitch);
-    SDL_SaveBMP(screenShot.get(), "screenshot.bmp");
-    // TODO:screenshot name
-
-    // about screenshot
-    // https://stackoverflow.com/questions/22315980/sdl2-c-taking-a-screenshot
+    auto timeStr = GetNowTimeStr() + ".bmp";
+    SDL_SaveBMP(screenShot.get(), timeStr.c_str());
 }
 
 void GWUI::Renderer::RenderCircle(Circle circle, Color color)

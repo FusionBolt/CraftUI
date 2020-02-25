@@ -6,8 +6,8 @@
 #define GWUI_FONT_H
 
 #include <string>
+#include <SDL_ttf.h>
 
-#include "SDL_ttf.h"
 #include "Renderer.h"
 
 namespace GWUI

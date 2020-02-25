@@ -6,8 +6,8 @@
 #define GWUI_TEXT_H
 
 #include <string>
+#include <SDL.h>
 
-#include "SDL.h"
 #include "Font.h"
 #include "Renderer.h"
 
@@ -62,7 +62,7 @@ namespace GWUI
 
         void EraseStr(size_t pos, size_t size);
 
-        [[nodiscard]] int GetCharIndex(int x) const;
+        [[nodiscard]] int GetTargetCharIndex(int offsetX) const;
 
         [[nodiscard]] std::string GetSubStr(size_t pos, size_t size) const;
 

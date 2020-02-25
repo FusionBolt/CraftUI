@@ -82,8 +82,8 @@ void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
     auto position = mouseEvent.GetPosition();
     auto maxX = std::max(position.x, _firstClickPosition.x);
     auto minX = std::min(position.x, _firstClickPosition.x);
-    auto maxIndex = _text.GetCharIndex(maxX - _geometry.x);
-    auto minIndex = _text.GetCharIndex(minX - _geometry.x);
+    auto maxIndex = _text.GetTargetCharIndex(maxX - _geometry.x);
+    auto minIndex = _text.GetTargetCharIndex(minX - _geometry.x);
     if(minIndex == -1 || maxIndex == -1)
     {
         return;
@@ -177,8 +177,8 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             {
                 return;
             }
-            auto maxIndex = _text.GetCharIndex(_select.x + _select.w - _geometry.x);
-            auto minIndex = _text.GetCharIndex(_select.x - _geometry.x);
+            auto maxIndex = _text.GetTargetCharIndex(_select.x + _select.w - _geometry.x);
+            auto minIndex = _text.GetTargetCharIndex(_select.x - _geometry.x);
             SetClipboardText(_text.GetSubStr(minIndex, maxIndex - minIndex));
         }
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
@@ -192,7 +192,7 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 
 void GWUI::LineEdit::_SetCursor(int mouseX)
 {
-    auto charIndex = _text.GetCharIndex(mouseX - _geometry.x);
+    auto charIndex = _text.GetTargetCharIndex(mouseX - _geometry.x);
     if (charIndex >= 0)
     {
         _cursor.SetValue(charIndex);

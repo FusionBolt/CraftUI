@@ -11,10 +11,17 @@ GWUI::Cursor::Cursor():_cursor(0)
 
 size_t GWUI::Cursor::Increase(int span, size_t maxSize) noexcept
 {
-    // TODO:负数间隔
+    // guarantee _cursor + span > 0
     if (maxSize == 0 || ((_cursor + span) <= maxSize))
     {
-        _cursor += span;
+        if(span < 0 && (_cursor < std::abs(span)))
+        {
+
+        }
+        else
+        {
+            _cursor += span;
+        }
     }
     else
     {
@@ -26,7 +33,6 @@ size_t GWUI::Cursor::Increase(int span, size_t maxSize) noexcept
 
 size_t GWUI::Cursor::Decrease(int span) noexcept
 {
-    //if((_cursor - span) >= 0)
     if (_cursor >= span)
     {
         _cursor -= span;

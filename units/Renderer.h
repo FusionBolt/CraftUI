@@ -6,35 +6,11 @@
 #define GWUI_RENDERER_H
 
 #include <memory>
-#include "SDL_render.h"
-#include "../utils/Util.hpp"
+#include <SDL_render.h>
+#include "../common.hpp"
 
 namespace GWUI
 {
-    using Color = SDL_Color;
-
-    using Rect = SDL_Rect;
-
-    constexpr auto Black = Color{0,0,0, 255};
-    constexpr auto White = Color{255,255,255, 255};
-
-    struct Circle
-    {
-    public:
-        Circle(int nx, int ny, int nr):x(nx), y(ny), r(nr){}
-        int x, y;
-        int r;
-        // TODO:uint??
-    };
-
-    struct Line
-    {
-    public:
-        Line(Point a, Point b){}
-
-        Point a, b;
-    };
-
     class Window;
 
     class Renderer

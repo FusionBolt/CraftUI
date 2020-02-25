@@ -6,9 +6,8 @@
 #define GWUI_WINDOW_H
 
 #include <string>
+#include <SDL.h>
 
-#include "../utils/Util.hpp"
-#include "SDL.h"
 #include "../units/Renderer.h"
 #include "Widget.h"
 

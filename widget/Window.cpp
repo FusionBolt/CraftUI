@@ -6,7 +6,6 @@
 #include <SDL_image.h>
 
 #include "Window.h"
-#include "SDL_ttf.h"
 #include "../core/Control.h"
 #include "../Player.h"
 #include "../units/Image.h"

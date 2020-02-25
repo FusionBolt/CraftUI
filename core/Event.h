@@ -8,7 +8,7 @@
 #include <array>
 #include <SDL.h>
 
-#include "../utils/Util.hpp"
+#include "../common.hpp"
 
 namespace GWUI
 {

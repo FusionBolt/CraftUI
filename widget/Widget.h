@@ -8,7 +8,6 @@
 #include <vector>
 #include <queue>
 #include "../units/Renderer.h"
-#include "../utils/Util.hpp"
 #include "../core/Object.hpp"
 #include "../core/Event.h"
 #include "../units/Renderer.h"
