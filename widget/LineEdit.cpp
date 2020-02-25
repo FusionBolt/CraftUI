@@ -6,7 +6,7 @@
 
 GWUI::LineEdit::LineEdit() : Widget()
 {
-
+    _text.SetText("SomeText");
 }
 
 void GWUI::LineEdit::Draw(Renderer &renderer)
@@ -25,11 +25,17 @@ void GWUI::LineEdit::Draw(Renderer &renderer)
     {
         _text.Draw(renderer);
     }
-    renderer.RendererLine({static_cast<int>(_geometry.x + w),
-                           static_cast<int>(_geometry.y + h)},
-                                   {static_cast<int>(_geometry.x + w + lineWidth),
-                                    static_cast<int>(_geometry.y + h)}
-                                    );
+    renderer.RenderLine({static_cast<int>(_geometry.x + w),
+                         static_cast<int>(_geometry.y + h)},
+                        {static_cast<int>(_geometry.x + w + lineWidth),
+                         static_cast<int>(_geometry.y + h)}
+    );
+
+    if(_select.w != 0)
+    {
+        renderer.RenderRectangle(_select, GWUI::Black);
+        renderer.RenderFillRectangle(_select, {100, 149, 237, 50});
+    }
 }
 
 void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
@@ -47,7 +53,53 @@ void GWUI::LineEdit::KeyReleaseEvent(const KeyBoardEvent &keyBoardEvent)
 
 void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
 {
+    // TODO:不完全显示的选区问题
     Widget::MousePressEvent(mouseEvent);
+    auto position = mouseEvent.GetPosition();
+    // set select area value
+    _select.y = _geometry.y + 2; // TODO: +2 文字偏移
+
+    _select.h = _text.GetTextHeight();
+    _select.w = 0;
+
+    _firstClickPosition = position;
+
+    _selectArea.SetFirstClickPosition(position);
+    _SetCursor(position.x);
+}
+
+void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
+{
+    Widget::MouseMotionEvent(mouseEvent);
+    // TODO:全局光标
+    if(!_hadClicked)
+    {
+        return;
+    }
+
+    // 使用一个position记录最初单击的位置
+    // select 不断更新
+    auto position = mouseEvent.GetPosition();
+    auto maxX = std::max(position.x, _firstClickPosition.x);
+    auto minX = std::min(position.x, _firstClickPosition.x);
+    auto maxIndex = _text.GetCharIndex(maxX - _geometry.x);
+    auto minIndex = _text.GetCharIndex(minX - _geometry.x);
+    if(minIndex == -1 || maxIndex == -1)
+    {
+        return;
+    }
+    auto space = _text.GetTextSpace(maxIndex - minIndex + 1, minIndex);
+
+    // 向前取整，取文字空间的值是到当前文字后面的位置，要框起来当前单击的文字坐标必须从文字前面开始
+    _select.x = static_cast<int>(std::get<0>(_text.GetTextSpace(minIndex))) + _geometry.x;
+    _select.w = std::get<0>(space);
+
+    _SetCursor(position.x);
+}
+
+void GWUI::LineEdit::MouseReleaseEvent(const GWUI::MouseEvent &mouseEvent)
+{
+    Widget::MouseReleaseEvent(mouseEvent);
 }
 
 void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
@@ -59,6 +111,7 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 #endif
 
     Widget::KeyPressEvent(keyBoardEvent);
+    _select.w = 0;
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
     if(event.type == SDL_TEXTINPUT)
@@ -120,7 +173,13 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         else if (pressKey == SDLK_c && SDL_GetModState() & MainControlKey)
         {
             std::cout << "set clip board" << std::endl;
-            SetClipboardText("clip");
+            if(_select.w == 0)
+            {
+                return;
+            }
+            auto maxIndex = _text.GetCharIndex(_select.x + _select.w - _geometry.x);
+            auto minIndex = _text.GetCharIndex(_select.x - _geometry.x);
+            SetClipboardText(_text.GetSubStr(minIndex, maxIndex - minIndex));
         }
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
@@ -128,5 +187,14 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             auto clipboardText = GetClipboardText();
             _cursor.Increase(_text.InsertText(clipboardText, _cursor));
         }
+    }
+}
+
+void GWUI::LineEdit::_SetCursor(int mouseX)
+{
+    auto charIndex = _text.GetCharIndex(mouseX - _geometry.x);
+    if (charIndex >= 0)
+    {
+        _cursor.SetValue(charIndex);
     }
 }

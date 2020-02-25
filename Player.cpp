@@ -62,7 +62,7 @@ void GWUI::Player::Draw(Renderer &renderer)
             _frame = nullptr;
         }
     }
-    renderer.RendererCopy(_texture);
+    renderer.RenderCopy(_texture);
     pthread_mutex_unlock(&_frameMutex);
 }
 

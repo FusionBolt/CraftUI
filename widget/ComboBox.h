@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "../units/Rectangle.hpp"
+#include "../units/Rectangle.h"
 #include "../units/Text.h"
 #include "Widget.h"
 

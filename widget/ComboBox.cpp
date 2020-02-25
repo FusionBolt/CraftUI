@@ -31,15 +31,22 @@ void GWUI::ComboBox::AddItem(const std::string &item)
 void GWUI::ComboBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
-    renderer.RendererRectangle( _geometry, GWUI::White);
-    renderer.RendererRectangle(
+
+    renderer.RenderFillRectangle(_geometry, GWUI::White);
+    renderer.RenderRectangle(_geometry, GWUI::Black);
+
+    renderer.RenderFillRectangle(
             {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height},
             GWUI::White);
+    renderer.RenderRectangle(
+            {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height},
+            GWUI::Black);
+
     _currentText.Draw(renderer);
     if(_showList)
     {
-        renderer.RendererLine({_geometry.x, _geometry.y + _height},
-                     {_geometry.x + _geometry.w, _geometry.y + _height});
+        renderer.RenderLine({_geometry.x, _geometry.y + _height},
+                            {_geometry.x + _geometry.w, _geometry.y + _height});
         for(auto& item : _items)
         {
             auto t = item.GetText();

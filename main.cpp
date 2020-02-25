@@ -2,7 +2,7 @@
 #include <map>
 
 #include "widget/Window.h"
-#include "core/System.hpp"
+#include "core/System.h"
 #include "pugixml.hpp"
 #include "widget/ComboBox.h"
 #include "widget/Label.h"

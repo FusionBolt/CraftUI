@@ -28,9 +28,8 @@ int GWUI::Text::Draw(Renderer& renderer, int textEndPosition)
 void GWUI::Text::_ResetTexture(Renderer& renderer)
 {
     auto ttf = _font.RenderTextBlendedWrapped(_text, _color, _wrapLength);
-    // TODO:限定文字渲染范围
     Uint16 text[] = {0x4F60, 0x597D, 0};
-    // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _color, _wrapLength);
+    // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _fillColor, _wrapLength);
     _texture = renderer.CreateTextureFromSurface(ttf);
 }
 
@@ -76,7 +75,7 @@ void GWUI::Text::SetFontSize(uint16_t size) noexcept
     _dirty = true;
 }
 
-std::string GWUI::Text::GetText() const noexcept
+std::string GWUI::Text::GetText() const
 {
     return _text;
 }
@@ -151,25 +150,26 @@ size_t GWUI::Text::GetTextSize() const noexcept
     return _text.size();
 }
 
-std::tuple<size_t, size_t> GWUI::Text::GetTextSpace(size_t length) const
+// TODO: api design problem, length and pos
+std::tuple<size_t, size_t> GWUI::Text::GetTextSpace(size_t length, size_t pos) const
 {
-    return _font.GetTextSpace(_text.substr(0, length));
+    return _font.GetTextSpace(_text.substr(pos, length));
 }
 
-std::tuple<size_t, size_t> GWUI::Text::GetUTF8TextSpace(size_t length) const
+std::tuple<size_t, size_t> GWUI::Text::GetUTF8TextSpace(size_t length, size_t pos) const
 {
-    return _font.GetUTF8TextSpace(_text.substr(0, length));
+    return _font.GetUTF8TextSpace(_text.substr(pos, length));
 }
 
-void GWUI::Text::EraseStr(size_t pos, size_t length)
+void GWUI::Text::EraseStr(size_t pos, size_t size)
 {
-    _text.erase(pos, length);
+    _text.erase(pos, size);
     _dirty = true;
 }
 
 // base index is point to last char
 // not point to last char + 1
-std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex, const std::string& text)
+std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex, const std::string& text) const
 {
     // TODO:baseIndex > text.size()
     // 字符串操作都是类似问题
@@ -218,4 +218,33 @@ size_t GWUI::Text::_AdjustTextureArea(const Renderer& renderer, int textEndPosit
         }
     }
     return space;
+}
+
+int GWUI::Text::GetCharIndex(int x) const
+{
+    for(auto subStrSize = 1; subStrSize <= _text.size(); ++subStrSize)
+    {
+        auto [w, h] = GetTextSpace(subStrSize);
+        if(x < w)
+        {
+            return subStrSize - 1;
+        }
+    }
+    // TODO:计算如果单击空位置的处理，考虑到部分渲染的问题
+    return -1;
+}
+
+std::string GWUI::Text::GetSubStr(size_t pos, size_t size) const
+{
+    return _text.substr(pos, size);
+}
+
+size_t GWUI::Text::GetTextHeight() const
+{
+    return std::get<1>(GetTextSpace(_text.size()));
+}
+
+size_t GWUI::Text::GetTextWidth() const
+{
+    return std::get<0>(GetTextSpace(_text.size()));
 }

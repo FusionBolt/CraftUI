@@ -6,10 +6,10 @@
 
 GWUI::TextArea::TextArea(GWUI::Rect rect):
         Widget(), _rectangle(rect),
-        _text("this is a TextArea\nauto break line by word", 30, {255, 255, 255}, rect.w)
+        _text("this is a TextArea\nauto break line by word", 30, {255, 255, 255, 255}, rect.w)
 {
     _text.SetPosition(Point{rect.x, rect.y});
-    _rectangle.SetColor({128, 128, 128});
+    _rectangle.SetBackColor({128, 128, 128, 255});
 }
 
 void GWUI::TextArea::Draw(Renderer &renderer)
@@ -24,7 +24,7 @@ void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
     Widget::SetGeometry(rect);
     _rectangle = rect;
     _text.SetPosition(Point{rect.x, rect.y});
-    _rectangle.SetColor({128, 128, 128});
+    _rectangle.SetBackColor({128, 128, 128, 255});
     _text.SetWrapLength(rect.w);
 }
 

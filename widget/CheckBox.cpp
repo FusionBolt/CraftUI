@@ -14,16 +14,19 @@ GWUI::CheckBox::CheckBox(const std::string& text) :
 void GWUI::CheckBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
-    renderer.RendererRectangle(_checkedRectangle, GWUI::White);
+    renderer.RenderFillRectangle(_checkedRectangle, GWUI::White);
+    renderer.RenderRectangle(_checkedRectangle, GWUI::Black);
+
     _text.Draw(renderer);
+
     if(_checked)
     {
         auto smallRectWidth = 10;
         auto& rect = _checkedRectangle;
-        renderer.RendererRectangle(
+        renderer.RenderRectangle(
                 {rect.x + smallRectWidth / 2, rect.y + smallRectWidth / 2,
                  rect.w - smallRectWidth, rect.h - smallRectWidth},
-                {0,0,0});
+                GWUI::Black);
     }
 }
 

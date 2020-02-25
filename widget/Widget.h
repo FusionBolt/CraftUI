@@ -30,7 +30,7 @@ namespace GWUI
 
         virtual Rect GetGeometry() const noexcept;
 
-        void SetParent(Widget::Ptr parent);
+        void SetParent(const Ptr &parent);
 
         template<typename T = Widget>
         std::shared_ptr<T> FindChild(Point position)
@@ -85,9 +85,9 @@ namespace GWUI
 
         bool _focus = false;
 
-        bool _canMove = false;
+        bool _hadClicked = false;
 
-        bool _beTestMove = true;
+        bool _beTestMove = false;
     };
 }
 

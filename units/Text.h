@@ -42,30 +42,38 @@ namespace GWUI
 
         size_t PopBackLine();
 
-        std::string GetText() const noexcept;
+        [[nodiscard]] std::string GetText() const;
 
-        size_t GetTextSize() const noexcept;
+        [[nodiscard]] size_t GetTextSize() const noexcept;
 
-        Color GetFontColor() const noexcept;
+        [[nodiscard]] Color GetFontColor() const noexcept;
 
         void SetFontSize(uint16_t size) noexcept;
 
-        bool IsEmpty() const noexcept;
+        [[nodiscard]] bool IsEmpty() const noexcept;
 
-        std::tuple<size_t, size_t> GetTextSpace(size_t length) const;
+        [[nodiscard]] size_t GetTextHeight() const;
 
-        std::tuple<size_t, size_t> GetUTF8TextSpace(size_t length) const;
+        [[nodiscard]] size_t GetTextWidth() const;
 
-        void EraseStr(size_t pos, size_t length);
+        [[nodiscard]] std::tuple<size_t, size_t> GetTextSpace(size_t length, size_t pos = 0) const;
+
+        [[nodiscard]] std::tuple<size_t, size_t> GetUTF8TextSpace(size_t length, size_t pos = 0) const;
+
+        void EraseStr(size_t pos, size_t size);
+
+        [[nodiscard]] int GetCharIndex(int x) const;
+
+        [[nodiscard]] std::string GetSubStr(size_t pos, size_t size) const;
 
     private:
         void _ResetTexture(Renderer& renderer);
 
         size_t _AdjustTextureArea(const Renderer& renderer, int textEndPosition);
 
-        bool _IsSpacer(char c) const noexcept;
+        [[nodiscard]] bool _IsSpacer(char c) const noexcept;
 
-        std::tuple<size_t, size_t> _FindFrontWordStartIndex(size_t baseIndex, const std::string& text);
+        [[nodiscard]] std::tuple<size_t, size_t> _FindFrontWordStartIndex(size_t baseIndex, const std::string& text) const;
 
         Point _position;
 

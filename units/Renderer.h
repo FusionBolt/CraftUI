@@ -15,8 +15,25 @@ namespace GWUI
 
     using Rect = SDL_Rect;
 
-    constexpr auto Black = Color{0,0,0};
-    constexpr auto White = Color{255,255,255};
+    constexpr auto Black = Color{0,0,0, 255};
+    constexpr auto White = Color{255,255,255, 255};
+
+    struct Circle
+    {
+    public:
+        Circle(int nx, int ny, int nr):x(nx), y(ny), r(nr){}
+        int x, y;
+        int r;
+        // TODO:uint??
+    };
+
+    struct Line
+    {
+    public:
+        Line(Point a, Point b){}
+
+        Point a, b;
+    };
 
     class Window;
 
@@ -31,29 +48,41 @@ namespace GWUI
 
         void RenderPresent();
 
-        void RenderTexture(std::shared_ptr<SDL_Texture> texture, Point point);
+        void RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Point point);
 
-        void RenderTexture(std::shared_ptr<SDL_Texture> texture, Rect dst, Rect src={0,0,0,0});
+        void RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Rect dst, Rect src= {0, 0, 0, 0});
 
-        void RenderClipTexture(std::shared_ptr<SDL_Texture> texture, int x, int y, Rect* clip);
+        void RenderClipTexture(const std::shared_ptr<SDL_Texture> &texture, int x, int y, Rect* clip);
 
-        void RendererLine(Point p1, Point p2, Color color=GWUI::Black);
+        void RenderLine(Point p1, Point p2, Color color= GWUI::Black);
 
-        void RendererRectangle(Rect rect, Color color, bool needFill = true);
+        void RenderFillRectangle(Rect rect, Color color = GWUI::White);
 
-        void RendererCopy(const std::shared_ptr<SDL_Texture>& texture);
+        void RenderRectangle(Rect rect, Color color = GWUI::Black);
+
+        void RenderCircle(Circle circle, Color color = GWUI::Black);
+
+        void RenderFillCircle(Circle circle, Color color = GWUI::White);
+
+        void RenderPoint(Point p, Color color = GWUI::Black);
+
+        void RenderPointByNowColor(Point p);
+
+        void RenderCopy(const std::shared_ptr<SDL_Texture>& texture);
 
         void SetRenderDrawColor(Color color);
+
+        void SetRenderBlendMode(SDL_BlendMode mode);
 
         void ScreenShot(Rect rect) const;
 
         void ScreenShot() const;
 
-        std::shared_ptr<SDL_Texture> LoadIMG(const std::string &filePath) const;
+        [[nodiscard]] std::shared_ptr<SDL_Texture> LoadIMG(const std::string &filePath) const;
 
-        std::shared_ptr<SDL_Texture> CreateTexture(uint32_t format, int access, int w, int h) const;
+        [[nodiscard]] std::shared_ptr<SDL_Texture> CreateTexture(uint32_t format, int access, int w, int h) const;
 
-        std::shared_ptr<SDL_Texture> CreateTextureFromSurface(const std::shared_ptr<SDL_Surface>& surface) const;
+        [[nodiscard]] std::shared_ptr<SDL_Texture> CreateTextureFromSurface(const std::shared_ptr<SDL_Surface>& surface) const;
 
     private:
         void _ScreenShot(Rect rect) const;

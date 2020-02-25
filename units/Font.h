@@ -29,9 +29,9 @@ namespace GWUI
 
         void SetSize(uint16_t size) noexcept;
 
-        std::tuple<size_t, size_t> GetTextSpace(const std::string& text) const;
+        [[nodiscard]] std::tuple<size_t, size_t> GetTextSpace(const std::string& text) const;
 
-        std::tuple<size_t, size_t> GetUTF8TextSpace(const std::string& text) const;
+        [[nodiscard]] std::tuple<size_t, size_t> GetUTF8TextSpace(const std::string& text) const;
 
         void SetFont(const std::string& path);
 

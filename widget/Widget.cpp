@@ -11,7 +11,7 @@ void GWUI::Widget::Draw(Renderer &renderer)
     {
         child->Draw(renderer);
     }
-    Color c = {255, 0, 0};
+    Color c = {255, 0, 0, 255};
     Rect r1 = GetGeometry();
     r1.x = r1.x - 3;
     r1.y = r1.y - 3;
@@ -25,11 +25,11 @@ void GWUI::Widget::Draw(Renderer &renderer)
     r4.x = r1.x + GetGeometry().w;
     r4.y = r1.y + GetGeometry().h;
 
-    renderer.RendererRectangle(r1,c);
-    renderer.RendererRectangle(r2,c);
-    renderer.RendererRectangle(r3,c);
-    renderer.RendererRectangle(r4,c);
-    renderer.RendererRectangle(GetGeometry(), c, false);
+    renderer.RenderRectangle(r1, c);
+    renderer.RenderRectangle(r2, c);
+    renderer.RenderRectangle(r3, c);
+    renderer.RenderRectangle(r4, c);
+    // renderer.RenderRectangle(GetGeometry(), c);
 }
 
 void GWUI::Widget::SetGeometry(GWUI::Rect rect) noexcept
@@ -70,24 +70,24 @@ GWUI::Widget::Ptr GWUI::Widget::_findChild(const std::function<bool(Widget::Ptr)
 
 void GWUI::Widget::MousePressEvent(const MouseEvent &mouseEvent)
 {
-    _canMove = true;
+    _hadClicked = true;
 }
 
 void GWUI::Widget::MouseReleaseEvent(const MouseEvent &mouseEvent)
 {
-    _canMove = false;
+    _hadClicked = false;
 }
 
 void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
-    if(_canMove && _beTestMove)
+    if(_hadClicked && _beTestMove)
     {
         auto position = mouseEvent.GetPosition();
         SetGeometry({position.x, position.y, _geometry.w, _geometry.h});
     }
 }
 
-void GWUI::Widget::SetParent(Widget::Ptr parent)
+void GWUI::Widget::SetParent(const Ptr &parent)
 {
     if(parent!= nullptr)
     {

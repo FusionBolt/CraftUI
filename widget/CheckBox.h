@@ -6,7 +6,7 @@
 #define GWUI_CHECKBOX_H
 
 #include "AbstractButton.h"
-#include "../units/Rectangle.hpp"
+#include "../units/Rectangle.h"
 
 namespace GWUI
 {

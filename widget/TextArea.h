@@ -5,7 +5,7 @@
 #ifndef GWUI_TEXTAREA_H
 #define GWUI_TEXTAREA_H
 
-#include "../units/Rectangle.hpp"
+#include "../units/Rectangle.h"
 #include "../units/Text.h"
 #include "Widget.h"
 

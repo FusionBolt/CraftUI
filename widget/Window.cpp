@@ -31,9 +31,6 @@ void GWUI::Window::Show()
     CrudeEvent e;
     auto c = std::make_shared<Control>();
 
-    // Player player("/Users/fusionbolt/Movies/[BD适用]【银庭字幕组】[魔法少女小圆新篇 叛逆的物语][简繁外挂字幕][附考据]ver1.02/叛逆的物语.mkv", _renderer);
-    // Player player("/Users/fusionbolt/Movies/27.mp4", _renderer);
-    // Player player("/Users/fusionbolt/Music/suisei.mp4", _renderer);
     // TODO: 当焦点在可编辑组件当时候开启 性能差距
     SDL_StartTextInput();
 
@@ -50,6 +47,8 @@ void GWUI::Window::Show()
         }
         _renderer.RenderClear();
         Draw(_renderer);
+        _renderer.RenderCircle({600, 600, 100}, GWUI::Black);
+        _renderer.RenderFillCircle({750, 300, 100}, {255,140,0, 255});
         _renderer.SetRenderDrawColor(_backgroundColor);
         _renderer.RenderPresent();
         SDL_Delay(7);
@@ -86,4 +85,31 @@ std::tuple<int, int> GWUI::Window::GetWindowSize()
 void GWUI::Window::ScreenShot() const
 {
     _renderer.ScreenShot();
+}
+
+void GWUI::Window::SetWindowOpacity(float opacity)
+{
+    if(opacity >= 0 && opacity <= 1)
+    {
+        SDL_SetWindowOpacity(_window.get(), opacity);
+    }
+}
+
+void GWUI::Window::SetWindowBorder(bool show)
+{
+    SDL_bool b;
+    if (show)
+    {
+        b = SDL_TRUE;
+    }
+    else
+    {
+        b = SDL_FALSE;
+    }
+    SDL_SetWindowBordered(_window.get(), b);
+}
+
+void GWUI::Window::SetWindowFullScreen(uint32_t flags)
+{
+    SDL_SetWindowFullscreen(_window.get(), flags);
 }

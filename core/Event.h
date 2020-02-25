@@ -57,9 +57,9 @@ namespace GWUI
     public:
         explicit MouseEvent(CrudeEvent event) noexcept: _event(event){}
 
-        Point GetPosition() const noexcept {return {_event.motion.x, _event.motion.y};}
+        [[nodiscard]] Point GetPosition() const noexcept {return {_event.motion.x, _event.motion.y};}
 
-        CrudeEvent GetEvent() const noexcept {return _event;}
+        [[nodiscard]] CrudeEvent GetEvent() const noexcept {return _event;}
 
     private:
         Point _position;

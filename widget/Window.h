@@ -29,6 +29,12 @@ namespace GWUI
 
         void SetBackgroundColor(Color color);
 
+        void SetWindowOpacity(float opacity);
+
+        void SetWindowBorder(bool show);
+
+        void SetWindowFullScreen(uint32_t flags);
+
         std::tuple<int, int> GetWindowSize();
 
         void ScreenShot() const;

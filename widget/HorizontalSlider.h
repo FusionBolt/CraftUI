@@ -6,7 +6,7 @@
 #define GWUI_HORIZONTALSLIDER_H
 
 #include "Widget.h"
-#include "../units/Rectangle.hpp"
+#include "../units/Rectangle.h"
 
 namespace GWUI
 {

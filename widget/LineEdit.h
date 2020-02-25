@@ -6,60 +6,13 @@
 #define GWUI_LINEEDIT_H
 
 #include "Widget.h"
-#include "../units/Rectangle.hpp"
+#include "../units/Rectangle.h"
 #include "../units/Text.h"
+#include "../units/Cursor.h"
+#include "../units/SelectArea.h"
 
 namespace GWUI
 {
-    struct Cursor
-    {
-    public:
-        Cursor():_cursor(0){}
-
-        size_t Increase(int span = 1, size_t maxSize = 0) noexcept
-        {
-            // TODO:负数间隔
-            if(maxSize == 0 || ((_cursor + span) <= maxSize))
-            {
-                _cursor += span;
-            }
-            else
-            {
-                _cursor = maxSize;
-            }
-            std::cout << "_cursor + " << span << " is" << _cursor << std::endl;
-            return _cursor;
-        }
-
-        size_t Decrease(int span = 1) noexcept
-        {
-            //if((_cursor - span) >= 0)
-            if(_cursor >= span)
-            {
-                _cursor -= span;
-            }
-            else
-            {
-                _cursor = 0;
-            }
-            std::cout << "_cursor - " << span << " is" << _cursor << std::endl;;
-            return _cursor;
-        }
-
-        void Reset() noexcept
-        {
-            std::cout << "cursor reset 0" << std::endl;
-            _cursor = 0;
-        }
-
-        operator size_t() const
-        {
-            return _cursor;
-        }
-
-    private:
-        size_t _cursor;
-    };
 
     class LineEdit : public Widget
     {
@@ -77,7 +30,13 @@ namespace GWUI
 
         void KeyPressEvent(const KeyBoardEvent &keyBoardEvent) override;
 
+        void MouseReleaseEvent(const MouseEvent &mouseEvent) override;
+
+        void MouseMotionEvent(const MouseEvent &mouseEvent) override;
+
     private:
+        void _SetCursor(int mouseX);
+
         Rectangle _rect;
 
         Text _text;
@@ -87,6 +46,12 @@ namespace GWUI
         // direct position which will write char
         // it has same value as str.size()
         Cursor _cursor;
+
+        Rect _select;
+
+        Point _firstClickPosition;
+
+        SelectArea _selectArea;
     };
 }
 
