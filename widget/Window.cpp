@@ -88,7 +88,7 @@ void GWUI::Window::ScreenShot() const
 
 void GWUI::Window::SetWindowOpacity(float opacity)
 {
-    if(opacity >= 0 && opacity <= 1)
+    if (opacity >= 0 && opacity <= 1)
     {
         SDL_SetWindowOpacity(_window.get(), opacity);
     }

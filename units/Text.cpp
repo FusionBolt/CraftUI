@@ -6,7 +6,8 @@
 
 GWUI::Text::Text(std::string text, uint16_t size, const GWUI::Color &color, uint32_t wrapLength):
         _text(std::move(text)), _color(color), _fontSize(size), _font(size),
-        _wrapLength(wrapLength)
+        _wrapLength(wrapLength), _showTextBeginIndex(0),
+        _dirty(false), _autoBreakLine(true)
 {
     //_ResetTexture();
     _position = Point{20, 20};
@@ -20,14 +21,22 @@ int GWUI::Text::Draw(Renderer& renderer, int textEndPosition)
         _ResetTexture(renderer);
         _dirty = false;
     }
-    auto space = _AdjustTextureArea(renderer, textEndPosition);
+    auto space = _AdjustShowTextureWidth(renderer, textEndPosition);
     renderer.RenderTexture(_texture, _position);
     return space;
 }
 
-void GWUI::Text::_ResetTexture(Renderer& renderer)
+void GWUI::Text::_ResetTexture(const Renderer& renderer, size_t offset)
 {
-    auto ttf = _font.RenderTextBlendedWrapped(_text, _color, _wrapLength);
+    std::shared_ptr<SDL_Surface> ttf;
+    if (_autoBreakLine)
+    {
+        ttf = _font.RenderTextBlendedWrapped(_text, _color, _wrapLength);
+    }
+    else
+    {
+        ttf = _font.RenderTextBlended(_text, _color);
+    }
     Uint16 text[] = {0x4F60, 0x597D, 0};
     // auto ttf = TTF_RenderUNICODE_Blended_Wrapped(_font.GetFontPtr(), text, _fillColor, _wrapLength);
     _texture = renderer.CreateTextureFromSurface(ttf);
@@ -113,7 +122,7 @@ void GWUI::Text::ClearText()
 // size is point to last char + 1
 size_t GWUI::Text::EraseFrontWord(size_t wordEndPosition)
 {
-    if(wordEndPosition == 0)
+    if (wordEndPosition == 0)
     {
         return 0;
     }
@@ -127,7 +136,7 @@ size_t GWUI::Text::PopBackLine()
 {
     size_t lineSize = 0;
     auto index = _text.find_last_of('\n');
-    if(index != std::string::npos)
+    if (index != std::string::npos)
     {
         lineSize = _text.size() - index;
         _text.erase(index, lineSize);
@@ -177,18 +186,18 @@ std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex
     int wordStartIndex = baseIndex, lastCharIndex = baseIndex;
     for(;lastCharIndex >= 0; --lastCharIndex)
     {
-        if(text[lastCharIndex] != ' ')
+        if (text[lastCharIndex] != ' ')
         {
             wordStartIndex = lastCharIndex - 1;
             for(;wordStartIndex >= 0; --wordStartIndex)
             {
-                if(_IsSpacer(text[wordStartIndex]))
+                if (_IsSpacer(text[wordStartIndex]))
                 {
                     wordSize = baseIndex + 1 - wordStartIndex;
                     break;
                 }
             }
-            if(wordStartIndex == -1)
+            if (wordStartIndex == -1)
             {
                 wordSize = baseIndex + 1;
                 wordStartIndex = 0;
@@ -196,7 +205,7 @@ std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex
             break;
         }
     }
-    if(lastCharIndex == -1)
+    if (lastCharIndex == -1)
     {
         wordSize = baseIndex + 1;
         wordStartIndex = 0;
@@ -204,47 +213,72 @@ std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex
     return std::make_tuple(wordStartIndex, wordSize);
 }
 
-size_t GWUI::Text::_AdjustTextureArea(const Renderer& renderer, int textEndPosition)
+size_t GWUI::Text::_AdjustShowTextureWidth(const Renderer& renderer, int textEndPosition)
 {
     size_t space = 0;
-    for(auto textBeginIndex = 0; textBeginIndex < textEndPosition; ++textBeginIndex)
+    if (_showTextBeginIndex == textEndPosition && _showTextBeginIndex != 0)
+    {
+        --_showTextBeginIndex;
+    }
+    for(auto textBeginIndex = _showTextBeginIndex; textBeginIndex < textEndPosition; ++textBeginIndex)
     {
         space = std::get<0>(_font.GetTextSpace(_text.substr(textBeginIndex, textEndPosition - textBeginIndex)));
-        if(space <= _wrapLength - 5)
+        if (space <= _wrapLength)
         {
-            auto ttf = _font.RenderTextBlendedWrapped(_text, _color, _wrapLength, textBeginIndex);
-            _texture = renderer.CreateTextureFromSurface(ttf);
+            _ResetTexture(renderer, textBeginIndex);
+            _showTextBeginIndex = textBeginIndex;
             break;
         }
     }
+    // TODO:queryTexture
     return space;
 }
 
-int GWUI::Text::GetTargetCharIndex(int offsetX) const
+int GWUI::Text::GetTextIndexFromOffsetX(int offsetX) const
 {
     for(auto subStrSize = 1; subStrSize <= _text.size(); ++subStrSize)
     {
-        auto [w, h] = GetTextSpace(subStrSize);
-        if(offsetX < w)
+        auto [w, h] = GetTextSpace(subStrSize, _showTextBeginIndex);
+        if (offsetX < w)
         {
-            return subStrSize - 1;
+            return static_cast<int>(_showTextBeginIndex) + subStrSize - 1;
         }
     }
     // TODO:计算如果单击空位置的处理，考虑到部分渲染的问题
     return -1;
 }
-
+//TODO: 文字渲染长度
 std::string GWUI::Text::GetSubStr(size_t pos, size_t size) const
 {
     return _text.substr(pos, size);
 }
 
-size_t GWUI::Text::GetTextHeight() const
+size_t GWUI::Text::GetTextShowHeight() const
 {
     return std::get<1>(GetTextSpace(_text.size()));
 }
 
-size_t GWUI::Text::GetTextWidth() const
+size_t GWUI::Text::GetFullTextShowWidth() const
 {
     return std::get<0>(GetTextSpace(_text.size()));
+}
+
+size_t GWUI::Text::GetShowTextBeginIndex()
+{
+    return _showTextBeginIndex;
+}
+
+size_t GWUI::Text::GetTextShowWidth(size_t pos, size_t length) const
+{
+    return std::get<0>(GetTextSpace(length, pos));
+}
+
+size_t GWUI::Text::GetShowTextWidth(size_t length) const
+{
+    return std::get<0>(GetTextSpace(length, _showTextBeginIndex));
+}
+
+void GWUI::Text::SetAutoBreakLine(bool isAutoBreakLine) noexcept
+{
+    _autoBreakLine = isAutoBreakLine;
 }

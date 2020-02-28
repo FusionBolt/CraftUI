@@ -28,6 +28,8 @@ namespace GWUI
 
         void SetText(std::string text);
 
+        void SetAutoBreakLine(bool isAutoBreakLine) noexcept;
+
         void ClearText();
 
         void PopBackChar();
@@ -48,28 +50,36 @@ namespace GWUI
 
         [[nodiscard]] Color GetFontColor() const noexcept;
 
+        void EraseStr(size_t pos, size_t size);
+
         void SetFontSize(uint16_t size) noexcept;
 
         [[nodiscard]] bool IsEmpty() const noexcept;
 
-        [[nodiscard]] size_t GetTextHeight() const;
+        [[nodiscard]] size_t GetTextShowHeight() const;
 
-        [[nodiscard]] size_t GetTextWidth() const;
+        [[nodiscard]] size_t GetFullTextShowWidth() const;
 
+        // TODO:能否分离出一个解析渲染空间以及计算坐标的类？？
+        // TODO:api 参数顺序问题
         [[nodiscard]] std::tuple<size_t, size_t> GetTextSpace(size_t length, size_t pos = 0) const;
+
+        [[nodiscard]] size_t GetTextShowWidth(size_t pos, size_t length) const;
+
+        [[nodiscard]] size_t GetShowTextWidth(size_t length) const;
 
         [[nodiscard]] std::tuple<size_t, size_t> GetUTF8TextSpace(size_t length, size_t pos = 0) const;
 
-        void EraseStr(size_t pos, size_t size);
-
-        [[nodiscard]] int GetTargetCharIndex(int offsetX) const;
+        [[nodiscard]] int GetTextIndexFromOffsetX(int offsetX) const;
 
         [[nodiscard]] std::string GetSubStr(size_t pos, size_t size) const;
 
-    private:
-        void _ResetTexture(Renderer& renderer);
+        size_t GetShowTextBeginIndex();
 
-        size_t _AdjustTextureArea(const Renderer& renderer, int textEndPosition);
+    private:
+        void _ResetTexture(const Renderer& renderer, size_t offset = 0);
+
+        size_t _AdjustShowTextureWidth(const Renderer& renderer, int textEndPosition);
 
         [[nodiscard]] bool _IsSpacer(char c) const noexcept;
 
@@ -89,7 +99,11 @@ namespace GWUI
 
         std::shared_ptr<SDL_Texture> _texture;
 
-        bool _dirty = false;
+        bool _dirty;
+
+        bool _autoBreakLine;
+
+        size_t _showTextBeginIndex;
     };
 }
 

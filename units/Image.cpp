@@ -11,7 +11,7 @@ GWUI::Image::Image(std::string path):_imgPath(std::move(path))
 
 void GWUI::Image::Draw(Renderer &renderer, Rect rect)
 {
-    if(_imgTexture == nullptr)
+    if (_imgTexture == nullptr)
     {
         _imgTexture = renderer.LoadIMG(_imgPath);
     }

@@ -13,7 +13,7 @@ void GWUI::XMLLoad::RegisterLoadFun(const std::string& className, GWUI::XMLLoad:
 GWUI::XMLLoad::XMLLoad(const std::string &path)
 {
     pugi::xml_parse_result result = doc.load_file(path.c_str());
-    if(!result)
+    if (!result)
     {
         throw "XML LoadFailed";
     }
@@ -46,7 +46,7 @@ void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWU
     {
         auto className = std::string(widgetNode.attribute("class").value());
         auto s = std::invoke(_loadFun[className], widgetNode);
-        if(std::string(widgetNode.parent().attribute("class").value()) == "VerticalLayout")
+        if (std::string(widgetNode.parent().attribute("class").value()) == "VerticalLayout")
         {
             std::dynamic_pointer_cast<VerticalLayout>(parent)->AddWidget(s);
         }
@@ -66,7 +66,7 @@ void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWU
             s->SetGeometry({std::stoi(xv), std::stoi(yv), std::stoi(wv), std::stoi(hv)});
         }
         _LoadXMLNode(widgetNode, s);
-        if(className == "Window")
+        if (className == "Window")
         {
             _window = std::dynamic_pointer_cast<GWUI::Window>(s);
         }

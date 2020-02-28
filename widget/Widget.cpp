@@ -54,7 +54,7 @@ GWUI::Widget::Ptr GWUI::Widget::_findChild(const std::function<bool(Widget::Ptr)
     {
         auto child = q.front();
         q.pop();
-        if(std::invoke(checkFun, child))
+        if (std::invoke(checkFun, child))
         {
             //return child;
             v.push_back(child);
@@ -80,7 +80,7 @@ void GWUI::Widget::MouseReleaseEvent(const MouseEvent &mouseEvent)
 
 void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
-    if(_hadClicked && _beTestMove)
+    if (_hadClicked && _beTestMove)
     {
         auto position = mouseEvent.GetPosition();
         SetGeometry({position.x, position.y, _geometry.w, _geometry.h});
@@ -89,7 +89,7 @@ void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
 
 void GWUI::Widget::SetParent(const Ptr &parent)
 {
-    if(parent!= nullptr)
+    if (parent!= nullptr)
     {
         _parent = parent;
         parent->_childs.push_back(std::dynamic_pointer_cast<Widget>(shared_from_this()));

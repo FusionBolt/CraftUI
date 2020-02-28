@@ -18,7 +18,7 @@ void GWUI::Label::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _text.Draw(renderer);
-    if(_isImg)
+    if (_isImg)
     {
         _img.Draw(renderer, _geometry);
     }

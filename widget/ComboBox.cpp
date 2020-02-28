@@ -43,7 +43,7 @@ void GWUI::ComboBox::Draw(Renderer &renderer)
             GWUI::Black);
 
     _currentText.Draw(renderer);
-    if(_showList)
+    if (_showList)
     {
         renderer.RenderLine({_geometry.x, _geometry.y + _height},
                             {_geometry.x + _geometry.w, _geometry.y + _height});
@@ -64,9 +64,9 @@ void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
 {
     Widget::MousePressEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();
-    if(_clickOnButtonArea(mousePosition))
+    if (_clickOnButtonArea(mousePosition))
     {
-        if(_showList = !_showList; _showList)
+        if (_showList = !_showList; _showList)
         {
             _geometry.h *= static_cast<int>(_items.size() + 1);
         }
@@ -75,9 +75,9 @@ void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
             _geometry.h /= static_cast<int>(_items.size() + 1);
         }
     }
-    else if(_clickOnItems(mousePosition))
+    else if (_clickOnItems(mousePosition))
     {
-        if(_showList)
+        if (_showList)
         {
             auto index = _GetItemIndexFromPosition(mousePosition);
             auto currentText = _items[index].GetText();

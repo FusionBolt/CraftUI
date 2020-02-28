@@ -9,6 +9,7 @@ GWUI::TextArea::TextArea(GWUI::Rect rect):
         _text("this is a TextArea\nauto break line by word", 30, {255, 255, 255, 255}, rect.w)
 {
     _text.SetPosition(Point{rect.x, rect.y});
+    _text.SetAutoBreakLine(true);
     _rectangle.SetBackColor({128, 128, 128, 255});
 }
 
@@ -44,14 +45,14 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     Widget::KeyPressEvent(keyBoardEvent);
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
-    if(event.type == SDL_TEXTINPUT)
+    if (event.type == SDL_TEXTINPUT)
     {
         auto inputText = event.text.text;
         std::cout << "text input:" << inputText << std::endl;
         _text.InsertTextBack(inputText);
         _editing = false;
     }
-    else if(event.type == SDL_TEXTEDITING)
+    else if (event.type == SDL_TEXTEDITING)
     {
         _editing = true;
         std::cout << "text editing" << std::endl;
@@ -62,7 +63,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         std::cout << "cursor:" << cursor << std::endl;
         std::cout << "selection_len:" << selection_len << std::endl;
     }
-    else if(event.type == SDL_KEYDOWN)
+    else if (event.type == SDL_KEYDOWN)
     {
         std::cout << "key down" << std::endl;
         if (pressKey == SDLK_RETURN && !_editing)
@@ -76,7 +77,7 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             {
                 _text.PopBackLine();
             }
-            else if(SDL_GetModState() & KMOD_ALT)
+            else if (SDL_GetModState() & KMOD_ALT)
             {
                 _text.EraseFrontWord(_text.GetTextSize());
             }
@@ -107,7 +108,7 @@ void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
 {
     Widget::MousePressEvent(mouseEvent);
     auto event = mouseEvent.GetEvent();
-    if(event.button.clicks == 2)
+    if (event.button.clicks == 2)
     {
         SetClipboardText(_text.GetText());
     }

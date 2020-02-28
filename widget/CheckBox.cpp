@@ -19,7 +19,7 @@ void GWUI::CheckBox::Draw(Renderer &renderer)
 
     _text.Draw(renderer);
 
-    if(_checked)
+    if (_checked)
     {
         auto smallRectWidth = 10;
         auto& rect = _checkedRectangle;

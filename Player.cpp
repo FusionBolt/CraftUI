@@ -24,7 +24,7 @@ GWUI::Player::Player(const std::string& path, const GWUI::Renderer& renderer):
     _VideoInit();
     _AudioInit();
 
-    if(_texture == nullptr)
+    if (_texture == nullptr)
     {
         _texture = renderer.CreateTexture(SDL_PIXELFORMAT_IYUV,
                 SDL_TEXTUREACCESS_STREAMING,
@@ -52,11 +52,11 @@ void GWUI::Player::Draw(Renderer &renderer)
     };
 
     auto shouldFlush = _needFlush.load();
-    if(shouldFlush)
+    if (shouldFlush)
     {
         flush();
         _needFlush = false;
-        if(_frame != nullptr)
+        if (_frame != nullptr)
         {
             av_frame_free(&_frame);
             _frame = nullptr;
@@ -72,28 +72,28 @@ int GWUI::Player::_OpenCodec(std::shared_ptr<AVStream> stream, std::shared_ptr<A
     // codec = std::shared_ptr<AVCodec>(avcodec_find_decoder(stream->codecpar->codec_id));
     auto codec = avcodec_find_decoder(stream->codecpar->codec_id);
 
-    if(codec == nullptr)
+    if (codec == nullptr)
     {
         std::cout << "null codec" << std::endl;
         //error
         return -1;
     }
     codecContext.reset(avcodec_alloc_context3(codec), avcodec_close);
-    if(codecContext == nullptr)
+    if (codecContext == nullptr)
     {
         std::cout << "null codecContext" << std::endl;
 
         // error
         return -1;
     }
-    if(avcodec_parameters_to_context(codecContext.get(), stream->codecpar))
+    if (avcodec_parameters_to_context(codecContext.get(), stream->codecpar))
     {
         std::cout << "avcodec_parameters_to_context failed" << std::endl;
         // error
         return -1;
     }
     // open
-    if(avcodec_open2(codecContext.get(), codec, nullptr) < 0)
+    if (avcodec_open2(codecContext.get(), codec, nullptr) < 0)
     {
         // error
         std::cout << "avcodec_open2 failed" << std::endl;

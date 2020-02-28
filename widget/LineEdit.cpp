@@ -6,7 +6,7 @@
 
 GWUI::LineEdit::LineEdit() : Widget()
 {
-    _text.SetText("SomeText");
+    _text.SetText("Some TextUsedBeTest");
 }
 
 void GWUI::LineEdit::Draw(Renderer &renderer)
@@ -14,24 +14,18 @@ void GWUI::LineEdit::Draw(Renderer &renderer)
     Widget::Draw(renderer);
     _rect.Draw(renderer);
 
-    auto [w, h] = _text.GetTextSpace(_cursor);
-
-    auto lineWidth = 5;
-    if(w > _geometry.w - lineWidth)
-    {
-        w = _text.Draw(renderer, _cursor);
-    }
-    else
-    {
-        _text.Draw(renderer);
-    }
+    auto h = _text.GetTextShowHeight();
+    // TODO:考虑lineWidth的范围
+    // TODO:cursor render
+    auto lineWidth = 10;
+    auto w = _text.Draw(renderer, _cursor + 1);
     renderer.RenderLine({static_cast<int>(_geometry.x + w),
                          static_cast<int>(_geometry.y + h)},
-                        {static_cast<int>(_geometry.x + w + lineWidth),
+                        {static_cast<int>(_geometry.x + w - lineWidth),
                          static_cast<int>(_geometry.y + h)}
     );
 
-    if(_select.w != 0)
+    if (_select.w != 0)
     {
         renderer.RenderRectangle(_select, GWUI::Black);
         renderer.RenderFillRectangle(_select, {100, 149, 237, 50});
@@ -59,7 +53,7 @@ void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
     // set select area value
     _select.y = _geometry.y + 2; // TODO: +2 文字偏移
 
-    _select.h = _text.GetTextHeight();
+    _select.h = _text.GetTextShowHeight();
     _select.w = 0;
 
     _firstClickPosition = position;
@@ -72,7 +66,7 @@ void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
 {
     Widget::MouseMotionEvent(mouseEvent);
     // TODO:全局光标
-    if(!_hadClicked)
+    if (!_hadClicked)
     {
         return;
     }
@@ -82,16 +76,25 @@ void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
     auto position = mouseEvent.GetPosition();
     auto maxX = std::max(position.x, _firstClickPosition.x);
     auto minX = std::min(position.x, _firstClickPosition.x);
-    auto maxIndex = _text.GetTargetCharIndex(maxX - _geometry.x);
-    auto minIndex = _text.GetTargetCharIndex(minX - _geometry.x);
-    if(minIndex == -1 || maxIndex == -1)
+
+    auto maxIndex = _text.GetTextIndexFromOffsetX(maxX - _geometry.x);//nIndex;
+    auto minIndex = _text.GetTextIndexFromOffsetX(minX - _geometry.x);//nIndex;
+    if ((minX - _geometry.x) < 0)
+    {
+        _cursor.Decrease();
+    }
+    if (minIndex == -1 || maxIndex == -1)
     {
         return;
     }
     auto space = _text.GetTextSpace(maxIndex - minIndex + 1, minIndex);
 
+    //TOOD:max min index必须是以当前显示的内容为偏移量
     // 向前取整，取文字空间的值是到当前文字后面的位置，要框起来当前单击的文字坐标必须从文字前面开始
-    _select.x = static_cast<int>(std::get<0>(_text.GetTextSpace(minIndex))) + _geometry.x;
+
+    // begin - min
+    auto showBeginIndex = _text.GetShowTextBeginIndex();
+    _select.x = static_cast<int>(std::get<0>(_text.GetTextSpace(minIndex - showBeginIndex, showBeginIndex))) + _geometry.x;
     _select.w = std::get<0>(space);
 
     _SetCursor(position.x);
@@ -110,8 +113,8 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     constexpr auto MainControlKey = KMOD_CTRL;
 #endif
 
+    //TODO:alt delete and ctrl c, v
     Widget::KeyPressEvent(keyBoardEvent);
-    _select.w = 0;
     auto event = keyBoardEvent.event;
     auto pressKey = event.key.keysym.sym;
     if(event.type == SDL_TEXTINPUT)
@@ -177,9 +180,12 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             {
                 return;
             }
-            auto maxIndex = _text.GetTargetCharIndex(_select.x + _select.w - _geometry.x);
-            auto minIndex = _text.GetTargetCharIndex(_select.x - _geometry.x);
+            auto maxIndex = _text.GetTextIndexFromOffsetX(_select.x + _select.w - _geometry.x);
+            auto minIndex = _text.GetTextIndexFromOffsetX(_select.x - _geometry.x);
+            std::cout << "max:" << maxIndex << " min:" << minIndex << std::endl;
             SetClipboardText(_text.GetSubStr(minIndex, maxIndex - minIndex));
+
+            _select.w = 0;
         }
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
@@ -192,7 +198,8 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 
 void GWUI::LineEdit::_SetCursor(int mouseX)
 {
-    auto charIndex = _text.GetTargetCharIndex(mouseX - _geometry.x);
+    auto charIndex = _text.GetTextIndexFromOffsetX(mouseX - _geometry.x);
+    // TODO:int to size_t
     if (charIndex >= 0)
     {
         _cursor.SetValue(charIndex);

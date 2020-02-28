@@ -55,14 +55,14 @@ void GWUI::AbstractButton::SetExclusive(bool isExclusive) noexcept
 
 void GWUI::AbstractButton::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
 {
-    if(JudgeCoincide(mouseEvent.GetPosition(), _checkedRectangle))
+    if (JudgeCoincide(mouseEvent.GetPosition(), _checkedRectangle))
     {
         auto buttonGroup = _buttonGroup;
-        if(buttonGroup == nullptr)
+        if (buttonGroup == nullptr)
         {
             _checked = !_checked;
         }
-        else if(_checked)
+        else if (_checked)
         {
             buttonGroup->SetCheckedButton(nullptr);
             _checked = false;
@@ -70,7 +70,7 @@ void GWUI::AbstractButton::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
         else
         {
             auto thisPtr = std::dynamic_pointer_cast<AbstractButton>(shared_from_this());
-            if(!buttonGroup->IsExclusive() ||
+            if (!buttonGroup->IsExclusive() ||
                (buttonGroup->IsExclusive() &&
                 buttonGroup->GetCheckedButton() == nullptr))
             {

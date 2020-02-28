@@ -23,6 +23,7 @@ namespace GWUI
     public:
         explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/PingFang.ttf");
 
+        // TODO:offset when uft8 is error
         std::shared_ptr<SDL_Surface> RenderTextBlendedWrapped(const std::string& text, Color color, int wrapLength, int textOffset = 0);
 
         std::shared_ptr<SDL_Surface> RenderTextBlended(const std::string& text, Color color);

@@ -54,7 +54,7 @@ namespace GWUI
     {
         auto label = std::make_shared<GWUI::Label>();
         auto property = node.child("property");
-        if(auto img = property.child("image"))
+        if (auto img = property.child("image"))
         {
             label->SetPicture(Image(img.child_value("path")));
         }
@@ -92,7 +92,7 @@ namespace GWUI
     {
         auto horizontalSlider = std::make_shared<GWUI::HorizontalSlider>();
         horizontalSlider->SetTestMove(false);
-        if(auto min = node.child("property").child("range").child_value("min"),
+        if (auto min = node.child("property").child("range").child_value("min"),
                 max = node.child("property").child("range").child_value("max");
             min && max)
         {

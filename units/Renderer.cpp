@@ -45,7 +45,7 @@ void GWUI::Renderer::RenderClipTexture(const std::shared_ptr<SDL_Texture> &textu
     SDL_Rect renderQuad = { x, y, clip->w, clip->h };
 
     //Set clip rendering dimensions
-    if(clip != nullptr)
+    if (clip != nullptr)
     {
         renderQuad.w = clip->w;
         renderQuad.h = clip->h;

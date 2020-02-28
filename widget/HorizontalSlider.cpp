@@ -18,7 +18,7 @@ void GWUI::HorizontalSlider::Draw(Renderer &renderer)
     renderer.RenderLine(Point{x, _geometry.y + 10},
                         Point{x + _lineWidth, _geometry.y + 10}, {0, 0, 0, 255});
     // choose
-    if(_chooseRect.GetRect().x > x)
+    if (_chooseRect.GetRect().x > x)
     {
         renderer.RenderLine(Point{x, _geometry.y + 10},
                             Point{_chooseRect.GetRect().x, _geometry.y + 10}, {50, 205, 50, 255});
@@ -63,12 +63,12 @@ void GWUI::HorizontalSlider::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
     Widget::MouseMotionEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();
-    if(_isChoose)
+    if (_isChoose)
     {
         std::cout << "On Mouse Motion" << std::endl;
-        if(mousePosition.x > _geometry.x)
+        if (mousePosition.x > _geometry.x)
         {
-            if(mousePosition.x < _geometry.x + _lineWidth)
+            if (mousePosition.x < _geometry.x + _lineWidth)
             {
                 _value = static_cast<int>(static_cast<double>(mousePosition.x - _geometry.x) / _lineWidth * (_maxSize - _minSize)) + _minSize;
                 std::cout << mousePosition.x << " " << _geometry.x << " " << static_cast<double>(mousePosition.x - _geometry.x) / _maxSize << std::endl;
