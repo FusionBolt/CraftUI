@@ -14,8 +14,8 @@
 
 # Locate SDL_Mixer 2.
 # This module defines
-#  SDL2_MIXER_INCLUDE_DIRS - a list of directories that need to be added to the include path
-#  SDL2_MIXER_LIBRARIES - a list of libraries to link against to use SDL2
+#  SDL2_MIXER_INCLUDE_DIR - a list of directories that need to be added to the include path
+#  SDL2_MIXER_LIBRARIE - a list of libraries to link against to use SDL2
 #  SDL2_MIXER_FOUND - if false, SDL2 cannot be used
 
 if(SDL2_MIXER_FIND_QUIETLY)
@@ -30,9 +30,12 @@ mark_as_advanced(SDL2_MIXER_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(SDL2_MIXER REQUIRED_VARS SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR
-        SDL2_LIBRARIES SDL2_INCLUDE_DIRS)
+        SDL2_LIBRARY SDL2_INCLUDE_DIR)
 
 if (SDL2_MIXER_FOUND)
-    set(SDL2_MIXER_LIBRARIES ${SDL2_MIXER_LIBRARY} ${SDL2_LIBRARIES})
-    set(SDL2_MIXER_INCLUDE_DIRS ${SDL2_MIXER_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
+    set(SDL2_MIXER_LIBRARIE ${SDL2_MIXER_LIBRARY} ${SDL2_LIBRARY})
+    set(SDL2_MIXER_INCLUDE_DIR ${SDL2_MIXER_INCLUDE_DIR} ${SDL2_INCLUDE_DIR})
+
+    message("SDL2_MIXER_LIBRARIE is ${SDL2_MIXER_LIBRARY}")
+    message("SDL2_MIXER_INCLUDE_DIR ${SDL2_MIXER_INCLUDE_DIR}")
 endif()

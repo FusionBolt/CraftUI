@@ -11,6 +11,7 @@
 #include "units/MessageBox.h"
 #include "units/Dialog.h"
 
+// TODO: lambda capture shared_ptr object by value, lifetime error??
 int main()
 {
     // GhostWhite

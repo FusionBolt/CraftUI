@@ -20,7 +20,7 @@ extern "C"
 #include <mutex>
 
 #include "LockFreeQueue.h"
-#include "units/Renderer.h"
+#include "../units/Renderer.h"
 
 namespace GWUI
 {

@@ -32,6 +32,11 @@ namespace GWUI
         void SetParent(const Ptr &parent);
 
         template<typename T = Widget>
+        std::weak_ptr<T> WeakFromThis();
+
+        // TODO:转换为weak_ptr？？避免返回智能指针产生各种奇怪的内存问题
+        // 例如循环引用，不能正确的暗示释放对象
+        template<typename T = Widget>
         std::shared_ptr<T> FindChild(Point position)
         {
             return std::dynamic_pointer_cast<T>(_findChild([=](const Widget::Ptr& widget){

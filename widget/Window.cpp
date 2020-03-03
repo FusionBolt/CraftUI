@@ -7,7 +7,6 @@
 
 #include "Window.h"
 #include "../core/Control.h"
-#include "../Player.h"
 #include "../units/Image.h"
 
 GWUI::Window::Window(const std::string &title, int width, int height):Widget(),

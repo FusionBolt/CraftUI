@@ -18,15 +18,15 @@ find_package(SDL2MIXER REQUIRED)
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 find_package(SDL2TTF REQUIRED)
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
-find_package(FFmpeg REQUIRED
-        COMPONENTS avformat avutil swscale swresample
-        OPTIONAL_COMPONENTS avcodec)
-include_directories(${FFMPEG_INCLUDE_DIRS})
+
+# add_subdirectory(Player)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 set(PUGIXML_DIR pugixml)
 include_directories(${PUGIXML_DIR})
 
-set(SOURCE_FILES ${PUGIXML_DIR}/pugixml.hpp ${PUGIXML_DIR}/pugixml.cpp main.cpp widget/Window.cpp widget/Window.h units/Text.cpp units/Text.h units/Font.cpp units/Font.h utils/Util.hpp utils/Timer.cpp utils/Timer.h widget/Button.cpp widget/Button.h units/Rectangle.h widget/TextArea.cpp widget/TextArea.h widget/ComboBox.cpp widget/ComboBox.h core/System.h units/Renderer.h widget/Widget.cpp widget/Widget.h core/Object.hpp widget/Label.cpp widget/Label.h units/Image.cpp units/Image.h widget/HorizontalSlider.cpp widget/HorizontalSlider.h widget/LineEdit.cpp widget/LineEdit.h core/Control.cpp core/Control.h core/Event.cpp core/Event.h widget/AbstractButton.cpp widget/AbstractButton.h widget/CheckBox.cpp widget/CheckBox.h widget/ButtonGroup.cpp widget/ButtonGroup.h widget/VerticalLayout.cpp widget/VerticalLayout.h utils/XMLLoad.cpp utils/XMLLoad.h utils/DefaultLoadNodeFunction.h units/MessageBox.cpp units/MessageBox.h units/Dialog.cpp units/Dialog.h Player.cpp Player.h LockFreeQueue.h units/Renderer.cpp units/Cursor.cpp units/Cursor.h units/SelectArea.cpp units/SelectArea.h units/Rectangle.cpp core/System.cpp common.hpp)
+set(SOURCE_FILES ${PUGIXML_DIR}/pugixml.hpp ${PUGIXML_DIR}/pugixml.cpp Demo.cpp widget/Window.cpp widget/Window.h units/Text.cpp units/Text.h units/Font.cpp units/Font.h utils/Timer.cpp utils/Timer.h widget/Button.cpp widget/Button.h units/Rectangle.h widget/TextArea.cpp widget/TextArea.h widget/ComboBox.cpp widget/ComboBox.h core/System.h units/Renderer.h widget/Widget.cpp widget/Widget.h core/Object.hpp widget/Label.cpp widget/Label.h units/Image.cpp units/Image.h widget/HorizontalSlider.cpp widget/HorizontalSlider.h widget/LineEdit.cpp widget/LineEdit.h core/Control.cpp core/Control.h core/Event.cpp core/Event.h widget/AbstractButton.cpp widget/AbstractButton.h widget/CheckBox.cpp widget/CheckBox.h widget/ButtonGroup.cpp widget/ButtonGroup.h widget/VerticalLayout.cpp widget/VerticalLayout.h utils/XMLLoad.cpp utils/XMLLoad.h utils/DefaultLoadNodeFunction.h units/MessageBox.cpp units/MessageBox.h units/Dialog.cpp units/Dialog.h Player/LockFreeQueue.h units/Renderer.cpp units/Cursor.cpp units/Cursor.h units/SelectArea.cpp units/SelectArea.h units/Rectangle.cpp core/System.cpp common.hpp)
 add_executable(GWUI ${SOURCE_FILES})
 
-target_link_libraries(GWUI ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY} ${FFMPEG_LIBRARIES})
+target_link_libraries(GWUI ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY})

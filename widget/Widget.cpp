@@ -113,3 +113,9 @@ void GWUI::Widget::SetFocus(bool focus) noexcept
 {
     _focus = focus;
 }
+
+template<typename T>
+std::weak_ptr<T> GWUI::Widget::WeakFromThis()
+{
+    return std::dynamic_pointer_cast<T>(shared_from_this());
+}
