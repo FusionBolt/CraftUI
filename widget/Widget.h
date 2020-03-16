@@ -31,6 +31,8 @@ namespace GWUI
 
         void SetParent(const Ptr &parent);
 
+        void RemoveChild(const Ptr &child);
+
         template<typename T = Widget>
         std::weak_ptr<T> WeakFromThis();
 

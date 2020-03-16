@@ -4,6 +4,8 @@
 
 #include "System.h"
 
+inline GWUI::System _system;
+
 GWUI::System::System()
 {
     //initialize all SDL subsystems
@@ -41,4 +43,3 @@ GWUI::System::~System()
     Mix_Quit();
     Mix_CloseAudio();
 }
-

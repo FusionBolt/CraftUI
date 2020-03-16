@@ -21,6 +21,7 @@ namespace GWUI
 {
     using WidgetPtr = std::shared_ptr<GWUI::Widget>;
 
+    // TODO:继承能否提取做法？？
     // TODO:不存在则设定默认值
     inline WidgetPtr LoadButton(const pugi::xml_node& node)
     {
@@ -79,6 +80,10 @@ namespace GWUI
         auto checkBox = std::make_shared<GWUI::CheckBox>();
         auto property = node.child("property");
         checkBox->SetText(property.child("string").child_value());
+        if(auto exclusive = property.child("exclusive"); exclusive)
+        {
+            checkBox->SetExclusive(std::string(exclusive.child_value()) == "true");
+        }
         return checkBox;
     }
 

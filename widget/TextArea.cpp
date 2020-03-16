@@ -3,6 +3,7 @@
 //
 
 #include "TextArea.h"
+#include "../units/ClipBoard.h"
 
 GWUI::TextArea::TextArea(GWUI::Rect rect):
         Widget(), _rectangle(rect),
@@ -89,12 +90,12 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
         else if (pressKey == SDLK_c && SDL_GetModState() & MainControlKey)
         {
             std::cout << "set clip board" << std::endl;
-            SetClipboardText("clip");
+            ClipBoard::SetText("clip");
         }
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
             std::cout << "get clip board" << std::endl;
-            _text.InsertTextBack(GetClipboardText());
+            _text.InsertTextBack(ClipBoard::GetText());
         }
     }
 }
@@ -110,7 +111,7 @@ void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
     auto event = mouseEvent.GetEvent();
     if (event.button.clicks == 2)
     {
-        SetClipboardText(_text.GetText());
+        ClipBoard::SetText(_text.GetText());
     }
 }
 

@@ -66,16 +66,6 @@ namespace GWUI
         CrudeEvent _event;
     };
 
-    inline void SetClipboardText(const std::string &str)
-    {
-        SDL_SetClipboardText(str.c_str());
-    }
-
-    inline std::string GetClipboardText()
-    {
-        return SDL_GetClipboardText();
-    }
-
     inline bool JudgeCoincide(Point mousePosition, SDL_Rect rect) noexcept
     {
         auto mouseX = mousePosition.x;

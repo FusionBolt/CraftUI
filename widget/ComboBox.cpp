@@ -25,6 +25,11 @@ void GWUI::ComboBox::AddItem(const std::string &item)
     auto text = Text(item);
     text.SetWrapLength(_geometry.w);
     text.SetPosition({_geometry.x, static_cast<int>(_geometry.y + _height*(_items.size() + 1))});
+    if(_currentText.GetTextSize() == 0)
+    {
+        _currentText = text;
+        _currentText.SetPosition({_geometry.x, _geometry.y});
+    }
     _items.push_back(text);
 }
 
@@ -123,4 +128,10 @@ bool GWUI::ComboBox::_clickOnItems(GWUI::Point position)
 size_t GWUI::ComboBox::_GetItemIndexFromPosition(GWUI::Point position)
 {
     return (position.y - (_geometry.y + _height)) / _height;
+}
+
+void GWUI::ComboBox::ClearItems()
+{
+    _items.clear();
+    _currentText.SetText("");
 }

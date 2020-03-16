@@ -3,6 +3,7 @@
 //
 
 #include "LineEdit.h"
+#include "../units/ClipBoard.h"
 
 GWUI::LineEdit::LineEdit() : Widget()
 {
@@ -65,6 +66,11 @@ void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
 void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
 {
     Widget::MouseMotionEvent(mouseEvent);
+    auto position = mouseEvent.GetPosition();
+    if(JudgeCoincide(position, _geometry))
+    {
+
+    }
     // TODO:全局光标
     if (!_hadClicked)
     {
@@ -73,7 +79,6 @@ void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
 
     // 使用一个position记录最初单击的位置
     // select 不断更新
-    auto position = mouseEvent.GetPosition();
     auto maxX = std::max(position.x, _firstClickPosition.x);
     auto minX = std::min(position.x, _firstClickPosition.x);
 
@@ -183,14 +188,14 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
             auto maxIndex = _text.GetTextIndexFromOffsetX(_select.x + _select.w - _geometry.x);
             auto minIndex = _text.GetTextIndexFromOffsetX(_select.x - _geometry.x);
             std::cout << "max:" << maxIndex << " min:" << minIndex << std::endl;
-            SetClipboardText(_text.GetSubStr(minIndex, maxIndex - minIndex));
+            ClipBoard::SetText(_text.GetSubStr(minIndex, maxIndex - minIndex));
 
             _select.w = 0;
         }
         else if (pressKey == SDLK_v && SDL_GetModState() & MainControlKey)
         {
             std::cout << "get clip board" << std::endl;
-            auto clipboardText = GetClipboardText();
+            auto clipboardText = ClipBoard::GetText();
             _cursor.Increase(_text.InsertText(clipboardText, _cursor));
         }
     }

@@ -34,7 +34,7 @@ namespace GWUI
     private:
         void _InitLoadFun();
 
-        void _LoadXMLNode(const pugi::xml_node& node, std::shared_ptr<GWUI::Widget>);
+        void _LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<GWUI::Widget>& parent);
 
         std::map<std::string, FunctionType> _loadFun;
 

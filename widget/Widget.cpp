@@ -91,6 +91,12 @@ void GWUI::Widget::SetParent(const Ptr &parent)
 {
     if (parent!= nullptr)
     {
+        auto oldParent = _parent.lock();
+        if(oldParent != nullptr)
+        {
+            // TODO:考虑指针类型
+            oldParent->RemoveChild(shared_from_this());
+        }
         _parent = parent;
         parent->_childs.push_back(std::dynamic_pointer_cast<Widget>(shared_from_this()));
     }
@@ -118,4 +124,14 @@ template<typename T>
 std::weak_ptr<T> GWUI::Widget::WeakFromThis()
 {
     return std::dynamic_pointer_cast<T>(shared_from_this());
+}
+
+void GWUI::Widget::RemoveChild(const Ptr &child)
+{
+    // TODO:C++20 erase_if
+    auto iter = std::find(_childs.begin(), _childs.end(), child);
+    if(iter != _childs.end())
+    {
+        _childs.erase(iter);
+    }
 }

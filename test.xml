@@ -107,11 +107,13 @@
         <widget class="CheckBox" name="checkBox1">
             <property>
                 <string>checkBox1</string>
+                <exclusive>true</exclusive>
             </property>
         </widget>
         <widget class="CheckBox" name="checkBox2">
             <property>
                 <string>checkBox2</string>
+                <exclusive>true</exclusive>
             </property>
         </widget>
         <widget class="CheckBox" name="checkBox3">

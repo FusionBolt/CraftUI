@@ -23,7 +23,7 @@ void GWUI::CheckBox::Draw(Renderer &renderer)
     {
         auto smallRectWidth = 10;
         auto& rect = _checkedRectangle;
-        renderer.RenderRectangle(
+        renderer.RenderFillRectangle(
                 {rect.x + smallRectWidth / 2, rect.y + smallRectWidth / 2,
                  rect.w - smallRectWidth, rect.h - smallRectWidth},
                 GWUI::Black);

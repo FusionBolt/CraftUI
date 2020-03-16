@@ -22,6 +22,4 @@ namespace GWUI
         ~System();
     };
 }
-
-
 #endif //GWUI_SYSTEM_H

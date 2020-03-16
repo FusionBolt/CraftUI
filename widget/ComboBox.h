@@ -23,6 +23,8 @@ namespace GWUI
 
         void AddItem(const std::string& item);
 
+        void ClearItems();
+
         void Draw(Renderer &renderer) override;
 
         void OnChanged(std::function<void(const std::string&)> f);
