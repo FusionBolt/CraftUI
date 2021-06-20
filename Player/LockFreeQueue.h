@@ -303,5 +303,3 @@ void swap (SafeQueue<T, Container>& q1, SafeQueue<T, Container>& q2)
     q1.swap (q2);
 }
 #endif /* SAFEQUEUE_HPP_ */
-
-//#endif //GWUI_LOCKFREEQUEUE_H

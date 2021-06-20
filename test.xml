@@ -150,14 +150,14 @@
             </range>
         </property>
     </widget>
-    <widget class="LineEdit" name="lineEdit">
-        <property>
-            <geometry>
-                <x>300</x>
-                <y>700</y>
-                <width>100</width>
-                <height>25</height>
-            </geometry>
-        </property>
-    </widget>
+<!--    <widget class="LineEdit" name="lineEdit">-->
+<!--        <property>-->
+<!--            <geometry>-->
+<!--                <x>300</x>-->
+<!--                <y>700</y>-->
+<!--                <width>100</width>-->
+<!--                <height>25</height>-->
+<!--            </geometry>-->
+<!--        </property>-->
+<!--    </widget>-->
 </widget>

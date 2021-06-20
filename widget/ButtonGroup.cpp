@@ -7,7 +7,7 @@
 void GWUI::ButtonGroup::AddButton(std::shared_ptr<AbstractButton> button)
 {
     _buttons.push_back(button);
-    button->_SetButtonGroup(shared_from_this());
+    button->_SetButtonGroup(std::dynamic_pointer_cast<ButtonGroup>(shared_from_this()));
     std::cout << "add button" << std::endl;
 }
 

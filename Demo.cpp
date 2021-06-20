@@ -13,6 +13,7 @@
 // TODO: lambda capture shared_ptr object by value, lifetime error??
 int main()
 {
+    // GwUI
     // GhostWhite
     // #F8F8FF
 //    GWUI::System system;
@@ -61,6 +62,6 @@ int main()
     comboBox->OnChanged([&](const std::string &nowText){
         GWUI::MouseCursor::SetCursor(cursorID[std::stoi(nowText)]);
     });
-    // w->ShowAllChild();
+    w->ShowAllChild();
     w->Show();
 }

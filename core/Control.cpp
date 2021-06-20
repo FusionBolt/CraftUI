@@ -5,7 +5,7 @@
 #include "Control.h"
 #include "../widget/Window.h"
 
-int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
+int GWUI::Control::EventDispatch(GWUI::CrudeEvent &event, Widget::Ptr widget)
 {
     if(event.type == SDL_QUIT)
     {
@@ -15,7 +15,7 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
     {
         Point mousePosition{event.motion.x, event.motion.y};
         std::cout << "mouse button down:" << mousePosition.x << "," << mousePosition.y << std::endl;
-        auto targetWidget = widget->FindChild(mousePosition);
+        auto targetWidget = widget->FindChildAt(mousePosition);
         if(targetWidget != nullptr)
         {
             SetWidgetFocus(targetWidget);
@@ -41,15 +41,13 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
     {
         Point mousePosition{event.motion.x, event.motion.y};
         auto e = MouseEvent(event);
-        for(auto& child : widget->_childs)
-        {
-            child->MouseMotionEvent(e);
-        }
-//        auto child = widget->FindChild(mousePosition);
-//        if(child != nullptr)
-//        {
-//            child->MouseMotionEvent(&e);
-//        }
+
+        // TODO:about childDo error
+        auto obj = std::dynamic_pointer_cast<Object>(widget);
+        widget->AllChildDo([=](auto&& w){
+            std::dynamic_pointer_cast<Widget>(w)->MouseMotionEvent(e);
+        }, obj);
+
     }
     if(event.type == SDL_KEYDOWN || event.type == SDL_TEXTINPUT || event.type == SDL_TEXTEDITING)
     {
@@ -64,14 +62,19 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent event, Widget::Ptr widget)
         // TODO: 不是window?
         std::dynamic_pointer_cast<GWUI::Window>(widget)->ScreenShot();
     }
+    return 0;
 }
 
 void GWUI::Control::SetWidgetFocus(Widget::Ptr nextFocusWidget)
 {
-    nextFocusWidget->SetFocus(true);
+    if(_currentFocusWidget == nextFocusWidget)
+    {
+        return;
+    }
     if(_currentFocusWidget != nullptr)
     {
         _currentFocusWidget->SetFocus(false);
     }
+    nextFocusWidget->SetFocus(true);
     _currentFocusWidget = std::move(nextFocusWidget);
 }

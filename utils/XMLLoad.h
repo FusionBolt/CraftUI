@@ -16,7 +16,7 @@ namespace GWUI
     class XMLLoad
     {
     public:
-        using FunctionType = std::function<std::shared_ptr<GWUI::Widget>(const pugi::xml_node&)>;
+        using FunctionType = std::function<std::shared_ptr<GWUI::Object>(const pugi::xml_node&)>;
 
         XMLLoad(const std::string& path);
 
@@ -34,7 +34,7 @@ namespace GWUI
     private:
         void _InitLoadFun();
 
-        void _LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<GWUI::Widget>& parent);
+        void _LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<Object> &parent);
 
         std::map<std::string, FunctionType> _loadFun;
 

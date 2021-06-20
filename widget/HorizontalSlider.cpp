@@ -3,6 +3,7 @@
 //
 
 #include "HorizontalSlider.h"
+#include <cassert>
 
 GWUI::HorizontalSlider::HorizontalSlider() : Widget()
 {

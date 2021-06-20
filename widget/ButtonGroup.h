@@ -9,7 +9,7 @@
 
 namespace GWUI
 {
-    class ButtonGroup : public std::enable_shared_from_this<ButtonGroup>
+    class ButtonGroup : public Object
     {
     public:
         ButtonGroup() = default;

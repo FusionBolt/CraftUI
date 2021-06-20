@@ -5,6 +5,7 @@
 #include "XMLLoad.h"
 #include "DefaultLoadNodeFunction.h"
 #include "../widget/ButtonGroup.h"
+#include "../core/MetaInfo.h"
 
 void GWUI::XMLLoad::RegisterLoadFun(const std::string& className, GWUI::XMLLoad::FunctionType function)
 {
@@ -29,6 +30,7 @@ void GWUI::XMLLoad::_InitLoadFun()
     RegisterLoadFun("ComboBox", LoadComboBox);
     RegisterLoadFun("Label", LoadLabel);
     RegisterLoadFun("VerticalLayout", LoadVerticalLayout);
+    RegisterLoadFun("HorizontalLayout", LoadHorizontalLayout);
     RegisterLoadFun("CheckBox", LoadCheckBox);
     RegisterLoadFun("LineEdit", LoadLineEdit);
     RegisterLoadFun("HorizontalSlider", LoadHorizontalSlider);
@@ -41,48 +43,76 @@ void GWUI::XMLLoad::Analysis()
     std::cout << "XML Load end" << std::endl;
 }
 
-void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<GWUI::Widget>& parent)
+void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<Object> &parent)
 {
     auto buttonGroup = std::make_shared<ButtonGroup>();
-    for(const auto &widgetNode : node.children("widget"))
+    for (const auto &objectNode : node.children("widget"))
     {
         // 通用属性 继承自widget
-        auto className = std::string(widgetNode.attribute("class").value());
-        auto widget = std::invoke(_loadFun[className], widgetNode);
+        auto className = std::string(objectNode.attribute("class").value());
+        auto object = std::invoke(_loadFun[className], objectNode);
 
-        // TODO:特殊处理 改善
-        if (std::string(widgetNode.parent().attribute("class").value()) == "VerticalLayout")
+        //auto parentClassName = std::string(node.parent().attribute("class").value());
+        std::string parentClassName;
+        if (parent == nullptr)
         {
-            std::dynamic_pointer_cast<VerticalLayout>(parent)->AddWidget(widget);
+            parentClassName = "null";
         }
         else
         {
-            widget->SetParent(parent);
+            parentClassName = parent->GetClassName();
         }
-        widget->SetObjectName(widgetNode.attribute("name").value());
 
-        auto property = widgetNode.child("property");
-        if (auto geometry = property.child("geometry");geometry != nullptr)
+
+        if (IsLayout(parentClassName))
         {
-            auto xv = geometry.child_value("x");
-            auto yv = geometry.child_value("y");
-            auto wv = geometry.child_value("width");
-            auto hv = geometry.child_value("height");
-            widget->SetGeometry({std::stoi(xv), std::stoi(yv), std::stoi(wv), std::stoi(hv)});
+            if (IsWidget(className) || IsLayout(className))
+            {
+                std::dynamic_pointer_cast<WidgetLayout>(parent)->AddChild(object);
+            }
         }
-        _LoadXMLNode(widgetNode, widget);
-
-        // TODO:特殊情况处理
-        if (className == "CheckBox")
+        else
         {
-            if(auto button = std::dynamic_pointer_cast<AbstractButton>(widget);button->IsExclusive())
+            object->SetParent(parent);
+        }
+
+        if (IsButton(className))
+        {
+            auto button = std::dynamic_pointer_cast<AbstractButton>(object);
+            if (button->IsExclusive())
             {
                 buttonGroup->AddButton(button);
             }
         }
+
+        if (IsLayout(className))
+        {
+            std::cout << "layout" << std::endl;
+        }
+
+        object->SetClassName(className);
+        object->SetObjectName(objectNode.attribute("name").value());
+
+        if (IsWidget(className))
+        {
+            auto widget = std::dynamic_pointer_cast<Widget>(object);
+            auto property = objectNode.child("property");
+            if (auto geometry = property.child("geometry");geometry != nullptr)
+            {
+                auto xv = geometry.child_value("x");
+                auto yv = geometry.child_value("y");
+                auto wv = geometry.child_value("width");
+                auto hv = geometry.child_value("height");
+                widget->SetGeometry({std::stoi(xv), std::stoi(yv), std::stoi(wv), std::stoi(hv)});
+            }
+        }
+
+        _LoadXMLNode(objectNode, object);
+
+        // TODO:特殊情况处理
         if (className == "Window")
         {
-            _window = std::dynamic_pointer_cast<GWUI::Window>(widget);
+            _window = std::dynamic_pointer_cast<GWUI::Window>(object);
         }
     }
 }

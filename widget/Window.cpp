@@ -41,7 +41,11 @@ void GWUI::Window::Show()
                 std::cout << "SDL quit" << std::endl;
                 break;
             }
-            c->EventDispatch(e, shared_from_this());
+            if(e.key.keysym.sym == SDLK_PRINTSCREEN)
+            {
+
+            }
+            c->EventDispatch(e, std::dynamic_pointer_cast<Widget>(shared_from_this()));
         }
         _renderer.RenderClear();
         Draw(_renderer);

@@ -11,19 +11,20 @@
 #include "../widget/TextArea.h"
 #include "../widget/ComboBox.h"
 #include "../widget/Label.h"
-#include "../widget/VerticalLayout.h"
+#include "../Layout/VerticalLayout.h"
 #include "../widget/CheckBox.h"
 #include "../widget/LineEdit.h"
 #include "../widget/HorizontalSlider.h"
 #include "../widget/Window.h"
+#include "../Layout/HorizontalLayout.h"
 
 namespace GWUI
 {
-    using WidgetPtr = std::shared_ptr<GWUI::Widget>;
+    using ObjectPtr = std::shared_ptr<GWUI::Object>;
 
     // TODO:继承能否提取做法？？
     // TODO:不存在则设定默认值
-    inline WidgetPtr LoadButton(const pugi::xml_node& node)
+    inline ObjectPtr LoadButton(const pugi::xml_node& node)
     {
         auto button = std::make_shared<GWUI::Button>();
         auto property = node.child("property");
@@ -33,13 +34,13 @@ namespace GWUI
         return button;
     }
 
-    inline WidgetPtr LoadTextArea(const pugi::xml_node& node)
+    inline ObjectPtr LoadTextArea(const pugi::xml_node& node)
     {
         auto textArea = std::make_shared<GWUI::TextArea>();
         return textArea;
     }
 
-    inline WidgetPtr LoadComboBox(const pugi::xml_node& node)
+    inline ObjectPtr LoadComboBox(const pugi::xml_node& node)
     {
         auto comboBox = std::make_shared<GWUI::ComboBox>();
         std::vector<std::string> items;
@@ -51,7 +52,7 @@ namespace GWUI
         return comboBox;
     }
 
-    inline WidgetPtr LoadLabel(const pugi::xml_node& node)
+    inline ObjectPtr LoadLabel(const pugi::xml_node& node)
     {
         auto label = std::make_shared<GWUI::Label>();
         auto property = node.child("property");
@@ -69,13 +70,41 @@ namespace GWUI
         return label;
     }
 
-    inline WidgetPtr LoadVerticalLayout(const pugi::xml_node& node)
+    inline ObjectPtr LoadVerticalLayout(const pugi::xml_node& node)
     {
         auto verticalLayout = std::make_shared<GWUI::VerticalLayout>();
+        auto property = node.child("property");
+        if (auto geometry = property.child("geometry");geometry != nullptr)
+        {
+            auto xv = geometry.child_value("x");
+            auto yv = geometry.child_value("y");
+            auto wv = geometry.child_value("width");
+            auto hv = geometry.child_value("height");
+            verticalLayout->SetGeometry(
+                    {std::stoi(xv), std::stoi(yv), std::stoi(wv), std::stoi(hv)}
+            );
+        }
         return verticalLayout;
     }
 
-    inline WidgetPtr LoadCheckBox(const pugi::xml_node& node)
+    inline ObjectPtr LoadHorizontalLayout(const pugi::xml_node& node)
+    {
+        auto horizontalLayout = std::make_shared<GWUI::HorizontalLayout>();
+        auto property = node.child("property");
+        if (auto geometry = property.child("geometry");geometry != nullptr)
+        {
+            auto xv = geometry.child_value("x");
+            auto yv = geometry.child_value("y");
+            auto wv = geometry.child_value("width");
+            auto hv = geometry.child_value("height");
+            horizontalLayout->SetGeometry(
+                    {std::stoi(xv), std::stoi(yv), std::stoi(wv), std::stoi(hv)}
+            );
+        }
+        return horizontalLayout;
+    }
+
+    inline ObjectPtr LoadCheckBox(const pugi::xml_node& node)
     {
         auto checkBox = std::make_shared<GWUI::CheckBox>();
         auto property = node.child("property");
@@ -87,13 +116,13 @@ namespace GWUI
         return checkBox;
     }
 
-    inline WidgetPtr LoadLineEdit(const pugi::xml_node& node)
+    inline ObjectPtr LoadLineEdit(const pugi::xml_node& node)
     {
         auto lineEdit = std::make_shared<GWUI::LineEdit>();
         return lineEdit;
     }
 
-    inline WidgetPtr LoadHorizontalSlider(const pugi::xml_node& node)
+    inline ObjectPtr LoadHorizontalSlider(const pugi::xml_node& node)
     {
         auto horizontalSlider = std::make_shared<GWUI::HorizontalSlider>();
         horizontalSlider->SetTestMove(false);
@@ -107,7 +136,7 @@ namespace GWUI
         return horizontalSlider;
     }
 
-    inline WidgetPtr LoadWindow(const pugi::xml_node& node)
+    inline ObjectPtr LoadWindow(const pugi::xml_node& node)
     {
         auto window = std::make_shared<GWUI::Window>();
         auto property = node.child("property");
