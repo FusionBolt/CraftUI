@@ -4,7 +4,7 @@
 
 #include "HorizontalLayout.h"
 
-GWUI::Rect GWUI::HorizontalLayout::_ComputeChildGeometry(size_t index)
+Craft::Rect Craft::HorizontalLayout::_ComputeChildGeometry(size_t index)
 {
     auto widgetCount = _childs.size();
     auto rect = _rect;

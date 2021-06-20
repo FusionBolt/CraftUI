@@ -13,7 +13,7 @@
 #include "Widget.h"
 #include "AbstractButton.h"
 
-namespace GWUI
+namespace Craft
 {
     class Button : public AbstractButton
     {

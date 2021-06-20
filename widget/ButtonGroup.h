@@ -7,7 +7,7 @@
 
 #include "AbstractButton.h"
 
-namespace GWUI
+namespace Craft
 {
     class ButtonGroup : public Object
     {

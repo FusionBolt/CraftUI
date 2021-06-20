@@ -11,12 +11,12 @@
 #include "../widget/Widget.h"
 #include "../widget/Window.h"
 
-namespace GWUI
+namespace Craft
 {
     class XMLLoad
     {
     public:
-        using FunctionType = std::function<std::shared_ptr<GWUI::Object>(const pugi::xml_node&)>;
+        using FunctionType = std::function<std::shared_ptr<Craft::Object>(const pugi::xml_node&)>;
 
         XMLLoad(const std::string& path);
 
@@ -27,7 +27,7 @@ namespace GWUI
         template<typename T>
         std::shared_ptr<T> GetRoot()
         {
-            static_assert(std::is_base_of_v<GWUI::Widget, T>, "T should is base of GWUI::Widget");
+            static_assert(std::is_base_of_v<Craft::Widget, T>, "T should is base of Craft::Widget");
             return std::dynamic_pointer_cast<T>(_window);
         }
 
@@ -40,7 +40,7 @@ namespace GWUI
 
         pugi::xml_document doc;
 
-        std::shared_ptr<GWUI::Widget> _window;
+        std::shared_ptr<Craft::Widget> _window;
     };
 }
 

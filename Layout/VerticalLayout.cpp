@@ -4,7 +4,7 @@
 
 #include "VerticalLayout.h"
 
-GWUI::Rect GWUI::VerticalLayout::_ComputeChildGeometry(size_t index)
+Craft::Rect Craft::VerticalLayout::_ComputeChildGeometry(size_t index)
 {
     auto widgetCount = _childs.size();
     auto rect = _rect;

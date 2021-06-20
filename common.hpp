@@ -17,7 +17,7 @@
  "function: "<< __FUNCTION__ << std::endl << \
 errorInfo
 
-namespace GWUI
+namespace Craft
 {
     using Color = SDL_Color;
 

@@ -16,29 +16,29 @@ int main()
     // GwUI
     // GhostWhite
     // #F8F8FF
-//    GWUI::System system;
-    GWUI::XMLLoad l("/Users/fusionbolt/CLionProjects/GWUI/test.xml");
+//    Craft::System system;
+    Craft::XMLLoad l("/Users/fusionbolt/CLionProjects/CraftUI/test.xml");
     l.Analysis();
-    auto w = l.GetRoot<GWUI::Window>();
+    auto w = l.GetRoot<Craft::Window>();
 
-    auto label = w->FindChild<GWUI::Label>("textLabel");
-    auto comboBox = w->FindChild<GWUI::ComboBox>("comboBox1");
-    std::weak_ptr<GWUI::Label> m = label;
+    auto label = w->FindChild<Craft::Label>("textLabel");
+    auto comboBox = w->FindChild<Craft::ComboBox>("comboBox1");
+    std::weak_ptr<Craft::Label> m = label;
     // TODO: 不能捕获shared_ptr会循环饮用以及内存问题 （返回weak？
     if(label != nullptr && comboBox != nullptr)
     {
         comboBox->OnChanged([=](const std::string &nowText)
                             { label->SetText(nowText); });
     }
-    w->FindChild<GWUI::Button>("buttonMsgBox")->OnClicked([](bool){
-        GWUI::MessageBox("There is some msg", "MsgBox").Show();
+    w->FindChild<Craft::Button>("buttonMsgBox")->OnClicked([](bool){
+        Craft::MessageBox("There is some msg", "MsgBox").Show();
     });
-    w->FindChild<GWUI::Button>("buttonDialog")->OnClicked([](bool){
-        std::vector<GWUI::DialogButtonData> v;
+    w->FindChild<Craft::Button>("buttonDialog")->OnClicked([](bool){
+        std::vector<Craft::DialogButtonData> v;
         v.emplace_back(0, 0, "rua");
         v.emplace_back(SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Return");
         v.emplace_back(SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "Escape");
-        GWUI::Dialog(v, GWUI::MessageData("title", "message")).Show();
+        Craft::Dialog(v, Craft::MessageData("title", "message")).Show();
     });
 
     std::array cursorID = {SDL_SYSTEM_CURSOR_ARROW,
@@ -60,7 +60,7 @@ int main()
     label->SetParent(w);
 
     comboBox->OnChanged([&](const std::string &nowText){
-        GWUI::MouseCursor::SetCursor(cursorID[std::stoi(nowText)]);
+        Craft::MouseCursor::SetCursor(cursorID[std::stoi(nowText)]);
     });
     w->ShowAllChild();
     w->Show();

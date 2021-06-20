@@ -10,7 +10,7 @@
 #include "../units/Text.h"
 #include "../units/Image.h"
 
-namespace GWUI
+namespace Craft
 {
     class Label : public Widget
     {

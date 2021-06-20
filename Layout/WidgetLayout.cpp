@@ -4,19 +4,19 @@
 
 #include "WidgetLayout.h"
 
-void GWUI::WidgetLayout::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::WidgetLayout::SetGeometry(Craft::Rect rect) noexcept
 {
     _rect = rect;
     _ResetWidgetsGeometry();
 }
 
-void GWUI::WidgetLayout::AddChild(std::shared_ptr <Object> &child)
+void Craft::WidgetLayout::AddChild(std::shared_ptr <Object> &child)
 {
     child->SetParent(std::dynamic_pointer_cast<Object>(shared_from_this()));
     _ResetWidgetsGeometry();
 }
 
-void GWUI::WidgetLayout::_ResetWidgetsGeometry()
+void Craft::WidgetLayout::_ResetWidgetsGeometry()
 {
     size_t index = 0;
     for(auto& child : _childs)

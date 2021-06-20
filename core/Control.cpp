@@ -5,7 +5,7 @@
 #include "Control.h"
 #include "../widget/Window.h"
 
-int GWUI::Control::EventDispatch(GWUI::CrudeEvent &event, Widget::Ptr widget)
+int Craft::Control::EventDispatch(Craft::CrudeEvent &event, Widget::Ptr widget)
 {
     if(event.type == SDL_QUIT)
     {
@@ -60,12 +60,12 @@ int GWUI::Control::EventDispatch(GWUI::CrudeEvent &event, Widget::Ptr widget)
     if(event.key.keysym.sym == SDLK_PRINTSCREEN)
     {
         // TODO: 不是window?
-        std::dynamic_pointer_cast<GWUI::Window>(widget)->ScreenShot();
+        std::dynamic_pointer_cast<Craft::Window>(widget)->ScreenShot();
     }
     return 0;
 }
 
-void GWUI::Control::SetWidgetFocus(Widget::Ptr nextFocusWidget)
+void Craft::Control::SetWidgetFocus(Widget::Ptr nextFocusWidget)
 {
     if(_currentFocusWidget == nextFocusWidget)
     {

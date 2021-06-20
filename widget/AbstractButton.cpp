@@ -7,53 +7,53 @@
 
 #include <utility>
 
-GWUI::AbstractButton::AbstractButton(const std::string& text) :
+Craft::AbstractButton::AbstractButton(const std::string& text) :
     Widget(),_text(text)
 {
 
 }
 
-bool GWUI::AbstractButton::IsChecked() const noexcept
+bool Craft::AbstractButton::IsChecked() const noexcept
 {
     return _checked;
 }
 
-std::string GWUI::AbstractButton::GetText() const
+std::string Craft::AbstractButton::GetText() const
 {
     return _text.GetText();
 }
 
-void GWUI::AbstractButton::SetText(const std::string &text)
+void Craft::AbstractButton::SetText(const std::string &text)
 {
     _text.SetText(text);
 }
 
-bool GWUI::AbstractButton::IsCheckable() const noexcept
+bool Craft::AbstractButton::IsCheckable() const noexcept
 {
     return _checkable;
 }
 
-void GWUI::AbstractButton::_SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
+void Craft::AbstractButton::_SetButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 {
     _buttonGroup = buttonGroup;
 }
 
-void GWUI::AbstractButton::OnClicked(std::function<void(bool)> f)
+void Craft::AbstractButton::OnClicked(std::function<void(bool)> f)
 {
     _onClicked = std::move(f);
 }
 
-bool GWUI::AbstractButton::IsExclusive() const noexcept
+bool Craft::AbstractButton::IsExclusive() const noexcept
 {
     return _exclusive;
 }
 
-void GWUI::AbstractButton::SetExclusive(bool isExclusive) noexcept
+void Craft::AbstractButton::SetExclusive(bool isExclusive) noexcept
 {
     _exclusive = isExclusive;
 }
 
-void GWUI::AbstractButton::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
+void Craft::AbstractButton::MousePressEvent(const Craft::MouseEvent &mouseEvent)
 {
     if (JudgeCoincide(mouseEvent.GetPosition(), _checkedRectangle))
     {

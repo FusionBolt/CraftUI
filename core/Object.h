@@ -10,7 +10,7 @@
 #include <string>
 #include "../common.hpp"
 
-namespace GWUI
+namespace Craft
 {
     // TODO:widget parent shared_ptr or weak_ptr
     // if weak_ptr , use weak_from_this instead of shared_from_this() in SetParent

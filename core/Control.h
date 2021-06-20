@@ -7,7 +7,7 @@
 
 #include "../widget/Widget.h"
 
-namespace GWUI
+namespace Craft
 {
     class Control
     {

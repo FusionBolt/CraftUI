@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-namespace GWUI
+namespace Craft
 {
     struct Cursor
     {

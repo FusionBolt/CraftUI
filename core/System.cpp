@@ -4,9 +4,9 @@
 
 #include "System.h"
 
-inline GWUI::System _system;
+inline Craft::System _system;
 
-GWUI::System::System()
+Craft::System::System()
 {
     //initialize all SDL subsystems
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
@@ -36,7 +36,7 @@ GWUI::System::System()
     }
 }
 
-GWUI::System::~System()
+Craft::System::~System()
 {
     TTF_Quit();
     SDL_Quit();

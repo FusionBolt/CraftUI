@@ -8,7 +8,7 @@
 #include "Widget.h"
 #include "../units/Rectangle.h"
 
-namespace GWUI
+namespace Craft
 {
     class HorizontalSlider : public Widget
     {

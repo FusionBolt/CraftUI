@@ -7,7 +7,7 @@
 
 #include "Renderer.h"
 
-namespace GWUI
+namespace Craft
 {
     class Rectangle
     {

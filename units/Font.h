@@ -10,7 +10,7 @@
 
 #include "Renderer.h"
 
-namespace GWUI
+namespace Craft
 {
     constexpr auto FONT_STYLE_NORMAL = 0x00;
     constexpr auto FONT_STYLE_BOLD = 0x01;
@@ -21,7 +21,7 @@ namespace GWUI
     class Font
     {
     public:
-        explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/GWUI/source/PingFang.ttf");
+        explicit Font(u_int16_t size = 25, const std::string& path = "/Users/fusionbolt/CLionProjects/CraftUI/source/PingFang.ttf");
 
         // TODO:offset when uft8 is error
         std::shared_ptr<SDL_Surface> RenderTextBlendedWrapped(const std::string& text, Color color, int wrapLength, int textOffset = 0);

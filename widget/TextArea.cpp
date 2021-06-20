@@ -5,7 +5,7 @@
 #include "TextArea.h"
 #include "../units/ClipBoard.h"
 
-GWUI::TextArea::TextArea(GWUI::Rect rect):
+Craft::TextArea::TextArea(Craft::Rect rect):
         Widget(), _rectangle(rect),
         _text("this is a TextArea\nauto break line by word", 30, {255, 255, 255, 255}, rect.w)
 {
@@ -14,14 +14,14 @@ GWUI::TextArea::TextArea(GWUI::Rect rect):
     _rectangle.SetBackColor({128, 128, 128, 255});
 }
 
-void GWUI::TextArea::Draw(Renderer &renderer)
+void Craft::TextArea::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _rectangle.Draw(renderer);
     _text.Draw(renderer);
 }
 
-void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::TextArea::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
     _rectangle = rect;
@@ -30,7 +30,7 @@ void GWUI::TextArea::SetGeometry(GWUI::Rect rect) noexcept
     _text.SetWrapLength(rect.w);
 }
 
-void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
+void Craft::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
 #ifdef __APPLE__
     constexpr auto MainControlKey = KMOD_GUI;
@@ -100,12 +100,12 @@ void GWUI::TextArea::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     }
 }
 
-void GWUI::TextArea::SetText(std::string text)
+void Craft::TextArea::SetText(std::string text)
 {
     _text.SetText(std::move(text));
 }
 
-void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
+void Craft::TextArea::MousePressEvent(const Craft::MouseEvent &mouseEvent)
 {
     Widget::MousePressEvent(mouseEvent);
     auto event = mouseEvent.GetEvent();
@@ -115,12 +115,12 @@ void GWUI::TextArea::MousePressEvent(const GWUI::MouseEvent &mouseEvent)
     }
 }
 
-void GWUI::TextArea::SetReadOnly(bool isReadOnly)
+void Craft::TextArea::SetReadOnly(bool isReadOnly)
 {
     _readOnly = isReadOnly;
 }
 
-bool GWUI::TextArea::IsReadOnly()
+bool Craft::TextArea::IsReadOnly()
 {
     return _readOnly;
 }

@@ -4,12 +4,12 @@
 
 #include "ClipBoard.h"
 
-void GWUI::ClipBoard::SetText(const std::string &str)
+void Craft::ClipBoard::SetText(const std::string &str)
 {
     SDL_SetClipboardText(str.c_str());
 }
 
-std::string GWUI::ClipBoard::GetText()
+std::string Craft::ClipBoard::GetText()
 {
     return SDL_GetClipboardText();
 }

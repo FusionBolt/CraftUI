@@ -9,7 +9,7 @@
 #include <SDL_render.h>
 #include "../common.hpp"
 
-namespace GWUI
+namespace Craft
 {
     class Window;
 
@@ -30,17 +30,17 @@ namespace GWUI
 
         void RenderClipTexture(const std::shared_ptr<SDL_Texture> &texture, int x, int y, Rect* clip);
 
-        void RenderLine(Point p1, Point p2, Color color= GWUI::Black);
+        void RenderLine(Point p1, Point p2, Color color= Craft::Black);
 
-        void RenderFillRectangle(Rect rect, Color color = GWUI::White);
+        void RenderFillRectangle(Rect rect, Color color = Craft::White);
 
-        void RenderRectangle(Rect rect, Color color = GWUI::Black);
+        void RenderRectangle(Rect rect, Color color = Craft::Black);
 
-        void RenderCircle(Circle circle, Color color = GWUI::Black);
+        void RenderCircle(Circle circle, Color color = Craft::Black);
 
-        void RenderFillCircle(Circle circle, Color color = GWUI::White);
+        void RenderFillCircle(Circle circle, Color color = Craft::White);
 
-        void RenderPoint(Point p, Color color = GWUI::Black);
+        void RenderPoint(Point p, Color color = Craft::Black);
 
         void RenderPointByNowColor(Point p);
 

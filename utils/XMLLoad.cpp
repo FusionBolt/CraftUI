@@ -7,12 +7,12 @@
 #include "../widget/ButtonGroup.h"
 #include "../core/MetaInfo.h"
 
-void GWUI::XMLLoad::RegisterLoadFun(const std::string& className, GWUI::XMLLoad::FunctionType function)
+void Craft::XMLLoad::RegisterLoadFun(const std::string& className, Craft::XMLLoad::FunctionType function)
 {
     _loadFun[className] = std::move(function);
 }
 
-GWUI::XMLLoad::XMLLoad(const std::string &path)
+Craft::XMLLoad::XMLLoad(const std::string &path)
 {
     pugi::xml_parse_result result = doc.load_file(path.c_str());
     if (!result)
@@ -23,7 +23,7 @@ GWUI::XMLLoad::XMLLoad(const std::string &path)
     std::cout << "Fun Load Successful" << std::endl;
 }
 
-void GWUI::XMLLoad::_InitLoadFun()
+void Craft::XMLLoad::_InitLoadFun()
 {
     RegisterLoadFun("Button", LoadButton);
     RegisterLoadFun("TextArea", LoadTextArea);
@@ -37,13 +37,13 @@ void GWUI::XMLLoad::_InitLoadFun()
     RegisterLoadFun("Window", LoadWindow);
 }
 
-void GWUI::XMLLoad::Analysis()
+void Craft::XMLLoad::Analysis()
 {
     _LoadXMLNode(doc, nullptr);
     std::cout << "XML Load end" << std::endl;
 }
 
-void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<Object> &parent)
+void Craft::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, const std::shared_ptr<Object> &parent)
 {
     auto buttonGroup = std::make_shared<ButtonGroup>();
     for (const auto &objectNode : node.children("widget"))
@@ -112,7 +112,7 @@ void GWUI::XMLLoad::_LoadXMLNode(const pugi::xml_node& node, const std::shared_p
         // TODO:特殊情况处理
         if (className == "Window")
         {
-            _window = std::dynamic_pointer_cast<GWUI::Window>(object);
+            _window = std::dynamic_pointer_cast<Craft::Window>(object);
         }
     }
 }

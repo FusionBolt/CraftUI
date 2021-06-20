@@ -11,7 +11,7 @@
 #include "../units/Cursor.h"
 #include "../units/SelectArea.h"
 
-namespace GWUI
+namespace Craft
 {
 
     class LineEdit : public Widget

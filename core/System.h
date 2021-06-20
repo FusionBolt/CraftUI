@@ -12,7 +12,7 @@
 
 #include "../common.hpp"
 
-namespace GWUI
+namespace Craft
 {
     class System
     {

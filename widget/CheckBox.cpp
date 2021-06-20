@@ -5,17 +5,17 @@
 #include "CheckBox.h"
 #include "ButtonGroup.h"
 
-GWUI::CheckBox::CheckBox(const std::string& text) :
+Craft::CheckBox::CheckBox(const std::string& text) :
     AbstractButton(text)
 {
 
 }
 
-void GWUI::CheckBox::Draw(Renderer &renderer)
+void Craft::CheckBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
-    renderer.RenderFillRectangle(_checkedRectangle, GWUI::White);
-    renderer.RenderRectangle(_checkedRectangle, GWUI::Black);
+    renderer.RenderFillRectangle(_checkedRectangle, Craft::White);
+    renderer.RenderRectangle(_checkedRectangle, Craft::Black);
 
     _text.Draw(renderer);
 
@@ -26,11 +26,11 @@ void GWUI::CheckBox::Draw(Renderer &renderer)
         renderer.RenderFillRectangle(
                 {rect.x + smallRectWidth / 2, rect.y + smallRectWidth / 2,
                  rect.w - smallRectWidth, rect.h - smallRectWidth},
-                GWUI::Black);
+                Craft::Black);
     }
 }
 
-void GWUI::CheckBox::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::CheckBox::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
     int rectWidth = 20;

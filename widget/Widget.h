@@ -13,7 +13,7 @@
 #include "../units/Renderer.h"
 #include "../core/MetaInfo.h"
 
-namespace GWUI
+namespace Craft
 {
     class Widget : public Object
     {

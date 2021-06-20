@@ -5,7 +5,7 @@
 #ifndef GWUI_TIMER_H
 #define GWUI_TIMER_H
 
-namespace GWUI
+namespace Craft
 {
     class Timer
     {

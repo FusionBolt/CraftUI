@@ -4,7 +4,7 @@
 
 #include "Text.h"
 
-GWUI::Text::Text(std::string text, uint16_t size, const GWUI::Color &color, uint32_t wrapLength):
+Craft::Text::Text(std::string text, uint16_t size, const Craft::Color &color, uint32_t wrapLength):
         _text(std::move(text)), _color(color), _fontSize(size), _font(size),
         _wrapLength(wrapLength), _showTextBeginIndex(0),
         _dirty(false), _autoBreakLine(true)
@@ -14,7 +14,7 @@ GWUI::Text::Text(std::string text, uint16_t size, const GWUI::Color &color, uint
 }
 
 // EndPosition is point to lastChar + 1
-int GWUI::Text::Draw(Renderer& renderer, int textEndPosition)
+int Craft::Text::Draw(Renderer& renderer, int textEndPosition)
 {
     if (_dirty)
     {
@@ -26,7 +26,7 @@ int GWUI::Text::Draw(Renderer& renderer, int textEndPosition)
     return space;
 }
 
-void GWUI::Text::_ResetTexture(const Renderer& renderer, size_t offset)
+void Craft::Text::_ResetTexture(const Renderer& renderer, size_t offset)
 {
     std::shared_ptr<SDL_Surface> ttf;
     if (_autoBreakLine)
@@ -42,85 +42,85 @@ void GWUI::Text::_ResetTexture(const Renderer& renderer, size_t offset)
     _texture = renderer.CreateTextureFromSurface(ttf);
 }
 
-void GWUI::Text::SetPosition(Point position) noexcept
+void Craft::Text::SetPosition(Point position) noexcept
 {
     _position = position;
     _dirty = true;
 }
 
-void GWUI::Text::PopBackChar()
+void Craft::Text::PopBackChar()
 {
     _text.pop_back();
     _dirty = true;
 }
 
-void GWUI::Text::InsertChar(char c)
+void Craft::Text::InsertChar(char c)
 {
     _text.append({c});
     _dirty = true;
 }
 
-void GWUI::Text::SetColor(GWUI::Color color) noexcept
+void Craft::Text::SetColor(Craft::Color color) noexcept
 {
     _color = color;
     _dirty = true;
 }
 
-void GWUI::Text::SetWrapLength(uint32_t wrapLength) noexcept
+void Craft::Text::SetWrapLength(uint32_t wrapLength) noexcept
 {
     _wrapLength = wrapLength;
     _dirty = true;
 }
 
-void GWUI::Text::SetText(std::string text)
+void Craft::Text::SetText(std::string text)
 {
     _text = std::move(text);
     _dirty = true;
 }
 
-void GWUI::Text::SetFontSize(uint16_t size) noexcept
+void Craft::Text::SetFontSize(uint16_t size) noexcept
 {
     _font.SetSize(size);
     _dirty = true;
 }
 
-std::string GWUI::Text::GetText() const
+std::string Craft::Text::GetText() const
 {
     return _text;
 }
 
-GWUI::Color GWUI::Text::GetFontColor() const noexcept
+Craft::Color Craft::Text::GetFontColor() const noexcept
 {
     return _color;
 }
 
-size_t GWUI::Text::InsertText(const std::string &s, size_t pos)
+size_t Craft::Text::InsertText(const std::string &s, size_t pos)
 {
     _text.insert(pos, s);
     _dirty = true;
     return s.size();
 }
 
-size_t GWUI::Text::InsertTextBack(const std::string &s)
+size_t Craft::Text::InsertTextBack(const std::string &s)
 {
     _text.insert(_text.size() - 1, s);
     _dirty = true;
     return s.size();
 }
 
-bool GWUI::Text::IsEmpty() const noexcept
+bool Craft::Text::IsEmpty() const noexcept
 {
     return _text.empty();
 }
 
-void GWUI::Text::ClearText()
+void Craft::Text::ClearText()
 {
     _text.clear();
     _dirty = true;
 }
 
 // size is point to last char + 1
-size_t GWUI::Text::EraseFrontWord(size_t wordEndPosition)
+size_t Craft::Text::EraseFrontWord(size_t wordEndPosition)
 {
     if (wordEndPosition == 0)
     {
@@ -132,7 +132,7 @@ size_t GWUI::Text::EraseFrontWord(size_t wordEndPosition)
     return wordSize;
 }
 
-size_t GWUI::Text::PopBackLine()
+size_t Craft::Text::PopBackLine()
 {
     size_t lineSize = 0;
     auto index = _text.find_last_of('\n');
@@ -149,28 +149,28 @@ size_t GWUI::Text::PopBackLine()
     return lineSize;
 }
 
-bool GWUI::Text::_IsSpacer(char c) const noexcept
+bool Craft::Text::_IsSpacer(char c) const noexcept
 {
     return c == ' ' || c == '\n' || c == '\t';
 }
 
-size_t GWUI::Text::GetTextSize() const noexcept
+size_t Craft::Text::GetTextSize() const noexcept
 {
     return _text.size();
 }
 
 // TODO: api design problem, length and pos
-std::tuple<size_t, size_t> GWUI::Text::GetTextSpace(size_t length, size_t pos) const
+std::tuple<size_t, size_t> Craft::Text::GetTextSpace(size_t length, size_t pos) const
 {
     return _font.GetTextSpace(_text.substr(pos, length));
 }
 
-std::tuple<size_t, size_t> GWUI::Text::GetUTF8TextSpace(size_t length, size_t pos) const
+std::tuple<size_t, size_t> Craft::Text::GetUTF8TextSpace(size_t length, size_t pos) const
 {
     return _font.GetUTF8TextSpace(_text.substr(pos, length));
 }
 
-void GWUI::Text::EraseStr(size_t pos, size_t size)
+void Craft::Text::EraseStr(size_t pos, size_t size)
 {
     _text.erase(pos, size);
     _dirty = true;
@@ -178,7 +178,7 @@ void GWUI::Text::EraseStr(size_t pos, size_t size)
 
 // base index is point to last char
 // not point to last char + 1
-std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex, const std::string& text) const
+std::tuple<size_t, size_t> Craft::Text::_FindFrontWordStartIndex(size_t baseIndex, const std::string& text) const
 {
     // TODO:baseIndex > text.size()
     // 字符串操作都是类似问题
@@ -213,7 +213,7 @@ std::tuple<size_t, size_t> GWUI::Text::_FindFrontWordStartIndex(size_t baseIndex
     return std::make_tuple(wordStartIndex, wordSize);
 }
 
-size_t GWUI::Text::_AdjustShowTextureWidth(const Renderer& renderer, int textEndPosition)
+size_t Craft::Text::_AdjustShowTextureWidth(const Renderer& renderer, int textEndPosition)
 {
     size_t space = 0;
     if (_showTextBeginIndex == textEndPosition && _showTextBeginIndex != 0)
@@ -234,7 +234,7 @@ size_t GWUI::Text::_AdjustShowTextureWidth(const Renderer& renderer, int textEnd
     return space;
 }
 
-int GWUI::Text::GetTextIndexFromOffsetX(int offsetX) const
+int Craft::Text::GetTextIndexFromOffsetX(int offsetX) const
 {
     for(auto subStrSize = 1; subStrSize <= _text.size(); ++subStrSize)
     {
@@ -248,37 +248,37 @@ int GWUI::Text::GetTextIndexFromOffsetX(int offsetX) const
     return -1;
 }
 //TODO: 文字渲染长度
-std::string GWUI::Text::GetSubStr(size_t pos, size_t size) const
+std::string Craft::Text::GetSubStr(size_t pos, size_t size) const
 {
     return _text.substr(pos, size);
 }
 
-size_t GWUI::Text::GetTextShowHeight() const
+size_t Craft::Text::GetTextShowHeight() const
 {
     return std::get<1>(GetTextSpace(_text.size()));
 }
 
-size_t GWUI::Text::GetFullTextShowWidth() const
+size_t Craft::Text::GetFullTextShowWidth() const
 {
     return std::get<0>(GetTextSpace(_text.size()));
 }
 
-size_t GWUI::Text::GetShowTextBeginIndex()
+size_t Craft::Text::GetShowTextBeginIndex()
 {
     return _showTextBeginIndex;
 }
 
-size_t GWUI::Text::GetTextShowWidth(size_t pos, size_t length) const
+size_t Craft::Text::GetTextShowWidth(size_t pos, size_t length) const
 {
     return std::get<0>(GetTextSpace(length, pos));
 }
 
-size_t GWUI::Text::GetShowTextWidth(size_t length) const
+size_t Craft::Text::GetShowTextWidth(size_t length) const
 {
     return std::get<0>(GetTextSpace(length, _showTextBeginIndex));
 }
 
-void GWUI::Text::SetAutoBreakLine(bool isAutoBreakLine) noexcept
+void Craft::Text::SetAutoBreakLine(bool isAutoBreakLine) noexcept
 {
     _autoBreakLine = isAutoBreakLine;
 }

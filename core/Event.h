@@ -10,7 +10,7 @@
 
 #include "../common.hpp"
 
-namespace GWUI
+namespace Craft
 {
     using CrudeEvent = SDL_Event;
 

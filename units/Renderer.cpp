@@ -7,24 +7,24 @@
 #include "Renderer.h"
 #include "../widget/Window.h"
 
-void GWUI::Renderer::SetWindow(Window* window)
+void Craft::Renderer::SetWindow(Window* window)
 {
     _renderer.reset(SDL_CreateRenderer(window->_window.get(), -1, SDL_RENDERER_ACCELERATED));
     _window = window;
     SetRenderBlendMode(SDL_BLENDMODE_BLEND);
 }
 
-void GWUI::Renderer::RenderClear()
+void Craft::Renderer::RenderClear()
 {
     SDL_RenderClear(_renderer.get());
 }
 
-void GWUI::Renderer::RenderPresent()
+void Craft::Renderer::RenderPresent()
 {
     SDL_RenderPresent(_renderer.get());
 }
 
-void GWUI::Renderer::RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Point point)
+void Craft::Renderer::RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Point point)
 {
     Rect dst;
     dst.x = point.x;
@@ -33,14 +33,14 @@ void GWUI::Renderer::RenderTexture(const std::shared_ptr<SDL_Texture> &texture, 
     SDL_RenderCopy(_renderer.get(), texture.get(), nullptr, &dst);
 }
 
-void GWUI::Renderer::RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Rect dst, Rect src)
+void Craft::Renderer::RenderTexture(const std::shared_ptr<SDL_Texture> &texture, Rect dst, Rect src)
 {
     // TODO:query src的值 以及clip
     SDL_QueryTexture(texture.get(), nullptr, nullptr, &src.w, &src.h);
     SDL_RenderCopy(_renderer.get(), texture.get(), &src, &dst);
 }
 
-void GWUI::Renderer::RenderClipTexture(const std::shared_ptr<SDL_Texture> &texture, int x, int y, GWUI::Rect* clip)
+void Craft::Renderer::RenderClipTexture(const std::shared_ptr<SDL_Texture> &texture, int x, int y, Craft::Rect* clip)
 {
     SDL_Rect renderQuad = { x, y, clip->w, clip->h };
 
@@ -59,31 +59,31 @@ void GWUI::Renderer::RenderClipTexture(const std::shared_ptr<SDL_Texture> &textu
 // Rect recode position value
 // Rectangle draw and set style
 
-void GWUI::Renderer::RenderPoint(GWUI::Point p, GWUI::Color color)
+void Craft::Renderer::RenderPoint(Craft::Point p, Craft::Color color)
 {
     SetRenderDrawColor(color);
     SDL_RenderDrawPoint(_renderer.get(), p.x, p.y);
 }
 
-void GWUI::Renderer::RenderLine(Point p1, Point p2, Color color)
+void Craft::Renderer::RenderLine(Point p1, Point p2, Color color)
 {
     SetRenderDrawColor(color);
     SDL_RenderDrawLine(_renderer.get(), p1.x, p1.y, p2.x, p2.y);
 }
 
-void GWUI::Renderer::RenderRectangle(Rect rect, Color color)
+void Craft::Renderer::RenderRectangle(Rect rect, Color color)
 {
     SetRenderDrawColor(color);
     SDL_RenderDrawRect(_renderer.get(), &rect);
 }
 
-void GWUI::Renderer::RenderFillRectangle(GWUI::Rect rect, Color color)
+void Craft::Renderer::RenderFillRectangle(Craft::Rect rect, Color color)
 {
     SetRenderDrawColor(color);
     SDL_RenderFillRect(_renderer.get(), &rect);
 }
 
-std::shared_ptr<SDL_Texture> GWUI::Renderer::LoadIMG(const std::string &filePath) const
+std::shared_ptr<SDL_Texture> Craft::Renderer::LoadIMG(const std::string &filePath) const
 {
     SDL_Texture *texture = IMG_LoadTexture(_renderer.get(), filePath.c_str());
     if (texture == nullptr)
@@ -94,41 +94,41 @@ std::shared_ptr<SDL_Texture> GWUI::Renderer::LoadIMG(const std::string &filePath
     return std::shared_ptr<SDL_Texture>(texture, SDL_DestroyTexture);
 }
 
-void GWUI::Renderer::SetRenderDrawColor(GWUI::Color color)
+void Craft::Renderer::SetRenderDrawColor(Craft::Color color)
 {
     SDL_SetRenderDrawColor(_renderer.get(), color.r, color.g, color.b, color.a);
 }
 
-std::shared_ptr<SDL_Texture> GWUI::Renderer::CreateTexture(uint32_t format, int access, int w, int h) const
+std::shared_ptr<SDL_Texture> Craft::Renderer::CreateTexture(uint32_t format, int access, int w, int h) const
 {
     return std::shared_ptr<SDL_Texture>(SDL_CreateTexture(_renderer.get(),
             format, access, w, h), SDL_DestroyTexture);
 }
 
-void GWUI::Renderer::RenderCopy(const std::shared_ptr<SDL_Texture>& texture)
+void Craft::Renderer::RenderCopy(const std::shared_ptr<SDL_Texture>& texture)
 {
     SDL_RenderCopy(_renderer.get(), texture.get(), nullptr, nullptr);
 }
 
-std::shared_ptr<SDL_Texture> GWUI::Renderer::CreateTextureFromSurface(const std::shared_ptr<SDL_Surface>& surface) const
+std::shared_ptr<SDL_Texture> Craft::Renderer::CreateTextureFromSurface(const std::shared_ptr<SDL_Surface>& surface) const
 {
     return std::shared_ptr<SDL_Texture>(
             SDL_CreateTextureFromSurface(_renderer.get(), surface.get()),
             SDL_DestroyTexture);
 }
 
-void GWUI::Renderer::ScreenShot(Rect rect) const
+void Craft::Renderer::ScreenShot(Rect rect) const
 {
     _ScreenShot(rect);
 }
 
-void GWUI::Renderer::ScreenShot() const
+void Craft::Renderer::ScreenShot() const
 {
     auto [w, h] = _window->GetWindowSize();
     _ScreenShot({0, 0, w, h});
 }
 
-void GWUI::Renderer::_ScreenShot(Rect rect) const
+void Craft::Renderer::_ScreenShot(Rect rect) const
 {
     // about screenshot
     // https://stackoverflow.com/questions/22315980/sdl2-c-taking-a-screenshot
@@ -140,7 +140,7 @@ void GWUI::Renderer::_ScreenShot(Rect rect) const
     SDL_SaveBMP(screenShot.get(), timeStr.c_str());
 }
 
-void GWUI::Renderer::RenderCircle(Circle circle, Color color)
+void Craft::Renderer::RenderCircle(Circle circle, Color color)
 {
     // about RenderCircle and RenderFillCircle
     // https://gist.github.com/derofim/912cfc9161269336f722
@@ -194,7 +194,7 @@ void GWUI::Renderer::RenderCircle(Circle circle, Color color)
     }
 }
 
-void GWUI::Renderer::RenderFillCircle(Circle circle, GWUI::Color color)
+void Craft::Renderer::RenderFillCircle(Circle circle, Craft::Color color)
 {
     // Note that there is more to altering the bitrate of this
     // method than just changing this value.  See how pixels are
@@ -246,14 +246,14 @@ void GWUI::Renderer::RenderFillCircle(Circle circle, GWUI::Color color)
     }
 }
 
-void GWUI::Renderer::SetRenderBlendMode(SDL_BlendMode mode)
+void Craft::Renderer::SetRenderBlendMode(SDL_BlendMode mode)
 {
     // SDL_BLENDMODE_NONE
     // SDL_BLENDMODE_BLEND
     SDL_SetRenderDrawBlendMode(_renderer.get(), mode);
 }
 
-void GWUI::Renderer::RenderPointByNowColor(GWUI::Point p)
+void Craft::Renderer::RenderPointByNowColor(Craft::Point p)
 {
     SDL_RenderDrawPoint(_renderer.get(), p.x, p.y);
 }

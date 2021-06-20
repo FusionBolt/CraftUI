@@ -11,12 +11,12 @@
 #include "../units/Renderer.h"
 #include "Widget.h"
 
-namespace GWUI
+namespace Craft
 {
     class Window : public Widget
     {
     public:
-        explicit Window(const std::string& title = "GWUI", int width = 1024, int height = 768);
+        explicit Window(const std::string& title = "Craft", int width = 1024, int height = 768);
 
         void Show();
 

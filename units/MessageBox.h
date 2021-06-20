@@ -9,7 +9,7 @@
 
 #include "Dialog.h"
 
-namespace GWUI
+namespace Craft
 {
     class MessageBox
     {

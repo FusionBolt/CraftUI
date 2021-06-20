@@ -9,7 +9,7 @@
 
 #include "../units/Renderer.h"
 
-namespace GWUI
+namespace Craft
 {
     class Image
     {

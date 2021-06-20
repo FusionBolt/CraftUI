@@ -7,7 +7,7 @@
             <width>1024</width>
             <height>768</height>
         </geometry>
-        <title>GWUI</title>
+        <title>Craft</title>
     </property>
     <widget class="Button" name="button1">
         <property>
@@ -71,7 +71,7 @@
     <widget class="Label" name="picLabel">
         <property>
             <image>
-                <path>/Users/fusionbolt/CLionProjects/GWUI/source/wz.png</path>
+                <path>/Users/fusionbolt/CLionProjects/CraftUI/source/wz.png</path>
             </image>
             <geometry>
                 <x>600</x>

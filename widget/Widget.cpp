@@ -6,7 +6,7 @@
 #include "Button.h"
 #include "../core/MetaInfo.h"
 
-void GWUI::Widget::Draw(Renderer &renderer)
+void Craft::Widget::Draw(Renderer &renderer)
 {
     auto thisPtr = shared_from_this();
     AllChildDo([&](auto &&widget)
@@ -52,27 +52,27 @@ void GWUI::Widget::Draw(Renderer &renderer)
     // renderer.RenderRectangle(GetGeometry(), c);
 }
 
-void GWUI::Widget::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::Widget::SetGeometry(Craft::Rect rect) noexcept
 {
     _geometry = rect;
 }
 
-GWUI::Rect GWUI::Widget::GetGeometry() const noexcept
+Craft::Rect Craft::Widget::GetGeometry() const noexcept
 {
     return _geometry;
 }
 
-void GWUI::Widget::MousePressEvent(const MouseEvent &mouseEvent)
+void Craft::Widget::MousePressEvent(const MouseEvent &mouseEvent)
 {
     _hadClicked = true;
 }
 
-void GWUI::Widget::MouseReleaseEvent(const MouseEvent &mouseEvent)
+void Craft::Widget::MouseReleaseEvent(const MouseEvent &mouseEvent)
 {
     _hadClicked = false;
 }
 
-void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
+void Craft::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
     if (_hadClicked && _beTestMove)
     {
@@ -81,18 +81,18 @@ void GWUI::Widget::MouseMotionEvent(const MouseEvent &mouseEvent)
     }
 }
 
-void GWUI::Widget::SetTestMove(bool beMove) noexcept
+void Craft::Widget::SetTestMove(bool beMove) noexcept
 {
     _beTestMove = beMove;
 }
 
-void GWUI::Widget::SetFocus(bool focus) noexcept
+void Craft::Widget::SetFocus(bool focus) noexcept
 {
     _focus = focus;
 }
 
 template<typename T>
-std::weak_ptr<T> GWUI::Widget::WeakFromThis()
+std::weak_ptr<T> Craft::Widget::WeakFromThis()
 {
     return std::dynamic_pointer_cast<T>(shared_from_this());
 }

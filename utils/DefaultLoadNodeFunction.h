@@ -18,15 +18,15 @@
 #include "../widget/Window.h"
 #include "../Layout/HorizontalLayout.h"
 
-namespace GWUI
+namespace Craft
 {
-    using ObjectPtr = std::shared_ptr<GWUI::Object>;
+    using ObjectPtr = std::shared_ptr<Craft::Object>;
 
     // TODO:继承能否提取做法？？
     // TODO:不存在则设定默认值
     inline ObjectPtr LoadButton(const pugi::xml_node& node)
     {
-        auto button = std::make_shared<GWUI::Button>();
+        auto button = std::make_shared<Craft::Button>();
         auto property = node.child("property");
         auto buttonText = property.child_value("string");
         button->SetText(buttonText);
@@ -36,13 +36,13 @@ namespace GWUI
 
     inline ObjectPtr LoadTextArea(const pugi::xml_node& node)
     {
-        auto textArea = std::make_shared<GWUI::TextArea>();
+        auto textArea = std::make_shared<Craft::TextArea>();
         return textArea;
     }
 
     inline ObjectPtr LoadComboBox(const pugi::xml_node& node)
     {
-        auto comboBox = std::make_shared<GWUI::ComboBox>();
+        auto comboBox = std::make_shared<Craft::ComboBox>();
         std::vector<std::string> items;
         for (const auto &item : node.child("property").child("itemList"))
         {
@@ -54,7 +54,7 @@ namespace GWUI
 
     inline ObjectPtr LoadLabel(const pugi::xml_node& node)
     {
-        auto label = std::make_shared<GWUI::Label>();
+        auto label = std::make_shared<Craft::Label>();
         auto property = node.child("property");
         if (auto img = property.child("image"))
         {
@@ -72,7 +72,7 @@ namespace GWUI
 
     inline ObjectPtr LoadVerticalLayout(const pugi::xml_node& node)
     {
-        auto verticalLayout = std::make_shared<GWUI::VerticalLayout>();
+        auto verticalLayout = std::make_shared<Craft::VerticalLayout>();
         auto property = node.child("property");
         if (auto geometry = property.child("geometry");geometry != nullptr)
         {
@@ -89,7 +89,7 @@ namespace GWUI
 
     inline ObjectPtr LoadHorizontalLayout(const pugi::xml_node& node)
     {
-        auto horizontalLayout = std::make_shared<GWUI::HorizontalLayout>();
+        auto horizontalLayout = std::make_shared<Craft::HorizontalLayout>();
         auto property = node.child("property");
         if (auto geometry = property.child("geometry");geometry != nullptr)
         {
@@ -106,7 +106,7 @@ namespace GWUI
 
     inline ObjectPtr LoadCheckBox(const pugi::xml_node& node)
     {
-        auto checkBox = std::make_shared<GWUI::CheckBox>();
+        auto checkBox = std::make_shared<Craft::CheckBox>();
         auto property = node.child("property");
         checkBox->SetText(property.child("string").child_value());
         if(auto exclusive = property.child("exclusive"); exclusive)
@@ -118,13 +118,13 @@ namespace GWUI
 
     inline ObjectPtr LoadLineEdit(const pugi::xml_node& node)
     {
-        auto lineEdit = std::make_shared<GWUI::LineEdit>();
+        auto lineEdit = std::make_shared<Craft::LineEdit>();
         return lineEdit;
     }
 
     inline ObjectPtr LoadHorizontalSlider(const pugi::xml_node& node)
     {
-        auto horizontalSlider = std::make_shared<GWUI::HorizontalSlider>();
+        auto horizontalSlider = std::make_shared<Craft::HorizontalSlider>();
         horizontalSlider->SetTestMove(false);
         if (auto min = node.child("property").child("range").child_value("min"),
                 max = node.child("property").child("range").child_value("max");
@@ -138,7 +138,7 @@ namespace GWUI
 
     inline ObjectPtr LoadWindow(const pugi::xml_node& node)
     {
-        auto window = std::make_shared<GWUI::Window>();
+        auto window = std::make_shared<Craft::Window>();
         auto property = node.child("property");
         window->SetWindowTitle(property.child_value("title"));
         auto width = std::stoi(property.child("geometry").child_value("width"));

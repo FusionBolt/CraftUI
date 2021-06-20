@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace GWUI
+namespace Craft
 {
     bool IsLayout(const std::string& className);
 

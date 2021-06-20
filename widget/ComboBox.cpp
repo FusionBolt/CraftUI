@@ -6,13 +6,13 @@
 
 #include <utility>
 
-GWUI::ComboBox::ComboBox():
+Craft::ComboBox::ComboBox():
     Widget(),
     _height(20), _width(60)
 {
 }
 
-void GWUI::ComboBox::AddItems(const std::vector<std::string>& items)
+void Craft::ComboBox::AddItems(const std::vector<std::string>& items)
 {
     for(const auto& item : items)
     {
@@ -20,7 +20,7 @@ void GWUI::ComboBox::AddItems(const std::vector<std::string>& items)
     }
 }
 
-void GWUI::ComboBox::AddItem(const std::string &item)
+void Craft::ComboBox::AddItem(const std::string &item)
 {
     auto text = Text(item);
     text.SetWrapLength(_geometry.w);
@@ -33,19 +33,19 @@ void GWUI::ComboBox::AddItem(const std::string &item)
     _items.push_back(text);
 }
 
-void GWUI::ComboBox::Draw(Renderer &renderer)
+void Craft::ComboBox::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
 
-    renderer.RenderFillRectangle(_geometry, GWUI::White);
-    renderer.RenderRectangle(_geometry, GWUI::Black);
+    renderer.RenderFillRectangle(_geometry, Craft::White);
+    renderer.RenderRectangle(_geometry, Craft::Black);
 
     renderer.RenderFillRectangle(
             {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height},
-            GWUI::White);
+            Craft::White);
     renderer.RenderRectangle(
             {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height},
-            GWUI::Black);
+            Craft::Black);
 
     _currentText.Draw(renderer);
     if (_showList)
@@ -60,12 +60,12 @@ void GWUI::ComboBox::Draw(Renderer &renderer)
     }
 }
 
-void GWUI::ComboBox::OnChanged(std::function<void(const std::string &)> f)
+void Craft::ComboBox::OnChanged(std::function<void(const std::string &)> f)
 {
     _onChanged = std::move(f);
 }
 
-void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
+void Craft::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
 {
     Widget::MousePressEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();
@@ -94,7 +94,7 @@ void GWUI::ComboBox::MousePressEvent(const MouseEvent &mouseEvent)
     }
 }
 
-GWUI::Rect GWUI::ComboBox::_GetListRectangle()
+Craft::Rect Craft::ComboBox::_GetListRectangle()
 {
     auto rect = GetGeometry();
     rect.y += _height;
@@ -102,7 +102,7 @@ GWUI::Rect GWUI::ComboBox::_GetListRectangle()
     return rect;
 }
 
-void GWUI::ComboBox::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::ComboBox::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
     _currentText.SetPosition({rect.x, rect.y});
@@ -115,22 +115,22 @@ void GWUI::ComboBox::SetGeometry(GWUI::Rect rect) noexcept
     }
 }
 
-bool GWUI::ComboBox::_clickOnButtonArea(Point position)
+bool Craft::ComboBox::_clickOnButtonArea(Point position)
 {
     return JudgeCoincide(position, {_geometry.x + _geometry.w - _height, _geometry.y, _height, _height});
 }
 
-bool GWUI::ComboBox::_clickOnItems(GWUI::Point position)
+bool Craft::ComboBox::_clickOnItems(Craft::Point position)
 {
     return JudgeCoincide(position, {_geometry.x, _geometry.y + _height, _geometry.w, _geometry.h - _height});
 }
 
-size_t GWUI::ComboBox::_GetItemIndexFromPosition(GWUI::Point position)
+size_t Craft::ComboBox::_GetItemIndexFromPosition(Craft::Point position)
 {
     return (position.y - (_geometry.y + _height)) / _height;
 }
 
-void GWUI::ComboBox::ClearItems()
+void Craft::ComboBox::ClearItems()
 {
     _items.clear();
     _currentText.SetText("");

@@ -9,9 +9,9 @@
 #include "../core/Control.h"
 #include "../units/Image.h"
 
-GWUI::Window::Window(const std::string &title, int width, int height):Widget(),
-    _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface),
-    _backgroundColor({121, 212, 251, 255})
+Craft::Window::Window(const std::string &title, int width, int height): Widget(),
+                                                                        _window(nullptr, SDL_DestroyWindow), _icon(nullptr, SDL_FreeSurface),
+                                                                        _backgroundColor({121, 212, 251, 255})
 {
     _window.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN)); // | SDL_WINDOW_ALLOW_HIGHDPI
@@ -24,7 +24,7 @@ GWUI::Window::Window(const std::string &title, int width, int height):Widget(),
     SetWindowIcon("/Users/fusionbolt/Pictures/AlfredIcon/pmwk.png");
 }
 
-void GWUI::Window::Show()
+void Craft::Window::Show()
 {
     CrudeEvent e;
     auto c = std::make_shared<Control>();
@@ -49,7 +49,7 @@ void GWUI::Window::Show()
         }
         _renderer.RenderClear();
         Draw(_renderer);
-        _renderer.RenderCircle({600, 600, 100}, GWUI::Black);
+        _renderer.RenderCircle({600, 600, 100}, Craft::Black);
         _renderer.RenderFillCircle({750, 300, 100}, {255,140,0, 255});
         _renderer.SetRenderDrawColor(_backgroundColor);
         _renderer.RenderPresent();
@@ -57,39 +57,39 @@ void GWUI::Window::Show()
     }
 }
 
-void GWUI::Window::SetWindowSize(int width, int height)
+void Craft::Window::SetWindowSize(int width, int height)
 {
     SDL_SetWindowSize(_window.get(), width, height);
 }
 
-void GWUI::Window::SetWindowTitle(const std::string& title)
+void Craft::Window::SetWindowTitle(const std::string& title)
 {
     SDL_SetWindowTitle(_window.get(), title.c_str());
 }
 
-void GWUI::Window::SetWindowIcon(const std::string& path)
+void Craft::Window::SetWindowIcon(const std::string& path)
 {
     SDL_SetWindowIcon(_window.get(), IMG_Load(path.c_str()));
 }
 
-void GWUI::Window::SetBackgroundColor(Color color)
+void Craft::Window::SetBackgroundColor(Color color)
 {
     _backgroundColor = color;
 }
 
-std::tuple<int, int> GWUI::Window::GetWindowSize()
+std::tuple<int, int> Craft::Window::GetWindowSize()
 {
     int w, h;
     SDL_GetWindowSize(_window.get(), &w, &h);
     return {w, h};
 }
 
-void GWUI::Window::ScreenShot() const
+void Craft::Window::ScreenShot() const
 {
     _renderer.ScreenShot();
 }
 
-void GWUI::Window::SetWindowOpacity(float opacity)
+void Craft::Window::SetWindowOpacity(float opacity)
 {
     if (opacity >= 0 && opacity <= 1)
     {
@@ -97,7 +97,7 @@ void GWUI::Window::SetWindowOpacity(float opacity)
     }
 }
 
-void GWUI::Window::SetWindowBorder(bool show)
+void Craft::Window::SetWindowBorder(bool show)
 {
     SDL_bool b;
     if (show)
@@ -111,7 +111,7 @@ void GWUI::Window::SetWindowBorder(bool show)
     SDL_SetWindowBordered(_window.get(), b);
 }
 
-void GWUI::Window::SetWindowFullScreen(uint32_t flags)
+void Craft::Window::SetWindowFullScreen(uint32_t flags)
 {
     SDL_SetWindowFullscreen(_window.get(), flags);
 }

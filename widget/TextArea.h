@@ -9,7 +9,7 @@
 #include "../units/Text.h"
 #include "Widget.h"
 
-namespace GWUI
+namespace Craft
 {
     class TextArea : public Widget
     {

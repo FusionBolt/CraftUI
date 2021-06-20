@@ -4,12 +4,12 @@
 
 #include "Image.h"
 
-GWUI::Image::Image(std::string path):_imgPath(std::move(path))
+Craft::Image::Image(std::string path): _imgPath(std::move(path))
 {
 
 }
 
-void GWUI::Image::Draw(Renderer &renderer, Rect rect)
+void Craft::Image::Draw(Renderer &renderer, Rect rect)
 {
     if (_imgTexture == nullptr)
     {
@@ -18,7 +18,7 @@ void GWUI::Image::Draw(Renderer &renderer, Rect rect)
     renderer.RenderTexture(_imgTexture, rect);
 }
 
-void GWUI::Image::SetPath(const std::string& path)
+void Craft::Image::SetPath(const std::string& path)
 {
     _imgPath = path;
 }

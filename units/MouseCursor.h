@@ -8,7 +8,7 @@
 #include <memory>
 #include <SDL.h>
 
-namespace GWUI
+namespace Craft
 {
 class MouseCursor
 {

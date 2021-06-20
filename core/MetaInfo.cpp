@@ -11,23 +11,23 @@ std::vector<std::string> LayoutClass = {"WidgetLayout", "HorizontalLayout", "Ver
 
 std::vector<std::string> ButtonClass = {"AbstractButton", "Button", "CheckBox"};
 
-bool GWUI::IsLayout(const std::string &className)
+bool Craft::IsLayout(const std::string &className)
 {
     return std::find(LayoutClass.begin(), LayoutClass.end(), className) != LayoutClass.end();
 }
 
-bool GWUI::IsButton(const std::string &className)
+bool Craft::IsButton(const std::string &className)
 {
     return std::find(ButtonClass.begin(), ButtonClass.end(), className) != ButtonClass.end();
 }
 
 // TODO:日后改进
-bool GWUI::IsWidget(const std::string &className)
+bool Craft::IsWidget(const std::string &className)
 {
     return !(IsLayout(className) || className == "ButtonGroup");
 }
 
-bool GWUI::IsSingleObject(const std::string &className)
+bool Craft::IsSingleObject(const std::string &className)
 {
     return IsWidget(className);
 }

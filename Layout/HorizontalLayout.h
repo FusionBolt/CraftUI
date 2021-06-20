@@ -7,7 +7,7 @@
 
 #include "WidgetLayout.h"
 
-namespace GWUI
+namespace Craft
 {
     class HorizontalLayout : public WidgetLayout
     {

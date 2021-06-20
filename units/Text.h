@@ -11,12 +11,12 @@
 #include "Font.h"
 #include "Renderer.h"
 
-namespace GWUI
+namespace Craft
 {
     class Text
     {
     public:
-        explicit Text(std::string text = "", uint16_t size = 15, const Color &color = GWUI::Black, uint32_t wrapLength = 200);
+        explicit Text(std::string text = "", uint16_t size = 15, const Color &color = Craft::Black, uint32_t wrapLength = 200);
 
         int Draw(Renderer& renderer, int textEndPosition = -1);
 

@@ -6,13 +6,13 @@
 
 #include "Timer.h"
 
-GWUI::Timer::Timer() noexcept:
+Craft::Timer::Timer() noexcept:
         _startTicks(0), _pausedTicks(0), _paused(false), _started(false)
 {
 
 }
 
-void GWUI::Timer::Start() noexcept
+void Craft::Timer::Start() noexcept
 {
     //启动计时器
     _started = true;
@@ -22,7 +22,7 @@ void GWUI::Timer::Start() noexcept
     _startTicks = SDL_GetTicks();
 }
 
-void GWUI::Timer::Stop() noexcept
+void Craft::Timer::Stop() noexcept
 {
     //停止计时器
     _started = false;
@@ -30,7 +30,7 @@ void GWUI::Timer::Stop() noexcept
     _paused = false;
 }
 
-void GWUI::Timer::Pause() noexcept
+void Craft::Timer::Pause() noexcept
 {
     //如果计时器正在运行但没有暂停
     if ((_started) && (_paused))
@@ -42,7 +42,7 @@ void GWUI::Timer::Pause() noexcept
     }
 }
 
-void GWUI::Timer::UnPause() noexcept
+void Craft::Timer::UnPause() noexcept
 {
     //如果计时器暂停中
     if (_paused)
@@ -56,7 +56,7 @@ void GWUI::Timer::UnPause() noexcept
     }
 }
 
-int GWUI::Timer::GetTicks() noexcept
+int Craft::Timer::GetTicks() noexcept
 {
     //如果计时器正在运行
     if (_started)
@@ -77,17 +77,17 @@ int GWUI::Timer::GetTicks() noexcept
     return 0;
 }
 
-bool GWUI::Timer::IsStarted() noexcept
+bool Craft::Timer::IsStarted() noexcept
 {
     return _started;
 }
 
-bool GWUI::Timer::IsPaused() noexcept
+bool Craft::Timer::IsPaused() noexcept
 {
     return _paused;
 }
 
-int GWUI::Timer::_GetTicks() noexcept
+int Craft::Timer::_GetTicks() noexcept
 {
     return static_cast<int>(SDL_GetTicks());
 }

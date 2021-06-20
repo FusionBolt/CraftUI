@@ -5,17 +5,17 @@
 #include "Object.h"
 #include "MetaInfo.h"
 
-void GWUI::Object::SetObjectName(std::string name)
+void Craft::Object::SetObjectName(std::string name)
 {
     _objName = std::move(name);
 }
 
-std::string GWUI::Object::GetObjectName() const
+std::string Craft::Object::GetObjectName() const
 {
     return _objName;
 }
 
-void GWUI::Object::SetParent(GWUI::Object::Ptr parent)
+void Craft::Object::SetParent(Craft::Object::Ptr parent)
 {
     if (parent!= nullptr)
     {
@@ -30,7 +30,7 @@ void GWUI::Object::SetParent(GWUI::Object::Ptr parent)
     }
 }
 
-void GWUI::Object::RemoveChild(const GWUI::Object::Ptr &child)
+void Craft::Object::RemoveChild(const Craft::Object::Ptr &child)
 {
     // TODO:C++20 erase_if
     auto iter = std::find(_childs.begin(), _childs.end(), child);
@@ -40,7 +40,7 @@ void GWUI::Object::RemoveChild(const GWUI::Object::Ptr &child)
     }
 }
 
-void GWUI::Object::ShowAllChild() const
+void Craft::Object::ShowAllChild() const
 {
 //    for(const auto& child : _childs)
 //    {
@@ -51,7 +51,7 @@ void GWUI::Object::ShowAllChild() const
                         { std::cout << o->GetObjectName() << std::endl; }, thisPtr);
 }
 
-GWUI::Object::Ptr GWUI::Object::_findChild(const std::function<bool(Ptr)>& checkFun)
+Craft::Object::Ptr Craft::Object::_findChild(const std::function<bool(Ptr)>& checkFun)
 {
     std::queue<Object::Ptr> q;
     std::vector<Object::Ptr> v;
@@ -77,17 +77,17 @@ GWUI::Object::Ptr GWUI::Object::_findChild(const std::function<bool(Ptr)>& check
     return v.empty() ? nullptr : v[v.size()-1];
 }
 
-void GWUI::Object::SetClassName(std::string name)
+void Craft::Object::SetClassName(std::string name)
 {
     _className = std::move(name);
 }
 
-std::string GWUI::Object::GetClassName() const
+std::string Craft::Object::GetClassName() const
 {
     return _className;
 }
 
-void GWUI::Object::AllChildDo(const std::function<void(Ptr)> &callable, GWUI::Object::Ptr &root)
+void Craft::Object::AllChildDo(const std::function<void(Ptr)> &callable, Craft::Object::Ptr &root)
 {
     for(auto& child : root->_childs)
     {

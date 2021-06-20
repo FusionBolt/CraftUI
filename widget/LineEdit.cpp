@@ -5,12 +5,12 @@
 #include "LineEdit.h"
 #include "../units/ClipBoard.h"
 
-GWUI::LineEdit::LineEdit() : Widget()
+Craft::LineEdit::LineEdit() : Widget()
 {
     _text.SetText("Some TextUsedBeTest");
 }
 
-void GWUI::LineEdit::Draw(Renderer &renderer)
+void Craft::LineEdit::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     _rect.Draw(renderer);
@@ -28,12 +28,12 @@ void GWUI::LineEdit::Draw(Renderer &renderer)
 
     if (_select.w != 0)
     {
-        renderer.RenderRectangle(_select, GWUI::Black);
+        renderer.RenderRectangle(_select, Craft::Black);
         renderer.RenderFillRectangle(_select, {100, 149, 237, 50});
     }
 }
 
-void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::LineEdit::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
     _rect.SetRect(rect);
@@ -41,12 +41,12 @@ void GWUI::LineEdit::SetGeometry(GWUI::Rect rect) noexcept
     _text.SetWrapLength(_geometry.w);
 }
 
-void GWUI::LineEdit::KeyReleaseEvent(const KeyBoardEvent &keyBoardEvent)
+void Craft::LineEdit::KeyReleaseEvent(const KeyBoardEvent &keyBoardEvent)
 {
     Widget::KeyReleaseEvent(keyBoardEvent);
 }
 
-void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
+void Craft::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
 {
     // TODO:不完全显示的选区问题
     Widget::MousePressEvent(mouseEvent);
@@ -63,7 +63,7 @@ void GWUI::LineEdit::MousePressEvent(const MouseEvent &mouseEvent)
     _SetCursor(position.x);
 }
 
-void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
+void Craft::LineEdit::MouseMotionEvent(const Craft::MouseEvent &mouseEvent)
 {
     Widget::MouseMotionEvent(mouseEvent);
     auto position = mouseEvent.GetPosition();
@@ -105,12 +105,12 @@ void GWUI::LineEdit::MouseMotionEvent(const GWUI::MouseEvent &mouseEvent)
     _SetCursor(position.x);
 }
 
-void GWUI::LineEdit::MouseReleaseEvent(const GWUI::MouseEvent &mouseEvent)
+void Craft::LineEdit::MouseReleaseEvent(const Craft::MouseEvent &mouseEvent)
 {
     Widget::MouseReleaseEvent(mouseEvent);
 }
 
-void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
+void Craft::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
 {
 #ifdef __APPLE__
     constexpr auto MainControlKey = KMOD_GUI;
@@ -201,7 +201,7 @@ void GWUI::LineEdit::KeyPressEvent(const KeyBoardEvent &keyBoardEvent)
     }
 }
 
-void GWUI::LineEdit::_SetCursor(int mouseX)
+void Craft::LineEdit::_SetCursor(int mouseX)
 {
     auto charIndex = _text.GetTextIndexFromOffsetX(mouseX - _geometry.x);
     // TODO:int to size_t

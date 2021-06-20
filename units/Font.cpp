@@ -4,7 +4,7 @@
 
 #include "Font.h"
 
-GWUI::Font::Font(u_int16_t size, const std::string &path):
+Craft::Font::Font(u_int16_t size, const std::string &path):
     _path(path), _size(size), _font(TTF_OpenFont(path.c_str(), size), TTF_CloseFont)
 {
     if(_font == nullptr)
@@ -13,14 +13,14 @@ GWUI::Font::Font(u_int16_t size, const std::string &path):
     }
 }
 
-void GWUI::Font::SetSize(uint16_t size) noexcept
+void Craft::Font::SetSize(uint16_t size) noexcept
 {
     _size = size;
     _ResetFont();
 }
 
 std::shared_ptr<SDL_Surface>
-GWUI::Font::RenderTextBlendedWrapped(const std::string &text, GWUI::Color color, int wrapLength, int textOffset)
+Craft::Font::RenderTextBlendedWrapped(const std::string &text, Craft::Color color, int wrapLength, int textOffset)
 {
     return std::shared_ptr<SDL_Surface>(
             TTF_RenderText_Blended_Wrapped(
@@ -31,7 +31,7 @@ GWUI::Font::RenderTextBlendedWrapped(const std::string &text, GWUI::Color color,
             ), SDL_FreeSurface);
 }
 
-std::shared_ptr<SDL_Surface> GWUI::Font::RenderTextBlended(const std::string &text, GWUI::Color color)
+std::shared_ptr<SDL_Surface> Craft::Font::RenderTextBlended(const std::string &text, Craft::Color color)
 {
     return std::shared_ptr<SDL_Surface>(
             TTF_RenderText_Blended(
@@ -41,27 +41,27 @@ std::shared_ptr<SDL_Surface> GWUI::Font::RenderTextBlended(const std::string &te
             ), SDL_FreeSurface);
 }
 
-std::tuple<size_t, size_t> GWUI::Font::GetTextSpace(const std::string& text) const
+std::tuple<size_t, size_t> Craft::Font::GetTextSpace(const std::string& text) const
 {
     int w, h;
     TTF_SizeText(_font.get(), text.c_str(), &w, &h);
     return std::make_tuple(w, h);
 }
 
-std::tuple<size_t, size_t> GWUI::Font::GetUTF8TextSpace(const std::string &text) const
+std::tuple<size_t, size_t> Craft::Font::GetUTF8TextSpace(const std::string &text) const
 {
     int w, h;
     TTF_SizeUTF8(_font.get(), text.c_str(), &w, &h);
     return std::make_tuple(w, h);
 }
 
-void GWUI::Font::SetFont(const std::string& path)
+void Craft::Font::SetFont(const std::string& path)
 {
     _path = path;
     _ResetFont();
 }
 
-void GWUI::Font::_ResetFont()
+void Craft::Font::_ResetFont()
 {
     _font.reset(TTF_OpenFont(_path.c_str(), _size), TTF_CloseFont);
 }

@@ -8,7 +8,7 @@
 
 #include "../widget/Widget.h"
 
-namespace GWUI
+namespace Craft
 {
     class GridLayout : public Widget
     {

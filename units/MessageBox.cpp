@@ -7,7 +7,7 @@
 
 #include "MessageBox.h"
 
-int GWUI::MessageBox::Show()
+int Craft::MessageBox::Show()
 {
     SDL_ShowSimpleMessageBox(_msgData._flags,
                              _msgData._title.c_str(),

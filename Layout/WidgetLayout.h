@@ -8,7 +8,7 @@
 
 #include "../widget/Widget.h"
 
-namespace GWUI
+namespace Craft
 {
     class WidgetLayout : public Object
     {

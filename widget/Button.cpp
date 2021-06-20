@@ -5,20 +5,20 @@
 #include "Button.h"
 #include "ButtonGroup.h"
 
-GWUI::Button::Button(const std::string &text):
+Craft::Button::Button(const std::string &text):
     AbstractButton(text)
 {
 }
 
-void GWUI::Button::Draw(Renderer &renderer)
+void Craft::Button::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
-    renderer.RenderFillRectangle(GetGeometry(), GWUI::White);
-    renderer.RenderRectangle(GetGeometry(), GWUI::Black);
+    renderer.RenderFillRectangle(GetGeometry(), Craft::White);
+    renderer.RenderRectangle(GetGeometry(), Craft::Black);
     _text.Draw(renderer);
 }
 
-void GWUI::Button::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::Button::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry(rect);
     _text.SetPosition({rect.x + 10, rect.y + 10});
@@ -26,7 +26,7 @@ void GWUI::Button::SetGeometry(GWUI::Rect rect) noexcept
     _checkedRectangle = rect;
 }
 
-void GWUI::Button::MouseReleaseEvent(const MouseEvent &mouseEvent)
+void Craft::Button::MouseReleaseEvent(const MouseEvent &mouseEvent)
 {
     Widget::MouseReleaseEvent(mouseEvent);
 }

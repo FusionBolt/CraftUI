@@ -6,7 +6,7 @@
 #define GWUI_DIALOG_H
 
 #include <vector>
-namespace GWUI
+namespace Craft
 {
     struct MessageData
     {

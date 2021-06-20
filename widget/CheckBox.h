@@ -8,7 +8,7 @@
 #include "AbstractButton.h"
 #include "../units/Rectangle.h"
 
-namespace GWUI
+namespace Craft
 {
     class CheckBox : public AbstractButton
     {

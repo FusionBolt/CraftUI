@@ -8,7 +8,7 @@
 #include <string>
 #include <SDL.h>
 
-namespace GWUI
+namespace Craft
 {
     class ClipBoard
     {

@@ -5,12 +5,12 @@
 #include "HorizontalSlider.h"
 #include <cassert>
 
-GWUI::HorizontalSlider::HorizontalSlider() : Widget()
+Craft::HorizontalSlider::HorizontalSlider() : Widget()
 {
 
 }
 
-void GWUI::HorizontalSlider::Draw(Renderer &renderer)
+void Craft::HorizontalSlider::Draw(Renderer &renderer)
 {
     Widget::Draw(renderer);
     auto x = _geometry.x;
@@ -27,40 +27,40 @@ void GWUI::HorizontalSlider::Draw(Renderer &renderer)
 
 }
 
-void GWUI::HorizontalSlider::SetGeometry(GWUI::Rect rect) noexcept
+void Craft::HorizontalSlider::SetGeometry(Craft::Rect rect) noexcept
 {
     Widget::SetGeometry({rect.x, rect.y, rect.w, rect.h});
     _chooseRect.SetRect({_geometry.x - _chooseRectWidth / 2, _geometry.y, _chooseRectWidth, _chooseRectWidth});
 }
 
-void GWUI::HorizontalSlider::SetValue(int value)
+void Craft::HorizontalSlider::SetValue(int value)
 {
     _value = value;
     _chooseRect.SetRect({_geometry.x + static_cast<int>(static_cast<double>(_value - _minSize) / (_maxSize-_minSize) * _lineWidth) - _chooseRectWidth / 2,
                          _geometry.y, _chooseRectWidth, _chooseRectWidth});
 }
 
-void GWUI::HorizontalSlider::SetValueRange(int minSize, int maxSize) noexcept
+void Craft::HorizontalSlider::SetValueRange(int minSize, int maxSize) noexcept
 {
     assert(minSize != maxSize);
     _maxSize = maxSize;
     _minSize = minSize;
 }
 
-void GWUI::HorizontalSlider::MousePressEvent(const MouseEvent &mouseEvent)
+void Craft::HorizontalSlider::MousePressEvent(const MouseEvent &mouseEvent)
 {
     Widget::MousePressEvent(mouseEvent);
     _isChoose = true;
     std::cout << "On Click Slider" << std::endl;
 }
 
-void GWUI::HorizontalSlider::MouseReleaseEvent(const MouseEvent &mouseEvent)
+void Craft::HorizontalSlider::MouseReleaseEvent(const MouseEvent &mouseEvent)
 {
     Widget::MouseReleaseEvent(mouseEvent);
     _isChoose = false;
 }
 
-void GWUI::HorizontalSlider::MouseMotionEvent(const MouseEvent &mouseEvent)
+void Craft::HorizontalSlider::MouseMotionEvent(const MouseEvent &mouseEvent)
 {
     Widget::MouseMotionEvent(mouseEvent);
     auto mousePosition = mouseEvent.GetPosition();

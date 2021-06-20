@@ -9,7 +9,7 @@
 #include "Widget.h"
 #include "../units/Text.h"
 
-namespace GWUI
+namespace Craft
 {
     class ButtonGroup;
 

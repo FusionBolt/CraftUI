@@ -4,12 +4,12 @@
 
 #include "SelectArea.h"
 
-void GWUI::SelectArea::SetFirstClickPosition(GWUI::Point position) noexcept
+void Craft::SelectArea::SetFirstClickPosition(Craft::Point position) noexcept
 {
     _firstClickPosition = position;
 }
 
-void GWUI::SelectArea::UpdateSelectArea(GWUI::Point position)
+void Craft::SelectArea::UpdateSelectArea(Craft::Point position)
 {
 
 }

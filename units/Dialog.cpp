@@ -8,7 +8,7 @@
 
 #include "Dialog.h"
 
-int GWUI::Dialog::Show()
+int Craft::Dialog::Show()
 {
     std::vector<SDL_MessageBoxButtonData> buttons;
     for(auto& v : _buttonData)
@@ -45,7 +45,7 @@ int GWUI::Dialog::Show()
     return 0;
 }
 
-GWUI::Dialog::Dialog(std::vector<DialogButtonData> buttonData, GWUI::MessageData messageData):
+Craft::Dialog::Dialog(std::vector<DialogButtonData> buttonData, Craft::MessageData messageData):
     _buttonData(std::move(buttonData)), _messageData(std::move(messageData))
 {
 
